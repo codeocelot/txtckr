@@ -4,12 +4,12 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	16/07/2009
+ * @last mod	21/07/2009
  * @package 	txtckr
  * @copyright 	open source
  */
  
-class contextobject(){
+class contextobject{
 
 	function __construct(){
 		$this->co['logid'] 			= date("YmdHis").rand(00,59);
@@ -19,7 +19,7 @@ class contextobject(){
 		$this->co['req_type'] 		= '';
 		$this->ctx['field_count']	= 0;
 		$this->req['field_count']	= 0;
-		$this->rfe['field_count']	= 0;
+		$this->rfe['field_count']	= 0;	
 		$this->rfr['field_count']	= 0;
 		$this->rft['field_count']	= 0;
 		$this->svc['field_count']	= 0;
@@ -104,54 +104,61 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 */
 
 	function set_property($co, $key, $value){
-		//var $$key;
-		if ($value !== false){
-		switch($co){
-			case "ctx":
-				$this->ctx[$key] = $value;
-				break;
-			case "rfe":
-				$this->rfe[$key] = $value;
-				break;
-			case "rfr":
-				$this->rfr[$key] = $value;
-				break;
-			case "req":
-				$this->req[$key] = $value;
-				break;
-			case "rft":
-				$this->rft[$key] = $value;
-				break;
-			default:
-				break;
-		}
-		
+	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
+	if ($value !== null){
+			switch($co){
+				case "ctx":
+					if (!isset($this->ctx[$key])){	// has this key already been set?
+					$this->ctx[$key] = $value;		// if not, then set it
+					$this->ctx['field_count']++;	// add to the field count as we go
+					}
+					break;
+				case "rfe":
+					$this->rfe[$key] = $value;
+					$this->rfe['field_count']++;
+					break;
+				case "rfr":
+					$this->rfr[$key] = $value;
+					$this->rfr['field_count']++;
+					break;
+				case "req":
+					$this->req[$key] = $value;
+					$this->req['field_count']++;
+					break;
+				case "rft":
+					$this->rft[$key] = $value;
+					$this->rft['field_count']++;
+					return('set');
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
 	function set_date($co, $value){
 		if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))) {
-		set_property($co, 'artyear', (int)$value);
-		set_property($co, 'dateisyear', 'false');
+		$this->set_property($co, 'artyear', (int)$value);
+		$this->set_property($co, 'dateisyear', 'false');
 		} elseif ((ctype_digit($value)) |(is_numeric($value)) ) {
 		$arr = str_split($value, 8);
 		$datearr = str_split($arr[0], 2);
 		$year 	= @(int)($datearr[0].$datearr[1]);
 		$month 	= @(int)($datearr[3]);
 		$day	= @(int)($datearr[4]);
-		set_property($co, 'year', $year);
-		set_property($co, 'month', $month);
-		set_property($co, 'day', $day);
+		$this->set_property($co, 'year', $year);
+		$this->set_property($co, 'month', $month);
+		$this->set_property($co, 'day', $day);
 		} else {
 			if (preg_match('/\//', $value)){
 				$newvalue = preg_replace('/\//', '-', $value); 
-				set_property($co, 'date', $newvalue);
+				$this->set_property($co, 'date', $newvalue);
 				$datearr = explode("-", $value);
 				foreach ($datearr as $poss => $year) {
 				$year = (int) $year;
 					if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))) {		// artyear is between 1800 and 2100... 
-				set_property($co, 'dateisyear', 'true');
-				set_property($co, 'year', $year);
+				$this->set_property($co, 'dateisyear', 'true');
+				$this->set_property($co, 'year', $year);
 				break;
 					} 
 				}
@@ -161,287 +168,331 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	
 	function set_identifier($co, $identifier){
 		switch (true) {
-			case (preg_match('/^doi[=:\/]/', $identifier)):					// Digital Object Identifier (doi)
-				$doi = str_replace('doi[=:/]', '', $identifier);
-				set_property($co, 'doi', $doi);
-				$trim = "'+', '.', '. ', ','";								// trim any gunge off the doi
-				$identifier = rtrim($identifier, $trim);
-				if ($doi !== false){
-					$doiLink = 'http://dx.doi.org/'.$doi;
-					set_property($co, 'doiLink', $doiLink);						// human-friendly doi
-				}
+			case (preg_match('/^doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
+				$this->set_doi($co, $identifier);
 				break; 
-			case (preg_match('/^hdl[=:\/]/', $identifier)):					// Handle (hdl)
-				$handle = str_replace('hdl[=:/]', '', $identifier);
-				set_property($co, 'handle', $identifier);
-				if ($handle !== false){
-					$handleLink = 'http://hdl.handle.net/'.$handle);
-					set_property($co, 'handleLink', $handleLink);					// human-friendly url
-				}
+			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
+				$this->set_handle($co, $identifier);
 				break;
-			case (preg_match('/^pmid[=:\/]/', $identifier)):				// PubMed ID (pmid)
-				$pmid = str_replace('pmid[=:\/]', '', $identifier)
-				set_property($co, 'pmid', $pmid);
-				if ($pmid !== false){
-					$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
-					set_property($co, 'pmidLink', $pmidLink);						// link to PubMed record	
-				}
+			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
+				$this->set_pmid($co, $identifier);
 				break; 
-			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):					// OCLC number
-				$oclcnum = str_replace('oclcnum[=:\/]', '', $identifier);
-				set_property($co, 'oclcnum', $oclcnum);
-				if ($oclcnum !== false){
-					$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
-					set_property($co, 'oclcnumLink', $oclcnumLink);						// link to WorldCat
-				}
+			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):				// OCLC number
+				$this->set_oclcnum($co, $identifier);
 				break;
-			case (preg_match('/^oai[=:\/]/', $identifier)):					// OAI id.
-				$oai = str_replace('oai[=:\/]', '', $identifier);
-				set_property($co, 'oai', $oai);
-				if ($oai !== false){
-					$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
-					set_property($co, 'oaiLink', $oaiLink);						// OAI search link
-				}
+			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
+				$this->set_oai($co, $identifier);
 				break;
 			case (preg_match('/^http:\/\/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
-				$pmid = str_replace('http://www.ncbi.nlm.nih.gov/pubmed/', '', $identifier)
-				set_property($co, 'pmid', $pmid);
-				if ($pmid !== false){
-					$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
-					set_property($co, 'pmidLink', $pmidLink);						// link to PubMed record	
-				}
+				$this->set_pmid($co, $identifier);
 				break; 
-			case (preg_match('/^http:\/\//', $identifier)):					// info link?
-				set_property($co, 'id', $identifier);
-				set_property($co, 'idLink', $identifier);
+			case (preg_match('/^http:\/\//', $identifier)):				// info link?
+				$this->set_property($co, 'id', $identifier);
+				$this->set_property($co, 'idLink', $identifier);
 				break;
-			case (preg_match('/^www./', $identifier)):						// web link?
-				set_property($co, 'id', $identifier);
-				$idLink = 'http://'.$identifier
-				set_property($co, 'idLink', $idLink);
+			case (preg_match('/^www./', $identifier)):				// web link?
+				$this->set_property($co, 'id', $identifier);
+				$idLink = 'http://'.$identifier;
+				$this->set_property($co, 'idLink', $idLink);
 				break;	
 			default:
-				set_property($co, 'id', $identifier);
+				$this->set_property($co, 'id', $identifier);
 				break;
+		}
+	}
+	
+	function set_doi($co, $doi){
+		$doi = str_replace('doi[=:/]', '', $doi);
+		$this->set_property($co, 'doi', $doi);
+		$trim = "'+', '.', '. ', ','";						// trim any gunge off the doi
+		$doi = rtrim($doi, $trim);
+		if ($doi !== false){
+			$doiLink = 'http://dx.doi.org/'.$doi;
+			$this->set_property($co, 'doiLink', $doiLink);		// human-friendly doi
+		}
+	}
+
+	function set_handle($co, $handle){
+		$handle = str_replace('hdl[=:/]', '', $handle);
+		$this->set_property($co, 'handle', $handle);
+		if ($handle !== false){
+			$handleLink = 'http://hdl.handle.net/'.$handle;
+			$this->set_property($co, 'handleLink', $handleLink);				// human-friendly url
+		}
+	}
+
+	function set_oai($co, $oai){
+		$oai = str_replace('oai[=:\/]', '', $oai);
+		$this->set_property($co, 'oai', $oai);
+		if ($oai !== false){
+			$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
+			$this->set_property($co, 'oaiLink', $oaiLink);				// OAI search link
+		}	
+	}
+	
+	function set_oclcnum($co, $oclcnum){	
+		$oclcnum = str_replace('oclcnum[=:\/]', '', $oclcnum);
+		$this->set_property($co, 'oclcnum', $oclcnum);
+		if ($oclcnum !== false){
+			$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
+			$this->set_property($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+		}
+	}
+
+	function set_pmid($co, $pmid){
+		$find[0] = 'pmid[=:\/]'; 							$replace[0]= '';
+		$find[1] = 'http://www.ncbi.nlm.nih.gov/pubmed/'; 	$replace[1] = '';
+		$pmid = str_replace($find, $replace, $identifier);
+		$this->set_property($co, 'pmid', $pmid);
+		if ($pmid !== false){
+			$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
+			$this->set_property($co, 'pmidLink', $pmidLink);				// link to PubMed record	
 		}
 	}
 	
 	function set_referer($value){
-		$details['table'] = 'referers';
-		$details[0] = 'referer_name';
-		$details[1] = 'referer_type';
-		$results = query_db($details);
-		set_property($co, 'referer_name', $results['referer_name']);
-		set_property($co, 'referer_type', $results['referer_type']);
+		//$details['table'] = 'referers';
+		//$details[0] = 'referer_name';
+		//$details[1] = 'referer_type';
+		//$results = query_db($details);
+		//$results = array();
+		@list($referer_name, $referer) = explode(':', $value);
+		$this->set_property('rfr', 'referer_name', $referer_name);
+		$this->set_property('rfr', 'referer_type', $referer);
 	}
-	
-	function set_rft_reftype($type){
+
+	function set_reftype($co, $type){
 		switch (strtolower($type)) {
 			case ($type == "article"):
-				set_property('rft', 'reftype', 'JOUR');		// article: a document published in a journal.
-				set_property('rft', 'reqtype', 'Journal Article');
-				set_property('rft', 'sourcetype', 'Journal');
+				$this->set_property($co, 'reftype', 'JOUR');		// article: a document published in a journal.
+				$this->set_property($co, 'reqtype', 'Journal Article');
+				$this->set_property($co, 'sourcetype', 'Journal');
 				break;
 			case ($type == "book"):
-				set_property('rft', 'reftype', 'BOOK');	// book: a publication that is complete in one part or a designated finite number of parts, often identified with an ISBN.
-				set_property('rft', 'reqtype', 'Book');
-				set_property('rft', 'sourcetype', 'Book');
+				$this->set_property($co, 'reftype', 'BOOK');	// book: a publication that is complete in one part or a designated finite number of parts, often identified with an ISBN.
+				$this->set_property($co, 'reqtype', 'Book');
+				$this->set_property($co, 'sourcetype', 'Book');
 				break;
 			case ($type == "bookitem"):
-				set_property('rft', 'reftype', 'CHAP');	// bookitem: a defined section of a book, usually with a separate title or number.
-				set_property('rft', 'reqtype', 'Book Chapter');
-				set_property('rft', 'sourcetype', 'Book');
+				$this->set_property($co, 'reftype', 'CHAP');	// bookitem: a defined section of a book, usually with a separate title or number.
+				$this->set_property($co, 'reqtype', 'Book Chapter');
+				$this->set_property($co, 'sourcetype', 'Book');
 				break;
 			case ($type == "conference"):		// conference: a record of a conference that includes one or more conference papers and that is published as an issue of a journal or serial publication 
-				set_property('rft', 'reftype', 'JFULL');
-				set_property('rft', 'reqtype', 'Conference Item');
-				set_property('rft', 'sourcetype', 'Conference');
-				set_property('rft', 'notes', 'This was identified as a "collection of conference presentations published as an issue of a serial publication" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'JFULL');
+				$this->set_property($co, 'reqtype', 'Conference Item');
+				$this->set_property($co, 'sourcetype', 'Conference');
+				$this->set_property($co, 'notes', 'This was identified as a "collection of conference presentations published as an issue of a serial publication" in the OpenURL metadata.');
 				break;
 			case ($type == "dissertation"):
-				set_property('rft', 'reftype', 'THES');
-				set_property('rft', 'reqtype', 'Dissertation');
-				set_property('rft', 'sourcetype', 'Thesis/Dissertation');
+				$this->set_property($co, 'reftype', 'THES');
+				$this->set_property($co, 'reqtype', 'Dissertation');
+				$this->set_property($co, 'sourcetype', 'Thesis/Dissertation');
 				break;
 			case ($type == "document"):		// document: general document type to be used when available data elements do not allow determination of a more specific document type, i.e. when one has only author and title but no publication information. 
-				set_property('rft', 'reftype', 'GEN');
-				set_property('rft', 'reqtype', 'Unknown');
-				set_property('rft', 'sourcetype', 'Unknown');
-				set_property('rft', 'notes', 'This was identified as a "general document type" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was identified as a "general document type" in the OpenURL metadata.');
 				break;
 			case ($type == "issue"):
-				set_property('rft', 'reftype', 'JFULL');	// issue: one instance of the serial publication
-				set_property('rft', 'reqtype', 'Journal/Serial Issue');
-				set_property('rft', 'sourcetype', 'Journal');
-				set_property('rft', 'notes', 'This was identified as a "single issue of a serial publication" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'JFULL');	// issue: one instance of the serial publication
+				$this->set_property($co, 'reqtype', 'Journal/Serial Issue');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as a "single issue of a serial publication" in the OpenURL metadata.');
 				break;
 			case ($type == "journal"):
-				set_property('rft', 'reftype', 'JFULL');	// journal: a serial publication issued in successive parts
-				set_property('rft', 'reqtype', 'Journal/Serial Publication');
-				set_property('rft', 'sourcetype', 'Journal');
-				set_property('rft', 'notes', 'This was identified as a "serial publication" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'JFULL');	// journal: a serial publication issued in successive parts
+				$this->set_property($co, 'reqtype', 'Journal/Serial Publication');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as a "serial publication" in the OpenURL metadata.');
 				break;
 			case ($type == "patent"):
-				set_property('rft', 'reftype', 'PAT');
-				set_property('rft', 'reqtype', 'Patent');
-				set_property('rft', 'sourcetype', 'Patent');	
+				$this->set_property($co, 'reftype', 'PAT');
+				$this->set_property($co, 'reqtype', 'Patent');
+				$this->set_property($co, 'sourcetype', 'Patent');	
 				break;
 			case ($type == "proceeding"):		// proceeding: a single conference presentation published in a journal or serial publication 
-				set_property('rft', 'reftype', 'JOUR');
-				set_property('rft', 'reqtype', 'Conference Proceedings');
-				set_property('rft', 'sourcetype', 'Conference');
-				set_property('rft', 'notes', 'This was identified as a "single conference presentation in a serial publication" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'JOUR');
+				$this->set_property($co, 'reqtype', 'Conference Proceedings');
+				$this->set_property($co, 'sourcetype', 'Conference');
+				$this->set_property($co, 'notes', 'This was identified as a "single conference presentation in a serial publication" in the OpenURL metadata.');
 				break;
 			case ($type == "preprint"):		// preprint: an individual paper or report published in paper or electronically prior to its publication in a journal or serial.
-				set_property('rft', 'reftype', 'JOUR');
-				set_property('rft', 'reqtype', 'Journal Article Preprint');
-				set_property('rft', 'sourcetype', 'Journal');
-				set_property('rft', 'notes', 'This was identified as an "individual paper or report published in paper or electronically prior to its publication" in a journal or serial in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'JOUR');
+				$this->set_property($co, 'reqtype', 'Journal Article Preprint');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as an "individual paper or report published in paper or electronically prior to its publication" in a journal or serial in the OpenURL metadata.');
 				break;
 			case ($type == "report"):		// report: report or technical report is a published document that is issued by an organization, agency or government body
-				set_property('rft', 'reftype', 'RPRT');
-				set_property('rft', 'reqtype', 'Report');
-				set_property('rft', 'sourcetype', 'Report');
+				$this->set_property($co, 'reftype', 'RPRT');
+				$this->set_property($co, 'reqtype', 'Report');
+				$this->set_property($co, 'sourcetype', 'Report');
 				break;
 			case ($type == "unknown"):
-				set_property('rft', 'reftype', 'GEN');
-				set_property('rft', 'reqtype', 'Unknown');
-				set_property('rft', 'sourcetype', 'Unknown');
-				set_property('rft', 'notes', 'This was identified as an "unknown format" in the OpenURL metadata.');
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was identified as an "unknown format" in the OpenURL metadata.');
 				break;
 		}
 	}
-
+	
 	function build($key, $value){
+	//echo $key.'='.$value.'<br/>';
+	$key = str_replace('.', '_', $key);
 		switch(true){
 			case (preg_match('/ctx_/', $key)):
 				$co = 'ctx';
-				$key = preg_replace('/ctx_/', '', $key);
-				$value = rawurldecode(preg_replace('/info:/', '', $value));
+				$key = str_replace('ctx_', '', $key);
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
 				break;
 			case (preg_match('/rfe_/', $key)):
 				$co = 'rfe';
-				$key = preg_replace('/rfe_/', '', $key);
-				$value = rawurldecode(preg_replace('/info:/', '', $value));
+				$key = str_replace('rfe_', '', $key);
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				break;
+			case (preg_match('/rfr_id/', $key)):
+				$co = 'rfr';
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
 				break;
 			case (preg_match('/rfr_/', $key)):
 				$co = 'rfr';
-				$key = preg_replace('/rfr_/', '', $key);
-				$value = rawurldecode(preg_replace('/info:/', '', $value));
+				$key = str_replace('rfr_', '', $key);
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
 				break;
 			case (preg_match('/req_/', $key)):
 				$co = 'req';
-				$key = preg_replace('/req_/', '', $key);
-				$value = rawurldecode(preg_replace('/info:/', '', $value));
+				$key = str_replace('req_', '', $key);
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
 				break;
 			case (preg_match('/rft_/', $key)):
 				$co = 'rft';
-				$key = preg_replace('/rft_/', '', $key);
-				$value = rawurldecode(preg_replace('/info:/', '', $value));
+				$key = str_replace('rft_', '', $key);
+				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
 				break;
 			default:
+				$co = 'rft';
+				$value = urldecode(rawurldecode($value));
 				break;
 		}
 		
 		
-	switch (true) {
+		switch (true) {
 			case ($key == "advisor"):
-				set_property($co, 'thesis_advisor', $value);
+				$this->set_property($co, 'thesis_advisor', $value);
 				break;
 			case ($key == "applcc"):
-				set_property($co, 'patent_application_country', $value);
+				$this->set_property($co, 'patent_application_country', $value);
 				break;
 			case ($key == "appldate"):
-				set_property($co, 'patent_application_date', $value);
+				$this->set_property($co, 'patent_application_date', $value);
 				break;
 			case ($key == "applnumber"):
-				set_property($co, 'patent_application_num', $value);
-				set_reftype('patent');
+				$this->set_property($co, 'patent_application_num', $value);
+				$this->set_reftype($co, 'patent');
 				break;
 			case ($key == "applyear"):
-				set_property($co, 'patent_application_year', $value);
-				set_reftype('patent');
+				$this->set_property($co, 'patent_application_year', $value);
+				$this->set_reftype($co, 'patent');
 				break;
 			case ($key == "artnum"):
-				set_property($co, 'article_number', $value);
+				$this->set_property($co, 'article_number', $value);
 				break;
 			case ($key == "assignee"):
-				set_property($co, 'patent_assignee', $value);
-				set_reftype('patent');
+				$this->set_property($co, 'patent_assignee', $value);
+				$this->set_reftype($co, 'patent');
 				break;				
 			case ($key == "atitle"):
-				set_property($co, 'atitle', $value);
+				$this->set_property($co, 'atitle', $value);
 				break;
 			case ($key == "au"):
-				set_creator('rft', 'au', $value);
+				$this->set_creator($co, 'au', $value);
 				break;
 			case ($key == "aufirst"):
-				set_creator('rft', 'aufirst', $value);
+				$this->set_creator($co, 'aufirst', $value);
 				break;
 			case ($key == "auinit"):
-				set_creator('rft', 'auinit', $value);
+				$this->set_creator($co, 'auinit', $value);
 				break;
 			case ($key == "aulast"):
-				set_creator('rft', 'aulast', $value);
+				$this->set_creator($co, 'aulast', $value);
 				break;	
 			case ($key == "btitle"):
-				set_property($co, 'title', $value);
-				set_reftype('book');
+				$this->set_property($co, 'title', $value);
+				$this->set_reftype($co, $co, 'book');
 				break;
 			case ($key == "cc"):
-				set_property($co, 'country_code', $value);
+				$this->set_property($co, 'country_code', $value);
 				break;
 			case ($key == "co"):
-				set_property($co, 'country', $value);
+				$this->set_property($co, 'country', $value);
 				break;
 			case ($key == "coden"):
-				set_identifier('rft', 'coden', $value);
+				$this->set_identifier($co, 'coden', $value);
 				break;
 			case ($key == "contributor"):
-				set_property($co, 'contributor', $value);
+				$this->set_property($co, 'contributor', $value);
 				break;
 			case ($key == "coverage"):
-				set_property($co, 'coverage', $value);
+				$this->set_property($co, 'coverage', $value);
 				break;
 			case ($key == "creator"):
-				set_creator('rft', 'creator', $value);
+				$this->set_creator($co, 'creator', $value);
 				break;
 			case ($key == "ctx_ver"):
 				$newvalue = strtoupper($value);
 				if ($newvalue == "Z39.88-2004") {
-				set_property('ctx', 'openurl', '1.0');
+				$this->set_property('ctx', 'openurl', '1.0');
 				} else {
-				set_property('ctx', 'openurl', '0.1');
+				$this->set_property('ctx', 'openurl', '0.1');
 				}
 				break;
 			case ($key == "date"):
-				set_date($co, $value);
+				$this->set_date($co, $value);
 				break;
 			case ($key == "degree"):
-				set_property($co, 'thesis_type', $value);
-				set_reftype('dissertation');
+				$this->set_property($co, 'thesis_type', $value);
+				$this->set_reftype($co, 'dissertation');
 				break;
 			case ($key == "description"):
-				set_property($co, 'description', $value);
-				set_reftype('description');
+				$this->set_property($co, 'description', $value);
 				break;
 			case ($key == "edition"):
-				set_property($co, 'edition', $newvalue);
+				$this->set_property($co, 'edition', $newvalue);
 				break;
 			case ($key == "eissn"):
-				$newvalue = checkISSN($value);
-				set_property($co, 'dateisyear', $newvalue);
+				$newvalue = $this->checkISSN($value)
+				$this->set_property($co, 'dateisyear', $newvalue);
+				break;
+			case ($key == "epage"):
+				$this->set_property($co, 'end_page', $value);
+				break;
+			case ($key == "format"):
+				$this->set_reftype($co, $value);
 				break;
 			case ($key == "genre"):
-				set_property($co, 'genre', $value);
-				set_reftype($value);
+				$this->set_property($co, 'genre', $value);
+				$this->set_reftype($co, $value);
 				break;
 			case ($key == "id"):
 				$newvalue = str_replace ('\s', '', $value);
-				set_identifier($newvalue);
+				$this->set_identifier($co, $newvalue);
 				break;
 			case ($key == "inst"):
-				set_property($co, 'thesis_inst', $value);
+				$this->set_property($co, 'institution', $value);
+				break;
+			case ($key == "inv"):
+				$this->set_creator($co, 'inv', $value);
+				break;
+			case ($key == "invfirst"):
+				$this->set_creator($co, 'invfirst', $value);
+				break;
+			case ($key == "invinit"):
+				$this->set_creator($co, 'invinit', $value);
+				break;
+			case ($key == "invlast"):
+				$this->set_creator($co, 'invlast', $value);
 				break;
 			case ($key == "isbn"):
 				$find[0] = '[-\s]';	$replace[0] = '';					//remove any hyphens or spaces
@@ -449,73 +500,94 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$find[2] = 'isbn';	$replace[2] = '';					// tidy up any gunge
 				$isbn = str_replace($find, $replace, $value);
 				if (strlen($isbn) > 9){
-				set_property($co, 'isbn', $isbn); 					// it must be an okay length
+				$this->set_property($co, 'isbn', $isbn); 					// it must be an okay length
 				}
 				break;
 			case ($key == "issn"):
-				set_property($co, 'issn', checkISSN($value));
+				$newvalue = $this->checkISSN($value)
+				$this->set_property($co, 'issn', $newvalue);
+				break;
+			case ($key == "issue"):
+				$this->set_property($co, 'issue', $value);
 				break;
 			case ($key == "jtitle"):
-				set_property($co, 'title', $value);
-				set_reftype('article');
+				$this->set_property($co, 'title', $value);
+				$this->set_reftype($co, 'article');
 				break;
 			case ($key == "kind"):
-				set_property($co, 'patent_stage', $value);
+				$this->set_property($co, 'patent_stage', $value);
 				break;
 			case ($key == "oclcnum"):
-				set_property($co, 'oclcnum', $value);
-				set_property($co, 'oclc_link', 'http://worldcat.org/oclc/'.$value);
+				$this->set_oclcnum($co, $value);
 				break;
 			case ($key == "prioritydate"):
-				set_property($co, 'patt_priority_date', $value);
+				$this->set_property($co, 'patt_priority_date', $value);
 				break;
 			case ($key == "pub"):
-				set_property($co, 'publisher', $value);
+				$this->set_property($co, 'publisher', $value);
 				break;
 			case ($key == "pubdate"):
-				set_property($co, 'published', $value);
+				$this->set_property($co, 'published', $value);
+				break;
+			case ($key == "publisher"):
+				$this->set_property($co, 'publisher', $value);
 				break;
 			case ($key == "quarter");
-				set_property($co, 'quarter', $value);
-				break;				
+				$this->set_property($co, 'quarter', $value);
+				break;
+			case ($key == "rfr_id"):
+				$this->set_referer(str_replace('sid', '', $value));
+				break;
+			case ($key == "series"):
+				$this->set_property($co, 'series_title', $value);
+				break;
+			case ($key == "sici"):
+				$this->set_sici($co, $value);
+				break;
 			case ($key == "sid"):
-				set_referer($value);
+				$this->set_referer($value);
 				break;
 			case ($key == "ssn"):
-				set_property($co, 'season', $value);
+				$this->set_property($co, 'season', $value);
 				break;
 			case ($key == "stitle"):
-				set_property($co, 'abbrev_title', $value);
+				$this->set_property($co, 'abbreviated_title', $value);
+				break;
+			case ($key == "subject"):
+				$this->set_property($co, 'subject', $value);
 				break;
 			case ($key == "title"):
 				$newvalue = trim($value, "\"");
-				set_property($co, 'title', $newvalue);
+				$this->set_property($co, 'title', $newvalue);
 				break;
 			case ($key == "tpages"):
-				set_property($co, 'num_pages', $value);
+				$this->set_property($co, 'total_pages', $value);
+				break;
+			case ($key == "type"):
+				$this->set_property($co, 'type', $value);
 				break;
 			case ($key == "url_ver"):
 				$newvalue = strtoupper($value);
 				if ($newvalue == "Z39.88-2004") {
-				set_property($co, 'openurl', '1.0');
+				$this->set_property($co, 'openurl', '1.0');
 				} else {
-				set_property($co, 'openurl', '0.1');
+				$this->set_property($co, 'openurl', '0.1');
 				}
 				break;
 			case ($key == "val_fmt"):
 				if (preg_match('/ofi\/fmt:xml:xsd/', $value)){
 						$newvalue = str_replace('ofi/fmt:xml:xsd', '', $value);
-						set_reftype($newvalue);
-						set_property($co, 'metaformat', 'XML');
+						$this->set_reftype($co, $co, $newvalue);
+						$this->set_property($co, 'metaformat', 'XML');
 				} else{
 						$newvalue = str_replace('ofi/fmt:kev:mtx:', '', $value);
-						set_reftype($newvalue);
-						set_property($co, 'metaformat', 'KEV');
+						$this->set_reftype($co, $co, $newvalue);
+						$this->set_property($co, 'metaformat', 'KEV');
 				}
 				break;
 			case ($key == "url_ctx_val"):
 				$newvalue = str_replace('rft_id=info:', '', rawurldecode($value));
-				set_identifier($newvalue);
+				$this->set_identifier($newvalue);
 				break;
 		}
 
@@ -535,13 +607,13 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		$date .= '01';
 		}
 		if (!isset($this->rft['date'])){
-		set_property($co, 'date', $date);
+		$this->set_property($co, 'date', $date);
 		}
 		}
 
 		if ((!isset($this->rft['artyear'])) | (!isset($this->rft['dateisyear'])) | (isset($this->rft['artyear']))){
-		set_property($co, 'artyear', date("Y"));
-		set_property($co, 'dateisyear', 'false');
+		$this->set_property($co, 'artyear', date("Y"));
+		$this->set_property($co, 'dateisyear', 'false');
 		}
 	}
 
