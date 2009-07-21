@@ -108,27 +108,34 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	if ($value !== null){
 			switch($co){
 				case "ctx":
-					if (!isset($this->ctx[$key])){	// has this key already been set?
-					$this->ctx[$key] = $value;		// if not, then set it
-					$this->ctx['field_count']++;	// add to the field count as we go
+					if (!isset($this->ctx[$key])){		// has this key already been set?
+						$this->ctx[$key] = $value;		// if not, then set it
+						$this->ctx['field_count']++;	// add to the field count as we go
 					}
 					break;
 				case "rfe":
-					$this->rfe[$key] = $value;
-					$this->rfe['field_count']++;
+					if (!isset($this->rfe[$key])){
+						$this->rfe[$key] = $value;
+						$this->rfe['field_count']++;
+					}
 					break;
 				case "rfr":
-					$this->rfr[$key] = $value;
-					$this->rfr['field_count']++;
+					if (!isset($this->rfr[$key])){
+						$this->rfr[$key] = $value;
+						$this->rfr['field_count']++;
+					}
 					break;
 				case "req":
-					$this->req[$key] = $value;
-					$this->req['field_count']++;
+					if (!isset($this->req[$key])){
+						$this->req[$key] = $value;
+						$this->req['field_count']++;
+					}
 					break;
 				case "rft":
-					$this->rft[$key] = $value;
-					$this->rft['field_count']++;
-					return('set');
+					if (!isset($this->rft[$key])){
+						$this->rft[$key] = $value;
+						$this->rft['field_count']++;
+					}
 					break;
 				default:
 					break;
@@ -136,11 +143,34 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
+	function set_creator($co, $creator_type, $value){
+		switch($creator_type){
+			case "au":
+				break;
+			case "aucorp":
+				break;
+			case "aufirst":
+				break;
+			case "auinit":
+				break;
+			case "aulast":
+				break;
+			case "inv":
+				break;
+			case "invfirst":
+				break;
+			case "invinit":
+				break;
+			case "invlast":
+				break;	
+		}
+	}
+
 	function set_date($co, $value){
-		if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))) {
+		if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))){
 		$this->set_property($co, 'artyear', (int)$value);
 		$this->set_property($co, 'dateisyear', 'false');
-		} elseif ((ctype_digit($value)) |(is_numeric($value)) ) {
+		} elseif ((ctype_digit($value)) |(is_numeric($value))){
 		$arr = str_split($value, 8);
 		$datearr = str_split($arr[0], 2);
 		$year 	= @(int)($datearr[0].$datearr[1]);
@@ -156,10 +186,10 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$datearr = explode("-", $value);
 				foreach ($datearr as $poss => $year) {
 				$year = (int) $year;
-					if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))) {		// artyear is between 1800 and 2100... 
-				$this->set_property($co, 'dateisyear', 'true');
-				$this->set_property($co, 'year', $year);
-				break;
+					if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))){		// artyear is between 1800 and 2100... 
+						$this->set_property($co, 'dateisyear', 'true');
+						$this->set_property($co, 'year', $year);
+						break;
 					} 
 				}
 			}
@@ -174,23 +204,27 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
 				$this->set_handle($co, $identifier);
 				break;
-			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
-				$this->set_pmid($co, $identifier);
-				break; 
-			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):				// OCLC number
+			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):	// OCLC number
 				$this->set_oclcnum($co, $identifier);
+				break;
+			case (preg_match('/^issn[=:\/]/', $identifier)):				// OAI id.
+				$newvalue = $this->checkISSN($value)
+				$this->set_property($co, 'issn', $newvalue);
 				break;
 			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
 				$this->set_oai($co, $identifier);
 				break;
+			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
+				$this->set_pmid($co, $identifier);
+				break;
 			case (preg_match('/^http:\/\/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
 				$this->set_pmid($co, $identifier);
 				break; 
-			case (preg_match('/^http:\/\//', $identifier)):				// info link?
+			case (preg_match('/^http:\/\//', $identifier)):				// http link?
 				$this->set_property($co, 'id', $identifier);
 				$this->set_property($co, 'idLink', $identifier);
 				break;
-			case (preg_match('/^www./', $identifier)):				// web link?
+			case (preg_match('/^www./', $identifier)):					// web link?
 				$this->set_property($co, 'id', $identifier);
 				$idLink = 'http://'.$identifier;
 				$this->set_property($co, 'idLink', $idLink);
@@ -200,13 +234,15 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				break;
 		}
 	}
+
+# IDENTIFIER HANDLERS -- START
 	
 	function set_doi($co, $doi){
 		$doi = str_replace('doi[=:/]', '', $doi);
 		$this->set_property($co, 'doi', $doi);
 		$trim = "'+', '.', '. ', ','";						// trim any gunge off the doi
 		$doi = rtrim($doi, $trim);
-		if ($doi !== false){
+		if ($doi !== null){
 			$doiLink = 'http://dx.doi.org/'.$doi;
 			$this->set_property($co, 'doiLink', $doiLink);		// human-friendly doi
 		}
@@ -215,25 +251,39 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	function set_handle($co, $handle){
 		$handle = str_replace('hdl[=:/]', '', $handle);
 		$this->set_property($co, 'handle', $handle);
-		if ($handle !== false){
+		if ($handle !== null){
 			$handleLink = 'http://hdl.handle.net/'.$handle;
 			$this->set_property($co, 'handleLink', $handleLink);				// human-friendly url
 		}
 	}
 
+	function set_isbn($co, $isbn){
+		$find[0] = '[-\s]';	$replace[0] = '';					//remove any hyphens or spaces
+		$find[1] = 'isbns';	$replace[1] = '';					// tidy up any gunge
+		$find[2] = 'isbn';	$replace[2] = '';					// tidy up any gunge
+		$isbn = str_replace($find, $replace, $value);
+		if (strlen($isbn) > 9){
+			$this->set_property($co, 'isbn', $isbn); 				// it must be an okay length
+		}
+
+	}
+
+	function set_issn($co, $issn_type, $issn){
+	}
+	
 	function set_oai($co, $oai){
 		$oai = str_replace('oai[=:\/]', '', $oai);
 		$this->set_property($co, 'oai', $oai);
-		if ($oai !== false){
+		if ($oai !== null){
 			$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
-			$this->set_property($co, 'oaiLink', $oaiLink);				// OAI search link
+			$this->set_property($co, 'oaiLink', $oaiLink);						// OAI search link
 		}	
 	}
 	
 	function set_oclcnum($co, $oclcnum){	
 		$oclcnum = str_replace('oclcnum[=:\/]', '', $oclcnum);
 		$this->set_property($co, 'oclcnum', $oclcnum);
-		if ($oclcnum !== false){
+		if ($oclcnum !== null){
 			$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
 			$this->set_property($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
 		}
@@ -249,6 +299,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$this->set_property($co, 'pmidLink', $pmidLink);				// link to PubMed record	
 		}
 	}
+
+# IDENTIFIER HANDLERS -- FINISH
 	
 	function set_referer($value){
 		//$details['table'] = 'referers';
@@ -409,6 +461,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case ($key == "au"):
 				$this->set_creator($co, 'au', $value);
 				break;
+			case ($key == "aucorp"):
+				$this->set_creator($co, 'aucorp', $value);
+				break;				
 			case ($key == "aufirst"):
 				$this->set_creator($co, 'aufirst', $value);
 				break;
@@ -462,8 +517,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'edition', $newvalue);
 				break;
 			case ($key == "eissn"):
-				$newvalue = $this->checkISSN($value)
-				$this->set_property($co, 'dateisyear', $newvalue);
+				$this->set_issn($co, 'eissn', $value);
 				break;
 			case ($key == "epage"):
 				$this->set_property($co, 'end_page', $value);
@@ -495,17 +549,10 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_creator($co, 'invlast', $value);
 				break;
 			case ($key == "isbn"):
-				$find[0] = '[-\s]';	$replace[0] = '';					//remove any hyphens or spaces
-				$find[1] = 'isbns';	$replace[1] = '';					// tidy up any gunge
-				$find[2] = 'isbn';	$replace[2] = '';					// tidy up any gunge
-				$isbn = str_replace($find, $replace, $value);
-				if (strlen($isbn) > 9){
-				$this->set_property($co, 'isbn', $isbn); 					// it must be an okay length
-				}
+				$this->set_isbn($co, $value);
 				break;
 			case ($key == "issn"):
-				$newvalue = $this->checkISSN($value)
-				$this->set_property($co, 'issn', $newvalue);
+				$this->set_issn($co, 'issn', $value);
 				break;
 			case ($key == "issue"):
 				$this->set_property($co, 'issue', $value);
