@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	21/07/2009
+ * @last mod	22/07/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -22,6 +22,7 @@ class contextobject{
 		$this->rfe['field_count']	= 0;	
 		$this->rfr['field_count']	= 0;
 		$this->rft['field_count']	= 0;
+		$this->rft['id_count']		= 0;
 		$this->svc['field_count']	= 0;
 	}
 
@@ -246,6 +247,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$doiLink = 'http://dx.doi.org/'.$doi;
 			$this->set_property($co, 'doiLink', $doiLink);		// human-friendly doi
 		}
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
+		}
 	}
 
 	function set_handle($co, $handle){
@@ -254,6 +258,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if ($handle !== null){
 			$handleLink = 'http://hdl.handle.net/'.$handle;
 			$this->set_property($co, 'handleLink', $handleLink);				// human-friendly url
+		}
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
 		}
 	}
 
@@ -265,7 +272,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if (strlen($isbn) > 9){
 			$this->set_property($co, 'isbn', $isbn); 				// it must be an okay length
 		}
-
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
+		}
 	}
 
 	function set_issn($co, $issn_type, $issn){
@@ -277,7 +286,10 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if ($oai !== null){
 			$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
 			$this->set_property($co, 'oaiLink', $oaiLink);						// OAI search link
-		}	
+		}
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
+		}		
 	}
 	
 	function set_oclcnum($co, $oclcnum){	
@@ -286,6 +298,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if ($oclcnum !== null){
 			$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
 			$this->set_property($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+		}
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
 		}
 	}
 
@@ -297,6 +312,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if ($pmid !== false){
 			$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
 			$this->set_property($co, 'pmidLink', $pmidLink);				// link to PubMed record	
+		}
+		if ($co == 'rft'){
+			$this->rft['id_count']++;
 		}
 	}
 
@@ -431,12 +449,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		
 		
 		switch (true) {
-			case ($key == "advisor"):
-				$this->set_property($co, 'thesis_advisor', $value);
-				break;
-			case ($key == "applcc"):
-				$this->set_property($co, 'patent_application_country', $value);
-				break;
 			case ($key == "appldate"):
 				$this->set_property($co, 'patent_application_date', $value);
 				break;
@@ -448,16 +460,10 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'patent_application_year', $value);
 				$this->set_reftype($co, 'patent');
 				break;
-			case ($key == "artnum"):
-				$this->set_property($co, 'article_number', $value);
-				break;
 			case ($key == "assignee"):
 				$this->set_property($co, 'patent_assignee', $value);
 				$this->set_reftype($co, 'patent');
 				break;				
-			case ($key == "atitle"):
-				$this->set_property($co, 'atitle', $value);
-				break;
 			case ($key == "au"):
 				$this->set_creator($co, 'au', $value);
 				break;
@@ -477,20 +483,11 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'title', $value);
 				$this->set_reftype($co, $co, 'book');
 				break;
-			case ($key == "cc"):
-				$this->set_property($co, 'country_code', $value);
-				break;
-			case ($key == "co"):
-				$this->set_property($co, 'country', $value);
-				break;
 			case ($key == "coden"):
 				$this->set_identifier($co, 'coden', $value);
 				break;
 			case ($key == "contributor"):
-				$this->set_property($co, 'contributor', $value);
-				break;
-			case ($key == "coverage"):
-				$this->set_property($co, 'coverage', $value);
+				$this->set_creator($co, 'contributor', $value);
 				break;
 			case ($key == "creator"):
 				$this->set_creator($co, 'creator', $value);
@@ -510,17 +507,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'thesis_type', $value);
 				$this->set_reftype($co, 'dissertation');
 				break;
-			case ($key == "description"):
-				$this->set_property($co, 'description', $value);
-				break;
-			case ($key == "edition"):
-				$this->set_property($co, 'edition', $newvalue);
-				break;
 			case ($key == "eissn"):
 				$this->set_issn($co, 'eissn', $value);
-				break;
-			case ($key == "epage"):
-				$this->set_property($co, 'end_page', $value);
 				break;
 			case ($key == "format"):
 				$this->set_reftype($co, $value);
@@ -532,9 +520,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case ($key == "id"):
 				$newvalue = str_replace ('\s', '', $value);
 				$this->set_identifier($co, $newvalue);
-				break;
-			case ($key == "inst"):
-				$this->set_property($co, 'institution', $value);
 				break;
 			case ($key == "inv"):
 				$this->set_creator($co, 'inv', $value);
@@ -554,39 +539,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case ($key == "issn"):
 				$this->set_issn($co, 'issn', $value);
 				break;
-			case ($key == "issue"):
-				$this->set_property($co, 'issue', $value);
-				break;
 			case ($key == "jtitle"):
 				$this->set_property($co, 'title', $value);
 				$this->set_reftype($co, 'article');
 				break;
-			case ($key == "kind"):
-				$this->set_property($co, 'patent_stage', $value);
-				break;
 			case ($key == "oclcnum"):
 				$this->set_oclcnum($co, $value);
 				break;
-			case ($key == "prioritydate"):
-				$this->set_property($co, 'patt_priority_date', $value);
-				break;
-			case ($key == "pub"):
-				$this->set_property($co, 'publisher', $value);
-				break;
-			case ($key == "pubdate"):
-				$this->set_property($co, 'published', $value);
-				break;
-			case ($key == "publisher"):
-				$this->set_property($co, 'publisher', $value);
-				break;
-			case ($key == "quarter");
-				$this->set_property($co, 'quarter', $value);
-				break;
 			case ($key == "rfr_id"):
-				$this->set_referer(str_replace('sid', '', $value));
-				break;
-			case ($key == "series"):
-				$this->set_property($co, 'series_title', $value);
+				$newvalue = str_replace('sid:', '', $value);
+				$this->set_referer($newvalue);
 				break;
 			case ($key == "sici"):
 				$this->set_sici($co, $value);
@@ -594,24 +556,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case ($key == "sid"):
 				$this->set_referer($value);
 				break;
-			case ($key == "ssn"):
-				$this->set_property($co, 'season', $value);
-				break;
-			case ($key == "stitle"):
-				$this->set_property($co, 'abbreviated_title', $value);
-				break;
-			case ($key == "subject"):
-				$this->set_property($co, 'subject', $value);
-				break;
 			case ($key == "title"):
 				$newvalue = trim($value, "\"");
 				$this->set_property($co, 'title', $newvalue);
-				break;
-			case ($key == "tpages"):
-				$this->set_property($co, 'total_pages', $value);
-				break;
-			case ($key == "type"):
-				$this->set_property($co, 'type', $value);
 				break;
 			case ($key == "url_ver"):
 				$newvalue = strtoupper($value);
@@ -636,32 +583,72 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$newvalue = str_replace('rft_id=info:', '', rawurldecode($value));
 				$this->set_identifier($newvalue);
 				break;
+			default:
+				$this->translate_openurl($co, $key, $value);
+				break
 		}
-
 	}
-
+	
 	function check_rft_dates(){ 
 		if (isset ($this->rft['year'])){
-		$date = $this->rft['year'];
-		if (isset($this->rft['month'])){
-		$date .= $this->rft['month'];
-		} else {
-		$date .= '01';
-		}
-		if (isset($this->rft['day'])){
-		$date .= $this->rft['day'];
-		} else {
-		$date .= '01';
-		}
-		if (!isset($this->rft['date'])){
-		$this->set_property($co, 'date', $date);
-		}
+			$date = $this->rft['year'];
+			if (isset($this->rft['month'])){
+				$date .= $this->rft['month'];
+			} else {
+				$date .= '01';
+			}
+			if (isset($this->rft['day'])){
+				$date .= $this->rft['day'];
+			} else {
+				$date .= '01';
+			}
+			if (!isset($this->rft['date'])){
+				$this->set_property($co, 'date', $date);
+			}
 		}
 
 		if ((!isset($this->rft['artyear'])) | (!isset($this->rft['dateisyear'])) | (isset($this->rft['artyear']))){
-		$this->set_property($co, 'artyear', date("Y"));
-		$this->set_property($co, 'dateisyear', 'false');
+			$this->set_property($co, 'artyear', date("Y"));
+			$this->set_property($co, 'dateisyear', 'false');
 		}
+	}
+	
+	function translate_openurl($co, $key, $value){
+	$openurl_keys=array // translate between OpenURL keys and English
+		(	
+		"advisor" => "thesis_advisor",
+		"applcc" => "patent_application_country",
+		"artnum" => "article_number",
+		"atitle" => "item_title",
+		"cc" => "country_code",
+		"co" => "country_name",
+		"coverage" => "coverage",
+		"description" => "description",
+		"edition" => "edition",
+		"epage" => "end_page",
+		"inst" => "instution",
+		"issue" => "issue",
+		"kind" => "patent_kind",
+		"prioritydate" => "patent_priority_date",
+		"pub" => "publisher",
+		"pubdate" => "published",
+		"publisher" => "publisher",
+		"quarter" => "quarter",
+		"series" => "series_title",
+		"spage" => "start_page",
+		"ssn" => "season",
+		"stitle" => "abbreviated_title",
+		"subject" => "subject",
+		"type" => "type",
+		"tpages" => "total_pages"
+		);
+		
+		if (isset($openurl_keys[$key])){
+			$newkey = $openurl_keys[$key];
+		} else {
+			$newkey = strtolower($key);
+		}
+		$this->set_property($co, $newkey, $value);
 	}
 
 }
