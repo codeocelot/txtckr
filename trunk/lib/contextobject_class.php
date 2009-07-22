@@ -448,51 +448,51 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 		
 		
-		switch (true) {
-			case ($key == "appldate"):
+		switch ($key) {
+			case "appldate":
 				$this->set_property($co, 'patent_application_date', $value);
 				break;
-			case ($key == "applnumber"):
+			case "applnumber":
 				$this->set_property($co, 'patent_application_num', $value);
 				$this->set_reftype($co, 'patent');
 				break;
-			case ($key == "applyear"):
+			case "applyear":
 				$this->set_property($co, 'patent_application_year', $value);
 				$this->set_reftype($co, 'patent');
 				break;
-			case ($key == "assignee"):
+			case "assignee":
 				$this->set_property($co, 'patent_assignee', $value);
 				$this->set_reftype($co, 'patent');
 				break;				
-			case ($key == "au"):
+			case "au":
 				$this->set_creator($co, 'au', $value);
 				break;
-			case ($key == "aucorp"):
+			case "aucorp":
 				$this->set_creator($co, 'aucorp', $value);
 				break;				
-			case ($key == "aufirst"):
+			case "aufirst":
 				$this->set_creator($co, 'aufirst', $value);
 				break;
-			case ($key == "auinit"):
+			case "auinit":
 				$this->set_creator($co, 'auinit', $value);
 				break;
-			case ($key == "aulast"):
+			case "aulast":
 				$this->set_creator($co, 'aulast', $value);
 				break;	
-			case ($key == "btitle"):
+			case "btitle":
 				$this->set_property($co, 'title', $value);
 				$this->set_reftype($co, $co, 'book');
 				break;
-			case ($key == "coden"):
+			case "coden":
 				$this->set_identifier($co, 'coden', $value);
 				break;
-			case ($key == "contributor"):
+			case "contributor":
 				$this->set_creator($co, 'contributor', $value);
 				break;
-			case ($key == "creator"):
+			case "creator":
 				$this->set_creator($co, 'creator', $value);
 				break;
-			case ($key == "ctx_ver"):
+			case "ctx_ver":
 				$newvalue = strtoupper($value);
 				if ($newvalue == "Z39.88-2004") {
 				$this->set_property('ctx', 'openurl', '1.0');
@@ -500,67 +500,67 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property('ctx', 'openurl', '0.1');
 				}
 				break;
-			case ($key == "date"):
+			case "date":
 				$this->set_date($co, $value);
 				break;
-			case ($key == "degree"):
+			case "degree":
 				$this->set_property($co, 'thesis_type', $value);
 				$this->set_reftype($co, 'dissertation');
 				break;
-			case ($key == "eissn"):
+			case "eissn":
 				$this->set_issn($co, 'eissn', $value);
 				break;
-			case ($key == "format"):
+			case "format":
 				$this->set_reftype($co, $value);
 				break;
-			case ($key == "genre"):
+			case "genre":
 				$this->set_property($co, 'genre', $value);
 				$this->set_reftype($co, $value);
 				break;
-			case ($key == "id"):
+			case "id":
 				$newvalue = str_replace ('\s', '', $value);
 				$this->set_identifier($co, $newvalue);
 				break;
-			case ($key == "inv"):
+			case "inv":
 				$this->set_creator($co, 'inv', $value);
 				break;
-			case ($key == "invfirst"):
+			case "invfirst":
 				$this->set_creator($co, 'invfirst', $value);
 				break;
-			case ($key == "invinit"):
+			case "invinit":
 				$this->set_creator($co, 'invinit', $value);
 				break;
-			case ($key == "invlast"):
+			case "invlast":
 				$this->set_creator($co, 'invlast', $value);
 				break;
-			case ($key == "isbn"):
+			case "isbn":
 				$this->set_isbn($co, $value);
 				break;
-			case ($key == "issn"):
+			case "issn":
 				$this->set_issn($co, 'issn', $value);
 				break;
-			case ($key == "jtitle"):
+			case "jtitle":
 				$this->set_property($co, 'title', $value);
 				$this->set_reftype($co, 'article');
 				break;
-			case ($key == "oclcnum"):
+			case "oclcnum":
 				$this->set_oclcnum($co, $value);
 				break;
-			case ($key == "rfr_id"):
+			case "rfr_id":
 				$newvalue = str_replace('sid:', '', $value);
 				$this->set_referer($newvalue);
 				break;
-			case ($key == "sici"):
+			case "sici":
 				$this->set_sici($co, $value);
 				break;
-			case ($key == "sid"):
+			case "sid":
 				$this->set_referer($value);
 				break;
-			case ($key == "title"):
+			case "title":
 				$newvalue = trim($value, "\"");
 				$this->set_property($co, 'title', $newvalue);
 				break;
-			case ($key == "url_ver"):
+			case "url_ver":
 				$newvalue = strtoupper($value);
 				if ($newvalue == "Z39.88-2004") {
 				$this->set_property($co, 'openurl', '1.0');
@@ -568,7 +568,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'openurl', '0.1');
 				}
 				break;
-			case ($key == "val_fmt"):
+			case "val_fmt":
 				if (preg_match('/ofi\/fmt:xml:xsd/', $value)){
 						$newvalue = str_replace('ofi/fmt:xml:xsd', '', $value);
 						$this->set_reftype($co, $co, $newvalue);
@@ -579,7 +579,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 						$this->set_property($co, 'metaformat', 'KEV');
 				}
 				break;
-			case ($key == "url_ctx_val"):
+			case "url_ctx_val":
 				$newvalue = str_replace('rft_id=info:', '', rawurldecode($value));
 				$this->set_identifier($newvalue);
 				break;
