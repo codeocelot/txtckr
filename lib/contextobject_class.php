@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	22/07/2009
+ * @last mod	05/08/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -17,13 +17,13 @@ class contextobject{
 		$this->co['ip'] 			= $_SERVER["REMOTE_ADDR"];
 		$this->co['browser'] 		= $_SERVER["HTTP_USER_AGENT"];
 		$this->co['req_type'] 		= '';
-		$this->ctx['field_count']	= 0;
-		$this->req['field_count']	= 0;
-		$this->rfe['field_count']	= 0;	
-		$this->rfr['field_count']	= 0;
-		$this->rft['field_count']	= 0;
-		$this->rft['id_count']		= 0;
-		$this->svc['field_count']	= 0;
+		$this->ctx[0]				= 0;
+		$this->req[0]				= 0;
+		$this->rfe[0]				= 0;	
+		$this->rfr[0]				= 0;
+		$this->rft[0]				= 0;
+		$this->rft_ids[0]			= 0;
+		$this->svc[0]				= 0;
 	}
 
 /* adapted from [http://q6.oclc.org/openurl/simple_openurl/]
@@ -111,31 +111,31 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				case "ctx":
 					if (!isset($this->ctx[$key])){		// has this key already been set?
 						$this->ctx[$key] = $value;		// if not, then set it
-						$this->ctx['field_count']++;	// add to the field count as we go
+						$this->ctx[0]++;				// add to the field count as we go
 					}
 					break;
 				case "rfe":
 					if (!isset($this->rfe[$key])){
 						$this->rfe[$key] = $value;
-						$this->rfe['field_count']++;
+						$this->rfe[0]++;
 					}
 					break;
 				case "rfr":
 					if (!isset($this->rfr[$key])){
 						$this->rfr[$key] = $value;
-						$this->rfr['field_count']++;
+						$this->rfr[0]++;
 					}
 					break;
 				case "req":
 					if (!isset($this->req[$key])){
 						$this->req[$key] = $value;
-						$this->req['field_count']++;
+						$this->req[0]++;
 					}
 					break;
 				case "rft":
 					if (!isset($this->rft[$key])){
 						$this->rft[$key] = $value;
-						$this->rft['field_count']++;
+						$this->rft[0]++;
 					}
 					break;
 				default:
@@ -449,8 +449,17 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		
 		
 		switch ($key) {
+			case "advisor":
+				$this->set_property($co, 'thesis_advisor', $value);
+				$this->set_reftype($co, 'dissertation');
+				break;
+			case "applcc":
+				$this->set_property($co, 'patent_application_country', $value);
+				$this->set_reftype($co, 'patent');
+				break;
 			case "appldate":
 				$this->set_property($co, 'patent_application_date', $value);
+				$this->set_reftype($co, 'patent');
 				break;
 			case "applnumber":
 				$this->set_property($co, 'patent_application_num', $value);
@@ -543,8 +552,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'title', $value);
 				$this->set_reftype($co, 'article');
 				break;
+			case "kind":
+				$this->set_property($co, 'patent_kind', $value);
+				$this->set_reftype($co, 'patent');
+				break;		
 			case "oclcnum":
 				$this->set_oclcnum($co, $value);
+				break;
+			case "prioritydate":
+				$this->set_property($co, 'patent_priority_date', $value);
+				$this->set_reftype($co, 'patent');
 				break;
 			case "rfr_id":
 				$newvalue = str_replace('sid:', '', $value);
@@ -616,8 +633,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	function translate_openurl($co, $key, $value){
 	$openurl_keys=array // translate between OpenURL keys and English
 		(	
-		"advisor" => "thesis_advisor",
-		"applcc" => "patent_application_country",
 		"artnum" => "article_number",
 		"atitle" => "item_title",
 		"cc" => "country_code",
@@ -628,8 +643,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		"epage" => "end_page",
 		"inst" => "instution",
 		"issue" => "issue",
-		"kind" => "patent_kind",
-		"prioritydate" => "patent_priority_date",
 		"pub" => "publisher",
 		"pubdate" => "published",
 		"publisher" => "publisher",
