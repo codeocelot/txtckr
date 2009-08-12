@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	05/08/2009
+ * @last mod	12/08/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -345,7 +345,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				break;
 			case ($type == "bookitem"):
 				$this->set_property($co, 'reftype', 'CHAP');	// bookitem: a defined section of a book, usually with a separate title or number.
-				$this->set_property($co, 'reqtype', 'Book Chapter');
+				$this->set_property($co, 'reqtype', 'Book Section');
 				$this->set_property($co, 'sourcetype', 'Book');
 				break;
 			case ($type == "conference"):		// conference: a record of a conference that includes one or more conference papers and that is published as an issue of a journal or serial publication 
@@ -476,6 +476,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case "au":
 				$this->set_creator($co, 'au', $value);
 				break;
+			case "aufull":
+				$this->set_creator($co, 'au', $value);
+				break;
 			case "aucorp":
 				$this->set_creator($co, 'aucorp', $value);
 				break;				
@@ -558,7 +561,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				break;		
 			case "oclcnum":
 				$this->set_oclcnum($co, $value);
-				break;
+				break;	
 			case "prioritydate":
 				$this->set_property($co, 'patent_priority_date', $value);
 				$this->set_reftype($co, 'patent');
@@ -631,8 +634,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 	
 	function translate_openurl($co, $key, $value){
-	$openurl_keys=array // translate between OpenURL keys and English
-		(	
+	$openurl_keys=array // translate between OpenURL keys and English lowercase names (spaces substituted for underscores)
+		(				// some of these aren't translations, they're placeholders so they're not forgotten!
 		"artnum" => "article_number",
 		"atitle" => "item_title",
 		"cc" => "country_code",
@@ -643,6 +646,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		"epage" => "end_page",
 		"inst" => "instution",
 		"issue" => "issue",
+		"pages" => "pages",
 		"pub" => "publisher",
 		"pubdate" => "published",
 		"publisher" => "publisher",
