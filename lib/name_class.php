@@ -4,22 +4,24 @@
  *
  * @author		Tom Pasley
  * @date		03/08/2009
- * @last mod	05/08/2009
+ * @last mod	12/08/2009
  * @package 	txtckr
  * @copyright 	open source
  */
 
 class name_collector(){
 	function __construct(){
-		$this->first_name[0]	= 0;
-		$this->initials[0]		= 0;
-		$this->last_name[0]		= 0;
-		$this->full_name[0]		= 0;
-		$this->corp_name[0]		= 0;
-		$this->name_registry[0]	= 0;
-		$this->name_check[0]	= 0;
-		$this->partials_list[0]	= 0;
-		$i						= 1;
+		$this->first_name[0]		= 0;
+		$this->initials[0]			= 0;
+		$this->last_name[0]			= 0;
+		$this->pre_last_name[0]		= 0; // e.g. 'van der' 	as in Willem van der Weerden
+		$this->post_last_name[0]	= 0; // e.g. 'III'		as in William Gates III
+		$this->full_name[0]			= 0;
+		$this->corp_name[0]			= 0;
+		$this->name_registry[0]		= 0;
+		$this->name_check[0]		= 0;
+		$this->partials_list[0]		= 0;
+		$i							= 1;
 	}
 	
 	// not convinced either way if this should extend the named_entity class.
@@ -140,26 +142,68 @@ class name_collector(){
 		}
 	}
 	
+	function check_prefix($value){
+		switch (true){
+			case (stristr(strtolower($value), ' van de ')): // Dutch
+			case (stristr(strtolower($value), ' van den ')): // Dutch
+			case (stristr(strtolower($value), ' van der ')): // Dutch
+			case (stristr(strtolower($value), ' van ')): // Dutch
+			case (stristr(strtolower($value), ' von ')): // German
+			case (stristr(strtolower($value), ' dela ')): // French/Italian?
+			case (stristr(strtolower($value), ' de la ')): // French
+			case (stristr(strtolower($value), ' de ')): // Dutch/French?
+			case (stristr(strtolower($value), ' des ')): // French
+			case (stristr(strtolower($value), ' di ')): // Italian
+			case (stristr(strtolower($value), ' du ')): // French
+			case (stristr(strtolower($value), ' af ')): // Swedish
+			case (stristr(strtolower($value), ' bin ')): // Arabic
+			case (stristr(strtolower($value), ' ben ')): // Hebrew
+			case (stristr(strtolower($value), ' ibn ')): // Arabic
+			case (stristr(strtolower($value), ' uyt den ')): // Dutch
+			case (stristr(strtolower($value), ' uyt der ')): // Dutch
+			case (stristr(strtolower($value), ' ten ')): // Dutch
+			case (stristr(strtolower($value), ' ter ')): // Dutch
+			case (stristr(strtolower($value), ' het ')): // Dutch?
+			case (stristr(strtolower($value), ' ab ')): // Welsh
+			case (stristr(strtolower($value), ' ap ')): // Welsh
+			case (stristr(strtolower($value), ' st. ')): // English/French?
+	}
+	
+	function check_suffix($value){
+		switch (true){
+			case (stristr(strtolower($value), ' jr.')): // American
+			case (stristr(strtolower($value), ' sr.')): // American
+			case (preg_match(strtolower($value), '\s[ivx][ivx][ivx]')): // American
+			// check the preg_match syntax for these:
+			case (preg_match(strtolower($value), '\sph\.?d')) // Doctor
+			case (preg_match(strtolower($value), '\sm\.?d')) // Masters
+			case (preg_match(strtolower($value), '\sesq\.')) // Esquire
+	}
+	
 	function split_name($value){
+		$this->check_prefix($value);
+		$this->check_suffix($value);
 		$name_arr['old_name'] = $value;
 		switch (true){
 			case (preg_match(',', $name_arr['old_name'])):
 				$temparr = explode(',', $name_arr['old_name']);
 				$name_arr['last_name'] = $temparr[0];
-				unset($temp_arr[0]);
+				$value = implode(' ', $temparr);
+				unset($temp_arr);
+				$this->split_name($value);
 				break;
 			case (preg_match('\s', $name_arr['old_name'])):
-				$temparr = explode(' ', $name_arr['old_name']);
+				$this->temparr = explode(' ', $name_arr['old_name']);
 				break;
 		}
 		
-		if (isset($temparr)){
-			$i = array_count_values($temparr);
+		if (isset($this->temparr)){
+			$i = array_count_values($this->temparr);
 			if (!isset($name_arr['last_name'])){
-				$name_arr['last_name'] = $temparr[$i];
-				$name_arr['full_name'] = $temparr[$i].',';
+				$name_arr['last_name'] = $this->temparr[$i];
+				$name_arr['full_name'] = $this->temparr[$i].',';
 			} 
-			foreach ($temparr as $item => $name_seg) {
+			foreach ($this->temparr as $item => $name_seg) {
 				$i = 1; $i++;
 				$name_arr['full_name'] .= ' ';
 				if ($i == 1){
