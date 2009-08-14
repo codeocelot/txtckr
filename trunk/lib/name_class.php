@@ -1,6 +1,6 @@
 <?php
 /**
- * These are the base classes for dealing with named objects.
+ * These are the base classes for dealing with named objects, such as people!
  *
  * @author		Tom Pasley
  * @date		03/08/2009
@@ -45,7 +45,7 @@ class name_collector(){
 				$$entity->complete			= 'constructed';
 				break;
 			case "au": // author full names (full names first might be easier?)
-				$temparr = $this->split_name($value);
+				$this->temparr = $this->split_name($value);
 				$entity = 'author'.$i;
 				$this->name_registry[$i] 	= $entity;
 				$$entity = new($named_entity);
@@ -141,7 +141,29 @@ class name_collector(){
 				break;
 		}
 	}
+		
+	function check_name_registry(){ // need to ensure that count(last_names) == count(first_names) + count(initials);
+		$registry = $this->get_name_registry();
+	}
 	
+}
+
+class named_entity(){
+
+	function __construct(){
+		$this->type				= 'personal';
+		$this->subtype			= 'author';
+		$this->first_name		= string();
+		$this->initials			= string();
+		$this->last_name		= string();
+		$this->pre_last_name	= string();
+		$this->post_last_name	= string();
+		$this->full_name		= string();
+		$this->complete			= 'incomplete';
+		$this->temparr			= array();
+		$i						= 1;
+	}
+
 	function check_prefix($value){
 		switch (true){
 			case (stristr(strtolower($value), ' van de ')): // Dutch
@@ -180,71 +202,76 @@ class name_collector(){
 			case (preg_match(strtolower($value), '\sesq\.')) // Esquire
 	}
 	
-	function split_name($value){
-		$this->check_prefix($value);
-		$this->check_suffix($value);
-		$name_arr['old_name'] = $value;
+	function split_name(){
+		$this->check_prefix($this->old_name);
+		$this->check_suffix($this->old_name);
 		switch (true){
-			case (preg_match(',', $name_arr['old_name'])):
-				$temparr = explode(',', $name_arr['old_name']);
-				$name_arr['last_name'] = $temparr[0];
-				$value = implode(' ', $temparr);
-				unset($temp_arr);
-				$this->split_name($value);
+			case (preg_match(',', $this->old_name)):
+				$this->temparr = explode(',', $this->old_name);
+				$this->last_name = $this->temparr[0];
+				$this->old_name = implode(' ', $this->temparr);
+				unset($this->temparr);
+				$this->split_name();
 				break;
-			case (preg_match('\s', $name_arr['old_name'])):
-				$this->temparr = explode(' ', $name_arr['old_name']);
+			case (preg_match('\s', $this->old_name)):
+				$this->temparr = explode(' ', $this->old_name);
 				break;
 		}
 		
 		if (isset($this->temparr)){
 			$i = array_count_values($this->temparr);
 			if (!isset($name_arr['last_name'])){
-				$name_arr['last_name'] = $this->temparr[$i];
-				$name_arr['full_name'] = $this->temparr[$i].',';
+				$this->last_name = $this->temparr[$i];
+				$this->full_name = $this->temparr[$i].',';
 			} 
 			foreach ($this->temparr as $item => $name_seg) {
 				$i = 1; $i++;
-				$name_arr['full_name'] .= ' ';
+				$this->full_name .= ' ';
 				if ($i == 1){
-					$name_arr['first_name']  = $name_seg;
-					$name_arr['full_name']	.= $name_seg;
+					$this->first_name  	 = $name_seg;
+					$this->full_name	.= $name_seg;
 					$initials = str_split($name_seg, 1);
-					$name_arr['initials'] 	 = $initials[0].'. ';
+					$this->initials 	  = $initials[0].'. ';
 				} elseif($i == 2) {
-					$name_arr['second_name'] = $name_seg;
-					$name_arr['full_name'] 	.= $name_seg;
+					$this->second_name 	 = $name_seg;
+					$this->full_name 	.= $name_seg;
 					$initials = str_split($name_seg, 1);
-					$name_arr['initials'] 	.= $initials[0].'. ';
+					$this->initials 	.= $initials[0].'. ';
 				} else {
-					$name_arr['full_name']	.= $name_seg;
+					$this->full_name	.= $name_seg;
 					$initials = str_split($name_seg, 1);
-					$name_arr['initials'] 	.= $initials[0].'. ';
+					$this->initials 	.= $initials[0].'. ';
 				}
 			}
 		}
-		return ($name_arr);
+	}
+
+	
+	function set_type($name_type){
+		switch(true){
+			case ($name_type == 'aucorp'): // corporate author
+				$this->type				= 'corporate';
+				// no need to set the subtype as the default is author
+				break;
+			case (preg_match('/^au/', $name_type) : // author
+				// no need to set the type as the default is personal
+				// no need to set the subtype as the default is author
+				break;
+			case (preg_match('/^ed/', $name_type): // editor
+				// no need to set the type as the default is personal
+				$this->subtype			= 'editor';
+				break;
+			case (preg_match('/^inv/', $name_type) // inventor
+				// no need to set the type as the default is personal
+				$this->subtype			= 'inventor';
+				break; // then it gets slightly more complicated
+			default: // hmmm... "other"
+				// use the default type of personal?
+				$this->subtype			= 'unknown';
+				break;
+		}
 	}
 	
-	function check_name_registry(){ // need to ensure that count(last_names) == count(first_names) + count(initials);
-		$registry = $this->get_name_registry();
-	}
-	
-}
-
-class named_entity(){
-
-	function __construct(){
-		$this->type			= 'personal';
-		$this->subtype		= 'author';
-		$this->first_name	= string();
-		$this->initials		= string();
-		$this->last_name	= string();
-		$this->full_name	= string();
-		$this->complete		= 'incomplete';
-	}
-
-
 	function get_name($name_type){
 		if ($this->type == 'personal'){
 			switch($name_type){
