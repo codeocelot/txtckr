@@ -213,13 +213,11 @@ class named_entity(){
 	}
 
 	function check_prefix_ne_first(){
-	$matches = array(); // make sure no first name or initials are set first!
-		if (($this->first_name === null) && ($this->initials === null)){
+	$matches = array();
+		if ($this->first_name === null){
 			foreach ($pre_firsts as $pre_first => $poss_pre_first){
 				if (preg_match ($poss_pre_first, $this->pre_last_name, $matches){
 					$this->first_name = ucfirst(trim($matches[1]));
-					$initials = str_split($matches[1], 1);
-					$this->initials = $initials[0].'. ';
 					$this->pre_last_name = null;
 				}
 			}
