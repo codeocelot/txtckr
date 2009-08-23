@@ -153,6 +153,7 @@ class named_entity(){
 	function __construct(){
 		$this->type				= 'personal';
 		$this->subtype			= 'author';
+		$this->old_name			= string();
 		$this->first_name		= string();
 		$this->initials			= string();
 		$this->last_name		= string();
@@ -162,90 +163,188 @@ class named_entity(){
 		$this->complete			= 'incomplete';
 		$this->temparr			= array();
 		$i						= 1;
+
+		// any names which could be either first names or prefixes (see below)
+		// must start with "'/" and end with "$/'" as we're after complete matches only
+		$pre_firsts[00] = '/^Van$/'; // Van = "Van West", "Van Morrison", or "Van Lustbader, Eric"?		
+		
+		// any names which are part of the last name, see examples below, with more complex last name prefixes first!
+		$prefixes[00] = '/\b[Vv]an\s[Dd]en\b/'; // van den = Dutch
+		$prefixes[01] = '/\b[Vv]an\s[Dd]er\b/'; // van der = Dutch
+		$prefixes[02] = '/\b[Vv]an\s[Dd]e\b/'; // van de = Dutch
+		$prefixes[03] = '/\b[Vv]an\b/'; // van = Dutch
+		$prefixes[04] = '/\b[Vv]on\b/'; // von = German
+		$prefixes[05] = '/\b[Dd]ela\b/'; // dela = French/Italian?
+		$prefixes[06] = '/\b[Dd]e\sla\b/'; // de la = French
+		$prefixes[07] = '/\b[Dd]e\b/'; // de = Dutch/French?
+		$prefixes[08] = '/\b[Dd]es\b/'; // des = French
+		$prefixes[09] = '/\b[Dd]i\b/'; // di = Italian
+		$prefixes[10] = '/\b[Dd]u\b/'; // du = French
+		$prefixes[11] = '/\b[Aa]f\b/'; // af = Swedish
+		$prefixes[12] = '/\b[Bb]in\b/'; // bin = Arabic
+		$prefixes[13] = '/\b[Bb]en\b/'; // ben = Hebrew
+		$prefixes[14] = '/\b[Ii]bn\b/'; // ibn = Arabic
+		$prefixes[15] = '/\b[Uu]yt\sden\b/'; // uyt den = Dutch
+		$prefixes[16] = '/\b[Uu]yt\sder\b/'; // uyt der = Dutch
+		$prefixes[17] = '/\b[Tt]en\b/'; // ten = Dutch
+		$prefixes[18] = '/\b[Tt]er\b/'; // ter = Dutch
+		$prefixes[19] = '/\b[Hh]et\b/'; // het = Dutch?
+		$prefixes[20] = '/\b[Aa]b\b/'; // ab = Welsh
+		$prefixes[21] = '/\b[Aa]p\b/'; // ap = Welsh
+		$prefixes[22] = '/\b[Ss]t\.\b/'; // st. = English/French?
+		
+		// any common differentatiors for people with same name, e.g. Senior, Junior, Dr.
+		$suffixes[00] = '/\b[Jj]r\.\b/'; // Jr. = American
+		$suffixes[01] = '/\b[Ss]r\.\b/'; // Sr. = American
+		$suffixes[02] = '/\b[IVX]+\b/i'; // IV, III = English/American
+		$suffixes[03] = '/\b[Pp]h\.?d\b/'; // Doctor
+		$suffixes[04] = '/\b[Mm]\.?d\b/'; // Masters
+		$suffixes[05] = '/\b[Ee]sq\.\b/'; // Esquire
+
 	}
 
-	function check_prefix($value){
-		switch (true){
-			case (stristr(strtolower($value), ' van de ')): // Dutch
-			case (stristr(strtolower($value), ' van den ')): // Dutch
-			case (stristr(strtolower($value), ' van der ')): // Dutch
-			case (stristr(strtolower($value), ' van ')): // Dutch
-			case (stristr(strtolower($value), ' von ')): // German
-			case (stristr(strtolower($value), ' dela ')): // French/Italian?
-			case (stristr(strtolower($value), ' de la ')): // French
-			case (stristr(strtolower($value), ' de ')): // Dutch/French?
-			case (stristr(strtolower($value), ' des ')): // French
-			case (stristr(strtolower($value), ' di ')): // Italian
-			case (stristr(strtolower($value), ' du ')): // French
-			case (stristr(strtolower($value), ' af ')): // Swedish
-			case (stristr(strtolower($value), ' bin ')): // Arabic
-			case (stristr(strtolower($value), ' ben ')): // Hebrew
-			case (stristr(strtolower($value), ' ibn ')): // Arabic
-			case (stristr(strtolower($value), ' uyt den ')): // Dutch
-			case (stristr(strtolower($value), ' uyt der ')): // Dutch
-			case (stristr(strtolower($value), ' ten ')): // Dutch
-			case (stristr(strtolower($value), ' ter ')): // Dutch
-			case (stristr(strtolower($value), ' het ')): // Dutch?
-			case (stristr(strtolower($value), ' ab ')): // Welsh
-			case (stristr(strtolower($value), ' ap ')): // Welsh
-			case (stristr(strtolower($value), ' st. ')): // English/French?
-	}
-	
-	function check_suffix($value){
-		switch (true){
-			case (stristr(strtolower($value), ' jr.')): // American
-			case (stristr(strtolower($value), ' sr.')): // American
-			case (preg_match(strtolower($value), '\s[ivx][ivx][ivx]')): // American
-			// check the preg_match syntax for these:
-			case (preg_match(strtolower($value), '\sph\.?d')) // Doctor
-			case (preg_match(strtolower($value), '\sm\.?d')) // Masters
-			case (preg_match(strtolower($value), '\sesq\.')) // Esquire
-	}
-	
-	function split_name(){
-		$this->check_prefix($this->old_name);
-		$this->check_suffix($this->old_name);
-		switch (true){
-			case (preg_match(',', $this->old_name)):
-				$this->temparr = explode(',', $this->old_name);
-				$this->last_name = $this->temparr[0];
-				$this->old_name = implode(' ', $this->temparr);
-				unset($this->temparr);
-				$this->split_name();
-				break;
-			case (preg_match('\s', $this->old_name)):
-				$this->temparr = explode(' ', $this->old_name);
-				break;
-		}
-		
-		if (isset($this->temparr)){
-			$i = array_count_values($this->temparr);
-			if (!isset($name_arr['last_name'])){
-				$this->last_name = $this->temparr[$i];
-				$this->full_name = $this->temparr[$i].',';
-			} 
-			foreach ($this->temparr as $item => $name_seg) {
-				$i = 1; $i++;
-				$this->full_name .= ' ';
-				if ($i == 1){
-					$this->first_name  	 = $name_seg;
-					$this->full_name	.= $name_seg;
-					$initials = str_split($name_seg, 1);
-					$this->initials 	  = $initials[0].'. ';
-				} elseif($i == 2) {
-					$this->second_name 	 = $name_seg;
-					$this->full_name 	.= $name_seg;
-					$initials = str_split($name_seg, 1);
-					$this->initials 	.= $initials[0].'. ';
-				} else {
-					$this->full_name	.= $name_seg;
-					$initials = str_split($name_seg, 1);
-					$this->initials 	.= $initials[0].'. ';
-				}
+	function check_prefix(){ // need to check if this works with preg_match and function
+	$matches = array();
+		foreach ($prefixes as $prefix => $poss_prefix){
+			if (preg_match ($poss_prefix, $this->old_name, $matches){
+				$this->set_prefix(trim($matches[1]));
 			}
 		}
 	}
 
+	function check_prefix_ne_first(){
+	$matches = array(); // make sure no first name or initials are set first!
+		if (($this->first_name === null) && ($this->initials === null)){
+			foreach ($pre_firsts as $pre_first => $poss_pre_first){
+				if (preg_match ($poss_pre_first, $this->pre_last_name, $matches){
+					$this->first_name = ucfirst(trim($matches[1]));
+					$initials = str_split($matches[1], 1);
+					$this->initials = $initials[0].'. ';
+					$this->pre_last_name = null;
+				}
+			}
+		}		
+	}
+	
+	function check_suffix($value){	
+		foreach ($suffixes as $suffix => $poss_suffix){
+			if (preg_match ($poss_suffix, $this->old_name, $matches){
+				$this->set_suffix(trim($matches[1]));
+			}
+		}
+	}
+	
+	function get_name($name_type){
+		if ($this->type == 'personal'){
+			switch($name_type){
+				case "full":
+					return ($this->full_name);
+					break;
+				case "first":
+					$this->check_prefix_ne_first();
+					return ($this->first_name);
+					break;
+				case "initials":
+					return ($this->initials);
+					break;
+				case "last":
+					if ($this->pre_last_name !== null){
+						$temp-name =  $this->pre_last_name.' '.$this->post_last_name;
+						return ($temp-name);
+					} else {
+						return ($this->last_name);
+					}
+					break;
+				case "last+first":
+					if ($this->first_name !== null){
+						$temp-name = $this->get_name('last').', '.$this->get_name('first');
+						$temp-name .= ($this->post_last_name !== null) ? ', '.$this->post_last_name : "";
+						return ($temp-name);
+					} else{
+						$this->get_name('last+initial');
+					}
+					break;
+				case "last+initial":
+					if ($this->initials !== null){
+						$temp-init = str_split($this->get_name('initials'), 2);
+						$temp-name = $this->get_name('last').', '.$temp-init;
+						$temp-name .= ($this->post_last_name !== null) ? ', '.$this->post_last_name : "";
+						return ($temp-name);
+						unset($temp-name);
+					} else {
+						return ($this->get_name('last'));
+					}
+					break;
+				case "last+initials":
+					if ($this->initials !== null){
+						$temp-name = $this->get_name('last').', '.$this->get_name('initials');
+						$temp-name .= ($this->post_last_name !== null) ? ', '.$this->post_last_name : "";
+						return ($temp-name);
+						unset($temp-name);
+					} else {
+						return ($this->get_name('last'));
+					}
+					break;
+				default:
+					if (isset($this->$name_type){
+						return ($this->$name_type);
+					} else {
+						return (null);
+					}
+					break;
+			}	
+		} elseif ($this->type == 'corporate') {
+					if (isset($this->$name_type){
+						return ($this->$name_type);
+					} else {
+						return ($this->full_name);
+					}
+					break;		
+		} else {
+			if (isset($this->$name_type){
+				return ($this->$name_type);
+			}
+		}
+	}
+	
+	function set_name($name, $type){
+		$type = strtolower(preg_replace('/\s/', '_', $type));
+		$this->set_type($type);
+/*		$this->old_name			= string();
+		$this->first_name		= string();
+		$this->initials			= string();
+		$this->last_name		= string();
+		$this->pre_last_name	= string();
+		$this->post_last_name	= string();
+		$this->full_name		= string(); */
+		if (!isset($type)){
+			$this->$type = $name;
+		}
+	}
+	
+	function set_prefix($prefix){
+		if (!isset($this->pre_last_name)){
+			$this->pre_last_name = $prefix;
+			$value = ' '.$this->old_name;
+			$this->old_name = trim(preg_replace($prefix, '', $value));
+		} else {
+			$this->pre_last_name .= $prefix;
+			$value = ' '.$this->old_name;
+			$this->old_name = trim(preg_replace($prefix, '', $value));
+		}
+	}
+	
+	function set_suffix($suffix){
+		if (!isset($this->post_last_name)){
+			$this->post_last_name = $suffix;
+			$value = ' '.$this->old_name;
+			$this->old_name = trim(preg_replace($suffix, '', $value));
+		} else {
+			$this->post_last_name .= $suffix;
+			$value = ' '.$this->old_name;
+			$this->old_name = trim(preg_replace($suffix, '', $value))
+		}
+	}
 	
 	function set_type($name_type){
 		switch(true){
@@ -272,71 +371,49 @@ class named_entity(){
 		}
 	}
 	
-	function get_name($name_type){
-		if ($this->type == 'personal'){
-			switch($name_type){
-				case "full":
-					return ($this->full_name);
-					break;
-				case "first":
-					return ($this->first_name);
-					break;
-				case "initials":
-					return ($this->initials);
-					break;
-				case "last":
-					return ($this->last_name);
-					break;
-				case "last+first":
-					if (isset($this->first_name)){
-						$temp-name = $this->last_name.', '.$this->first_name;
-						return ($temp-name);
-						unset($temp-name);
-					} else{
-						$this->get_name('last+initial');
-					}
-					break;
-				case "last+initial":
-					if (isset($this->initials)){
-						$temp-init = str_split($this->initials, 2);
-						$temp-name = $this->last_name.', '.$temp-init;
-						return ($temp-name);
-						unset($temp-name);
-					} else {
-						return ($this->last_name);
-					}
-					break;
-				case "last+initials":
-					if (isset($this->initials)){
-						$temp-name = $this->last_name.', '.$this->initials
-						return ($temp-name);
-						unset($temp-name);
-					} else {
-						return ($this->last_name);
-					}
-					break;
-				default:
-					if (isset($this->$name_type){
-						return ($this->$name_type);
-					} else {
-						return (null);
-					}
-					break;
-			}	
-		} elseif ($this->type == 'corporate') {
-					if (isset($this->$name_type){
-						return ($this->$name_type);
-					} else {
-						return ($this->full_name);
-					}
-					break;		
-		} else {
-			if (isset($this->$name_type){
-				return ($this->$name_type);
+	function split_name(){
+		$this->check_prefix();
+		$this->check_suffix();
+		switch (true){
+			case (preg_match(',\s', $this->old_name)):
+				$this->temparr = explode(',', $this->old_name);
+				$this->last_name = $this->temparr[0];
+				$this->old_name = implode(' ', $this->temparr);
+				unset($this->temparr);
+				$this->split_name();
+				break;
+			case (preg_match('\s', $this->old_name)):
+				$this->temparr = explode(' ', $this->old_name);
+				break;
+		}
+		
+		if (isset($this->temparr)){
+			$i = (array_count_values($this->temparr) - 1); // arrays normally start with a 0, so adjust count of values accordingly
+			if (!isset($name_arr['last_name'])){
+				$this->last_name = $this->temparr[$i];
+				$this->full_name = $this->temparr[$i].',';
+			} 
+			foreach ($this->temparr as $item => $name_seg) {
+				$i = 1; $i++;
+				$this->full_name .= ' ';
+				if ($i == 1){
+					$this->first_name  	 = $name_seg;
+					$this->full_name	.= $name_seg;
+					$initials = str_split($name_seg, 1);
+					$this->initials 	  = $initials[0].'. ';
+				} elseif($i == 2) {
+					$this->second_name 	 = $name_seg;
+					$this->full_name 	.= $name_seg;
+					$initials = str_split($name_seg, 1);
+					$this->initials 	.= $initials[0].'. ';
+				} else {
+					$this->full_name	.= $name_seg;
+					$initials = str_split($name_seg, 1);
+					$this->initials 	.= $initials[0].'. ';
+				}
 			}
 		}
 	}
-	
-	}
+
 }
 ?>
