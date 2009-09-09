@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	12/08/2009
+ * @last mod	05/08/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -17,6 +17,10 @@ class contextobject{
 		$this->co['ip'] 			= $_SERVER["REMOTE_ADDR"];
 		$this->co['browser'] 		= $_SERVER["HTTP_USER_AGENT"];
 		$this->co['req_type'] 		= '';
+		$this->errors['rules']		= '';
+		$this->errors['database']	= '';
+		$this->errors['http_curl']	= '';
+		$this->errors['settings']	= '';
 		$this->ctx[0]				= 0;
 		$this->req[0]				= 0;
 		$this->rfe[0]				= 0;	
@@ -103,6 +107,8 @@ Resolver
 res				res_id      res_val_fmt        res_ref_fmt			res_dat
 												res_ref
 */
+
+	require ('common_funcs.inc.php');
 
 	function set_property($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
@@ -209,7 +215,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_oclcnum($co, $identifier);
 				break;
 			case (preg_match('/^issn[=:\/]/', $identifier)):				// OAI id.
-				$newvalue = $this->checkISSN($value)
+				$newvalue = $this->check_issn($value)
 				$this->set_property($co, 'issn', $newvalue);
 				break;
 			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
@@ -332,7 +338,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 	function set_reftype($co, $type){
-		switch (strtolower($type)) {
+		switch ($this->normalise($type)) {
 			case ($type == "article"):
 				$this->set_property($co, 'reftype', 'JOUR');		// article: a document published in a journal.
 				$this->set_property($co, 'reqtype', 'Journal Article');
@@ -383,7 +389,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'sourcetype', 'Patent');	
 				break;
 			case ($type == "proceeding"):		// proceeding: a single conference presentation published in a journal or serial publication 
-				$this->set_property($co, 'reftype', 'JOUR');
+				$this->set_property($co, 'reftype', 'CONF');
 				$this->set_property($co, 'reqtype', 'Conference Proceedings');
 				$this->set_property($co, 'sourcetype', 'Conference');
 				$this->set_property($co, 'notes', 'This was identified as a "single conference presentation in a serial publication" in the OpenURL metadata.');
@@ -405,45 +411,51 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'sourcetype', 'Unknown');
 				$this->set_property($co, 'notes', 'This was identified as an "unknown format" in the OpenURL metadata.');
 				break;
+			default:
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$item);
+				break;
 		}
 	}
 	
 	function build($key, $value){
 	//echo $key.'='.$value.'<br/>';
-	$key = str_replace('.', '_', $key);
+	$key = str_replace('.', '_', $this->normalise($key));
 		switch(true){
 			case (preg_match('/ctx_/', $key)):
 				$co = 'ctx';
 				$key = str_replace('ctx_', '', $key);
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', $this->unencode($value));
 				break;
 			case (preg_match('/rfe_/', $key)):
 				$co = 'rfe';
 				$key = str_replace('rfe_', '', $key);
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', $this->unencode($value));
 				break;
 			case (preg_match('/rfr_id/', $key)):
 				$co = 'rfr';
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', $this->unencode($value));
 				break;
 			case (preg_match('/rfr_/', $key)):
 				$co = 'rfr';
 				$key = str_replace('rfr_', '', $key);
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', $this->unencode($value));
 				break;
 			case (preg_match('/req_/', $key)):
 				$co = 'req';
 				$key = str_replace('req_', '', $key);
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', $this->unencode($value));
 				break;
 			case (preg_match('/rft_/', $key)):
 				$co = 'rft';
 				$key = str_replace('rft_', '', $key);
-				$value = str_replace('info:', '', urldecode(rawurldecode($value)));
+				$value = str_replace('info:', '', );
 				break;
 			default:
 				$co = 'rft';
-				$value = urldecode(rawurldecode($value));
+				$value = $this->unencode($value);
 				break;
 		}
 		
@@ -608,6 +620,17 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				break
 		}
 	}
+
+	function build_from_querystring($str) {
+		$pairs = explode('&', (str_replace(' ', '', $str)));			// split on outer delimiter
+		// echo $pairs;
+		# loop through each pair
+		foreach ($pairs as $values) {
+			# split into key and value
+			list($key,$value) = explode('=', $values, 2);
+			$this->build($key, $value);
+		}
+	}
 	
 	function check_rft_dates(){ 
 		if (isset ($this->rft['year'])){
@@ -663,9 +686,49 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if (isset($openurl_keys[$key])){
 			$newkey = $openurl_keys[$key];
 		} else {
-			$newkey = strtolower($key);
+			$newkey = $this->normalise($key);
 		}
 		$this->set_property($co, $newkey, $value);
+	}
+	
+	function parse_rule($rule_filenames){
+	$rule = $this->normalise($rule_filename)
+	$path_to_rule = $_SETTINGS['rule_location'].'/'.$rule;
+	$$rule = array();
+	if (!file_exists($path_to_rule)){
+		$this->errors['rule'] .= .'\n'.$rule.' not found.';
+		return null;
+	}
+	include ($path_to_rule);
+	if (!isset($required_items)) | (!is_array($required_items)){
+		$this->errors['rule'] .= .'\n'.$rule.' was found, but $required_items is either not an array, or is not set.';
+		return null;
+	} 
+		foreach ($required_items as $validator => $item){
+		$$rule[$item] = '';
+		$path_to_validator = $_SETTINGS['validators_location'].'/'.$validator
+			if ((!defined($this->$validator)) && (!file_exists($path_to_validator))) {
+				$$rule[$item] .= '\nValidation method '.$validator.' does not exist, or is not loaded.';
+				$break = true;
+			} elseif (!defined($this->$validator) {
+				include($path_to_validator);
+				if(!isset($this->$$item)){
+					$$rule[$item] .= '\n'.$item.' is not set, so can not be tested by '.$validator.'.';
+					$break = true;
+				} elseif (($validator($item) == false) | ($validate($item) == null)){
+					$$rule[$item] .= '\n'.$item.' did not pass the test '.$validator.'.';
+					$break = true;
+				} else {
+					$$rule[$item] .= '\n'.$item.' successfully completed initial test'.$validator.'.';
+				}
+			}
+			if ($break == true){
+				$this->errors['rules'] .= $$rule;
+				return null;
+			} else {
+				
+			}
+		}
 	}
 
 }

@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		03/08/2009
- * @last mod	27/08/2009
+ * @last mod	12/08/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -27,6 +27,8 @@ class name_collector(){
 	// not convinced either way if this should extend the named_entity class.
 	// also need to allow for "van der ..." varieties of names and non-European names
 	// this is going to be a very complex class to manufacture!
+
+	require ('common_funcs.inc.php');
 
 	function get_name_registry(){
 		return array($this->name_registry);
@@ -233,7 +235,7 @@ class named_entity(){
 	}
 	
 	function get_name($name_type){
-		$name_type = strtolower(preg_replace('/\s/', '_', $name_type));
+		$name_type = $this->normalise($name_type);
 		if ($this->type == 'personal'){
 			switch($name_type){
 				case "full":
@@ -317,7 +319,7 @@ class named_entity(){
 	}
 	
 	function set_name($name, $type){
-		$type = strtolower(preg_replace('/\s/', '_', $type));
+		$type = $this->normalise($type);
 		$this->set_type($type);
 		if ((!isset($type)){
 			$this->$type = $name;
@@ -349,7 +351,7 @@ class named_entity(){
 	}
 	
 	function set_type($name_type){
-		$type = strtolower(preg_replace('/\s/', '_', $type));
+		$name_type = $this->normalise($name_type);
 		switch(true){
 			case ($name_type == 'aucorp'): // corporate author
 				$this->type				= 'corporate';
