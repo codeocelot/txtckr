@@ -65,5 +65,20 @@ class txtckr extends contextobject{
 		}
 	}
 
+	function parse_template(){
+		if (empty($this->template)){
+			$this->errors[$this->template] .= '\nNo templates to include.'; 
+			return($this->errors[$this->template]);
+		} else {
+		$this->path_to_template = $_SETTINGS['template_location'].$this->template.'.php';
+			if (!file_exists($path_to_template)){
+				$this->errors[$this->template] .= '\n'.$this->template.' was unable to be found at '.$this->path_to_template; 
+				return($this->errors[$this->template]);
+			} else {
+				include ($path_to_template);
+			}
+		}
+	}
+	
 }
 ?>
