@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	05/08/2009
+ * @last mod	13/09/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -17,9 +17,10 @@ class contextobject{
 		$this->co['ip'] 			= $_SERVER["REMOTE_ADDR"];
 		$this->co['browser'] 		= $_SERVER["HTTP_USER_AGENT"];
 		$this->co['req_type'] 		= '';
+		$this->errors['rules']		= '';
+		$this->errors['database']	= '';
 		$this->errors['http_curl']	= '';
 		$this->errors['settings']	= '';
-		$this->request['http_get'] 	= $_SERVER['QUERY_STRING'];
 		$this->ctx[0]				= 0;
 		$this->req[0]				= 0;
 		$this->rfe[0]				= 0;	
@@ -108,7 +109,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 */
 
 	require ('common_funcs.inc.php');
-	require ('settings.inc.php');
 
 	function set_property($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
@@ -271,12 +271,12 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 	function set_isbn($co, $isbn){
-		$find[0] = '[-\s]';	$replace[0] = '';					// remove any hyphens or spaces
+		$find[0] = '[-\s]';	$replace[0] = '';					//remove any hyphens or spaces
 		$find[1] = 'isbns';	$replace[1] = '';					// tidy up any gunge
 		$find[2] = 'isbn';	$replace[2] = '';					// tidy up any gunge
 		$isbn = str_replace($find, $replace, $value);
 		if (strlen($isbn) > 9){
-			$this->set_property($co, 'isbn', $isbn); 			// it must be an okay length
+			$this->set_property($co, 'isbn', $isbn); 				// it must be an okay length
 		}
 		if ($co == 'rft'){
 			$this->rft['id_count']++;
@@ -284,25 +284,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 	function set_issn($co, $issn_type, $issn){
-		if (preg_match('/\(/', $issn)){
-			@list($issn,$junk) = explode('(', $issn, 2);		// tidy up any gunge
-		}	
-		$value = (string) trim ($issn); 						// trim any gunge so string length check is fine.
-		$value = (string) trim ($value, '+'); 					// ditto
-		
-		if ((strlen($value) == 9) & (preg_match('/\d\d\d\d-\d\d\d[\dX]/i', $value))){
-			$this->set_property($co, $issn_type, $value); 		// it must be an okay length, and have a hype in the middle
-			if ($co == 'rft'){
-				$this->rft['id_count']++;
-			}
-		} elseif ((strlen($value) == 8) & (preg_match('/\d\d\d\d\d\d\d[\dX]/i', $value))){
-			$arr = str_split($value, 4);						// split into 2 segments of 4 characters
-			$issn = $arr[0]."-".$arr[1];						// put a hyphen in the middle
-			$this->set_property($co, $issn_type, $issn);		// voila - it's an issn!
-			if ($co == 'rft'){
-				$this->rft['id_count']++;
-			}
-		}
 	}
 	
 	function set_oai($co, $oai){
@@ -356,20 +337,85 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		$this->set_property('rfr', 'referer_type', $referer);
 	}
 
-	function set_contexttype($co, $type){
-		$this->define_contexttypes();
-		switch (true) {
-			case (preg_match($type, $types[$type])): // not sure about this - not tested, but more configurable!
-				$this->set_property($co, 'reftype', $$type['reftype']);
-				$this->set_property($co, 'reqtype', $$type['reqtype']);
-				$this->set_property($co, 'sourcetype', $$type['sourcetype']);
-				$this->set_property($co, 'notes', $$type['notes']);
+	function set_reftype($co, $type){
+		switch ($this->normalise($type)) {
+			case ($type == "article"):
+				$this->set_property($co, 'reftype', 'JOUR');		// article: a document published in a journal.
+				$this->set_property($co, 'reqtype', 'Journal Article');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				break;
+			case ($type == "book"):
+				$this->set_property($co, 'reftype', 'BOOK');	// book: a publication that is complete in one part or a designated finite number of parts, often identified with an ISBN.
+				$this->set_property($co, 'reqtype', 'Book');
+				$this->set_property($co, 'sourcetype', 'Book');
+				break;
+			case ($type == "bookitem"):
+				$this->set_property($co, 'reftype', 'CHAP');	// bookitem: a defined section of a book, usually with a separate title or number.
+				$this->set_property($co, 'reqtype', 'Book Section');
+				$this->set_property($co, 'sourcetype', 'Book');
+				break;
+			case ($type == "conference"):		// conference: a record of a conference that includes one or more conference papers and that is published as an issue of a journal or serial publication 
+				$this->set_property($co, 'reftype', 'JFULL');
+				$this->set_property($co, 'reqtype', 'Conference Item');
+				$this->set_property($co, 'sourcetype', 'Conference');
+				$this->set_property($co, 'notes', 'This was identified as a "collection of conference presentations published as an issue of a serial publication" in the OpenURL metadata.');
+				break;
+			case ($type == "dissertation"):
+				$this->set_property($co, 'reftype', 'THES');
+				$this->set_property($co, 'reqtype', 'Dissertation');
+				$this->set_property($co, 'sourcetype', 'Thesis/Dissertation');
+				break;
+			case ($type == "document"):		// document: general document type to be used when available data elements do not allow determination of a more specific document type, i.e. when one has only author and title but no publication information. 
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was identified as a "general document type" in the OpenURL metadata.');
+				break;
+			case ($type == "issue"):
+				$this->set_property($co, 'reftype', 'JFULL');	// issue: one instance of the serial publication
+				$this->set_property($co, 'reqtype', 'Journal/Serial Issue');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as a "single issue of a serial publication" in the OpenURL metadata.');
+				break;
+			case ($type == "journal"):
+				$this->set_property($co, 'reftype', 'JFULL');	// journal: a serial publication issued in successive parts
+				$this->set_property($co, 'reqtype', 'Journal/Serial Publication');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as a "serial publication" in the OpenURL metadata.');
+				break;
+			case ($type == "patent"):
+				$this->set_property($co, 'reftype', 'PAT');
+				$this->set_property($co, 'reqtype', 'Patent');
+				$this->set_property($co, 'sourcetype', 'Patent');	
+				break;
+			case ($type == "proceeding"):		// proceeding: a single conference presentation published in a journal or serial publication 
+				$this->set_property($co, 'reftype', 'CONF');
+				$this->set_property($co, 'reqtype', 'Conference Proceedings');
+				$this->set_property($co, 'sourcetype', 'Conference');
+				$this->set_property($co, 'notes', 'This was identified as a "single conference presentation in a serial publication" in the OpenURL metadata.');
+				break;
+			case ($type == "preprint"):		// preprint: an individual paper or report published in paper or electronically prior to its publication in a journal or serial.
+				$this->set_property($co, 'reftype', 'JOUR');
+				$this->set_property($co, 'reqtype', 'Journal Article Preprint');
+				$this->set_property($co, 'sourcetype', 'Journal');
+				$this->set_property($co, 'notes', 'This was identified as an "individual paper or report published in paper or electronically prior to its publication" in a journal or serial in the OpenURL metadata.');
+				break;
+			case ($type == "report"):		// report: report or technical report is a published document that is issued by an organization, agency or government body
+				$this->set_property($co, 'reftype', 'RPRT');
+				$this->set_property($co, 'reqtype', 'Report');
+				$this->set_property($co, 'sourcetype', 'Report');
+				break;
+			case ($type == "unknown"):
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was identified as an "unknown format" in the OpenURL metadata.');
 				break;
 			default:
 				$this->set_property($co, 'reftype', 'GEN');
 				$this->set_property($co, 'reqtype', 'Unknown');
 				$this->set_property($co, 'sourcetype', 'Unknown');
-				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
+				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$item);
 				break;
 		}
 	}
@@ -575,14 +621,13 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
-	function build_from_querystring() {
-		$pairs = explode('&', (str_replace(' ', '', $this->request['http_get'])));			// split on & into KV pairs
+	function build_from_querystring($str) {
+		$pairs = explode('&', (str_replace(' ', '', $str)));			// split on outer delimiter
 		// echo $pairs;
 		# loop through each pair
 		foreach ($pairs as $values) {
 			# split into key and value
 			list($key,$value) = explode('=', $values, 2);
-			$key = (str_replace('[%20][\s]', '', $key));
 			$this->build($key, $value);
 		}
 	}
@@ -644,6 +689,46 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$newkey = $this->normalise($key);
 		}
 		$this->set_property($co, $newkey, $value);
+	}
+	
+	function parse_rule($rule_filenames){
+	$rule = $this->normalise($rule_filename)
+	$path_to_rule = $_SETTINGS['rule_location'].'/'.$rule;
+	$$rule = array();
+	if (!file_exists($path_to_rule)){
+		$this->errors['rule'] .= .'\n'.$rule.' not found.';
+		return null;
+	}
+	include ($path_to_rule);
+	if (!isset($required_items)) | (!is_array($required_items)){
+		$this->errors['rule'] .= .'\n'.$rule.' was found, but $required_items is either not an array, or is not set.';
+		return null;
+	} 
+		foreach ($required_items as $validator => $item){
+		$$rule[$item] = '';
+		$path_to_validator = $_SETTINGS['validators_location'].'/'.$validator
+			if ((!defined($this->$validator)) && (!file_exists($path_to_validator))) {
+				$$rule[$item] .= '\nValidation method '.$validator.' does not exist, or is not loaded.';
+				$break = true;
+			} elseif (!defined($this->$validator) {
+				include($path_to_validator);
+				if(!isset($this->$$item)){
+					$$rule[$item] .= '\n'.$item.' is not set, so can not be tested by '.$validator.'.';
+					$break = true;
+				} elseif (($validator($item) == false) | ($validate($item) == null)){
+					$$rule[$item] .= '\n'.$item.' did not pass the test '.$validator.'.';
+					$break = true;
+				} else {
+					$$rule[$item] .= '\n'.$item.' successfully completed initial test'.$validator.'.';
+				}
+			}
+			if ($break == true){
+				$this->errors['rules'] .= $$rule;
+				return null;
+			} else {
+				
+			}
+		}
 	}
 
 }
