@@ -4,7 +4,7 @@
  *
  * @author		Tom Pasley
  * @date		13/07/2009
- * @last mod	13/09/2009
+ * @last mod	18/09/2009
  * @package 	txtckr
  * @copyright 	open source
  */
@@ -14,20 +14,31 @@ class contextobject{
 	function __construct(){
 		$this->co['logid'] 			= date("YmdHis").rand(00,59);
 		$this->co['date'] 			= date("F j, Y, g:i a");
+		$this->co['req_type'] 		= '';
 		$this->co['ip'] 			= $_SERVER["REMOTE_ADDR"];
 		$this->co['browser'] 		= $_SERVER["HTTP_USER_AGENT"];
-		$this->co['req_type'] 		= '';
-		$this->errors['rules']		= '';
-		$this->errors['database']	= '';
+		$this->request['http_get'] 	= $_SERVER['QUERY_STRING'];
+		$this->request['http_post']	= file_get_contents('php://input');
 		$this->errors['http_curl']	= '';
 		$this->errors['settings']	= '';
-		$this->ctx[0]				= 0;
+		$this->ctx[0]				= 0; // these replace name_registry
 		$this->req[0]				= 0;
-		$this->rfe[0]				= 0;	
+		$this->rfe[0]				= 0;
 		$this->rfr[0]				= 0;
 		$this->rft[0]				= 0;
 		$this->rft_ids[0]			= 0;
 		$this->svc[0]				= 0;
+		# name attributes now embedded in contextobject
+		$this->name_registry[0]		= 0; // used to store the last number used in this array
+		$this->name_partials[0]		= 0; // used to store the last number used in this array 
+		$this->name_check[0]		= 0; // used to store the last number used in this array
+		$this->first_name[0]		= 0;
+		$this->initials[0]			= 0;
+		$this->last_name[0]			= 0;
+		$this->pre_last_name[0]		= 0; // e.g. 'van der' 	as in Willem van der Weerden
+		$this->post_last_name[0]	= 0; // e.g. 'III'		as in William Gates III
+		$this->full_name[0]			= 0;
+		$this->corp_name[0]			= 0;
 	}
 
 /* adapted from [http://q6.oclc.org/openurl/simple_openurl/]
@@ -109,6 +120,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 */
 
 	require ('common_funcs.inc.php');
+	require ('settings.inc.php');
 
 	function set_property($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
@@ -150,27 +162,137 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
-	function set_creator($co, $creator_type, $value){
-		switch($creator_type){
-			case "au":
+	function get_name_registry(){
+		return array($this->name_registry);
+	}
+	
+	function set_name($co, $name_type, $value){
+		$r = $this->name_registry[0];						// use name_registry to store last used number
+		$p = $this->name_partials[0];						// use name_partials to store last used number
+		$p++;												// increment $p
+		$this->name_partials[$p]	= $co.'_'.$name_type;	// register what came in which order, useful for name fragments.
+		switch($name_type){
+		case "aucorp": // corporate author full name
+				$r++;								// increment $r by 1
+				$entity = $co.'_aucorp_'.$r;		// using entity in this format as we can explode on '_' this later to get 3 values
+				$this->name_registry[$r] = $entity;	// add the entity as a value to the registry
+				$$entity = new($named_entity);		// create a new object called (the value of entity)
+				$$entity->set_type($name_type);		// set a couple of values based on what we were given
+				$$entity->parse_name($value);		// parse the full name if we were given it
+				break;								// stop processing, move on...
+			// personal full names first might be easier?
+			case "au": // author full names
+				$r++;
+				$entity = $co.'_author_'.$r;
+				$this->name_registry[$r] = $entity;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->parse_name($value);
 				break;
-			case "aucorp":
+			case "contributor": // contributor full names
+				$r++;
+				$entity = $co.'_contributor_'.$r;
+				$this->name_registry[$r] = $entity;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->parse_name($value);
 				break;
-			case "aufirst":
+			case "creator": // creator full names
+				$r++;
+				$entity = $co.'_creator_'.$r;
+				$this->name_registry[$r] = $entity;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->parse_name($value);
 				break;
-			case "auinit":
+			case "ed": // editor full names first
+				$r++;
+				$entity = $co.'_editor_'.$r;
+				$this->name_registry[$r] = $entity;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->parse_name($value);
 				break;
-			case "aulast":
+			case "inv": // inventor full names first
+				$r++;
+				$entity = $co.'_inventor_'.$r;
+				$this->name_registry[$r] = $entity;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->parse_name($value);
+				break; 
+			// then it gets slightly more complicated
+			// surnames next - should only be one of these per person!
+			case "aulast": // author surname 
+				$r++;									// increment $r by 1
+				$entity = $co.'_author_'.$r;			// using entity in this format as we can explode on '_' this later to get 3 values
+				$this->name_registry[$r] 	= $entity;	// add the entity as a value to the registry
+				$this->name_check[$p]		= $entity;	// this will need to be checked for completeness later.
+				$this->last_name[$p] 		= $value;	// add the last name to list directly
+				$$entity = new($named_entity);			// create a new object called (the value of entity) - can work out other names parts later.
+				$$entity->set_type($name_type);			// set a couple of values based on what we were given
+				$$entity->last_name		 	= $value;	// set the last name directly.
 				break;
-			case "inv":
+			case "edlast": // editor surname
+				$r++;
+				$entity = $co.'_editor_'.$r;
+				$this->name_registry[$r] 	= $entity;
+				$this->name_check[$p]		= $entity;
+				$this->last_name[$p] 		= $value;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->last_name 		= $value;
 				break;
-			case "invfirst":
+			case "invlast": // inventor surname
+				$r++;
+				$entity = $co.'_inventor_'.$r;
+				$this->name_registry[$r] 	= $entity;
+				$this->name_check[$p]		= $entity;
+				$this->last_name[$p] 		= $value;
+				$$entity = new($named_entity);
+				$$entity->set_type($name_type);
+				$$entity->last_name		 	= $value;			
 				break;
-			case "invinit":
+			// we don't generate a new named_entity for these, because we do that only for "last_names"
+			case "aufirst": // author first name
+				$this->first_name[$p] 		= $value;
 				break;
-			case "invlast":
-				break;	
+			case "edfirst": // editor first name
+				$this->first_name[$p] 		= $value;
+				break;
+			case "invfirst": // inventor first name
+				$this->first_name[$p] 		= $value;
+				break;
+			case "auinit": // author initials
+				$this->initials[$p]			= $value;
+				break;
+			case "auinit1": // author first initial
+				$this->initials[$p]			= $value;
+				break;
+			case "auinitm": // author middle initial(s)
+				$this->initials[$p]			= $value;
+				break;
+			case "edinit": // editor initials
+				$this->initials[$p]			= $value;
+				break;
+			case "invinit": // inventor initials
+				$this->initials[$p] 		= $value;
+				break;
+			default: // hmmm... "other"
+				$this->$name_type[$p]		= $value;
+				break;
 		}
+		$this->name_registry[0]		= $r;
+		$this->name_partials[0]		= $p;
+	}
+		
+	function check_name_registry(){ // need to ensure that count(last_names) == count(first_names) + count(initials);
+		$registry = $this->get_name_registry();
+	}
+	
+	function get_names(){
+	
+	
 	}
 
 	function set_date($co, $value){
@@ -271,12 +393,12 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 	function set_isbn($co, $isbn){
-		$find[0] = '[-\s]';	$replace[0] = '';					//remove any hyphens or spaces
+		$find[0] = '[-\s]';	$replace[0] = '';					// remove any hyphens or spaces
 		$find[1] = 'isbns';	$replace[1] = '';					// tidy up any gunge
 		$find[2] = 'isbn';	$replace[2] = '';					// tidy up any gunge
 		$isbn = str_replace($find, $replace, $value);
 		if (strlen($isbn) > 9){
-			$this->set_property($co, 'isbn', $isbn); 				// it must be an okay length
+			$this->set_property($co, 'isbn', $isbn); 			// it must be an okay length
 		}
 		if ($co == 'rft'){
 			$this->rft['id_count']++;
@@ -284,6 +406,25 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 	function set_issn($co, $issn_type, $issn){
+		if (preg_match('/\(/', $issn)){
+			@list($issn,$junk) = explode('(', $issn, 2);		// tidy up any gunge
+		}	
+		$value = (string) trim ($issn); 						// trim any gunge so string length check is fine.
+		$value = (string) trim ($value, '+'); 					// ditto
+		
+		if ((strlen($value) == 9) & (preg_match('/\d\d\d\d-\d\d\d[\dX]/i', $value))){
+			$this->set_property($co, $issn_type, $value); 		// it must be an okay length, and have a hype in the middle
+			if ($co == 'rft'){
+				$this->rft['id_count']++;
+			}
+		} elseif ((strlen($value) == 8) & (preg_match('/\d\d\d\d\d\d\d[\dX]/i', $value))){
+			$arr = str_split($value, 4);						// split into 2 segments of 4 characters
+			$issn = $arr[0]."-".$arr[1];						// put a hyphen in the middle
+			$this->set_property($co, $issn_type, $issn);		// voila - it's an issn!
+			if ($co == 'rft'){
+				$this->rft['id_count']++;
+			}
+		}
 	}
 	
 	function set_oai($co, $oai){
@@ -337,131 +478,67 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		$this->set_property('rfr', 'referer_type', $referer);
 	}
 
-	function set_reftype($co, $type){
-		switch ($this->normalise($type)) {
-			case ($type == "article"):
-				$this->set_property($co, 'reftype', 'JOUR');		// article: a document published in a journal.
-				$this->set_property($co, 'reqtype', 'Journal Article');
-				$this->set_property($co, 'sourcetype', 'Journal');
-				break;
-			case ($type == "book"):
-				$this->set_property($co, 'reftype', 'BOOK');	// book: a publication that is complete in one part or a designated finite number of parts, often identified with an ISBN.
-				$this->set_property($co, 'reqtype', 'Book');
-				$this->set_property($co, 'sourcetype', 'Book');
-				break;
-			case ($type == "bookitem"):
-				$this->set_property($co, 'reftype', 'CHAP');	// bookitem: a defined section of a book, usually with a separate title or number.
-				$this->set_property($co, 'reqtype', 'Book Section');
-				$this->set_property($co, 'sourcetype', 'Book');
-				break;
-			case ($type == "conference"):		// conference: a record of a conference that includes one or more conference papers and that is published as an issue of a journal or serial publication 
-				$this->set_property($co, 'reftype', 'JFULL');
-				$this->set_property($co, 'reqtype', 'Conference Item');
-				$this->set_property($co, 'sourcetype', 'Conference');
-				$this->set_property($co, 'notes', 'This was identified as a "collection of conference presentations published as an issue of a serial publication" in the OpenURL metadata.');
-				break;
-			case ($type == "dissertation"):
-				$this->set_property($co, 'reftype', 'THES');
-				$this->set_property($co, 'reqtype', 'Dissertation');
-				$this->set_property($co, 'sourcetype', 'Thesis/Dissertation');
-				break;
-			case ($type == "document"):		// document: general document type to be used when available data elements do not allow determination of a more specific document type, i.e. when one has only author and title but no publication information. 
-				$this->set_property($co, 'reftype', 'GEN');
-				$this->set_property($co, 'reqtype', 'Unknown');
-				$this->set_property($co, 'sourcetype', 'Unknown');
-				$this->set_property($co, 'notes', 'This was identified as a "general document type" in the OpenURL metadata.');
-				break;
-			case ($type == "issue"):
-				$this->set_property($co, 'reftype', 'JFULL');	// issue: one instance of the serial publication
-				$this->set_property($co, 'reqtype', 'Journal/Serial Issue');
-				$this->set_property($co, 'sourcetype', 'Journal');
-				$this->set_property($co, 'notes', 'This was identified as a "single issue of a serial publication" in the OpenURL metadata.');
-				break;
-			case ($type == "journal"):
-				$this->set_property($co, 'reftype', 'JFULL');	// journal: a serial publication issued in successive parts
-				$this->set_property($co, 'reqtype', 'Journal/Serial Publication');
-				$this->set_property($co, 'sourcetype', 'Journal');
-				$this->set_property($co, 'notes', 'This was identified as a "serial publication" in the OpenURL metadata.');
-				break;
-			case ($type == "patent"):
-				$this->set_property($co, 'reftype', 'PAT');
-				$this->set_property($co, 'reqtype', 'Patent');
-				$this->set_property($co, 'sourcetype', 'Patent');	
-				break;
-			case ($type == "proceeding"):		// proceeding: a single conference presentation published in a journal or serial publication 
-				$this->set_property($co, 'reftype', 'CONF');
-				$this->set_property($co, 'reqtype', 'Conference Proceedings');
-				$this->set_property($co, 'sourcetype', 'Conference');
-				$this->set_property($co, 'notes', 'This was identified as a "single conference presentation in a serial publication" in the OpenURL metadata.');
-				break;
-			case ($type == "preprint"):		// preprint: an individual paper or report published in paper or electronically prior to its publication in a journal or serial.
-				$this->set_property($co, 'reftype', 'JOUR');
-				$this->set_property($co, 'reqtype', 'Journal Article Preprint');
-				$this->set_property($co, 'sourcetype', 'Journal');
-				$this->set_property($co, 'notes', 'This was identified as an "individual paper or report published in paper or electronically prior to its publication" in a journal or serial in the OpenURL metadata.');
-				break;
-			case ($type == "report"):		// report: report or technical report is a published document that is issued by an organization, agency or government body
-				$this->set_property($co, 'reftype', 'RPRT');
-				$this->set_property($co, 'reqtype', 'Report');
-				$this->set_property($co, 'sourcetype', 'Report');
-				break;
-			case ($type == "unknown"):
-				$this->set_property($co, 'reftype', 'GEN');
-				$this->set_property($co, 'reqtype', 'Unknown');
-				$this->set_property($co, 'sourcetype', 'Unknown');
-				$this->set_property($co, 'notes', 'This was identified as an "unknown format" in the OpenURL metadata.');
+	function set_contexttype($co, $type){
+		$this->define_contexttypes();
+		switch (true) {
+			case (preg_match($type, $types[$type])): // not sure about this - not tested, but more configurable!
+				$this->set_property($co, 'reftype', $$type['reftype']);
+				$this->set_property($co, 'reqtype', $$type['reqtype']);
+				$this->set_property($co, 'sourcetype', $$type['sourcetype']);
+				$this->set_property($co, 'notes', $$type['notes']);
 				break;
 			default:
 				$this->set_property($co, 'reftype', 'GEN');
 				$this->set_property($co, 'reqtype', 'Unknown');
 				$this->set_property($co, 'sourcetype', 'Unknown');
-				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$item);
+				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
 				break;
 		}
 	}
 	
 	function build($key, $value){
 	//echo $key.'='.$value.'<br/>';
-	$key = str_replace('.', '_', $this->normalise($key));
+	$key = $this->unencode($key); 		// remove any spaces - there shouldn't be any in the key names!
+	$key = $this->normalise($key);		// then standardise the rest of the key name.
+	$value = $this->unencode($value)	// unencode any value, by urldecoding any rawurlencoded strings
 		switch(true){
-			case (preg_match('/ctx_/', $key)):
+			case (preg_match('/^ctx\./', $key)):
 				$co = 'ctx';
-				$key = str_replace('ctx_', '', $key);
-				$value = str_replace('info:', '', $this->unencode($value));
+				$key = str_replace('ctx.', '', $key);
+				$value = str_replace('info:', '', $value);
 				break;
-			case (preg_match('/rfe_/', $key)):
+			case (preg_match('/^rfe\./', $key)):
 				$co = 'rfe';
-				$key = str_replace('rfe_', '', $key);
-				$value = str_replace('info:', '', $this->unencode($value));
+				$key = str_replace('rfe.', '', $key);
+				$value = str_replace('info:', '', $value);
 				break;
-			case (preg_match('/rfr_id/', $key)):
+			case (preg_match('/^rfr\.id$/', $key)):
 				$co = 'rfr';
-				$value = str_replace('info:', '', $this->unencode($value));
+				$value = str_replace('info:', '', $value);
 				break;
-			case (preg_match('/rfr_/', $key)):
+			case (preg_match('/^rfr\./', $key)):
 				$co = 'rfr';
-				$key = str_replace('rfr_', '', $key);
-				$value = str_replace('info:', '', $this->unencode($value));
+				$key = str_replace('rfr.', '', $key);
+				$value = str_replace('info:', '', $value);
 				break;
-			case (preg_match('/req_/', $key)):
+			case (preg_match('/^req\./', $key)):
 				$co = 'req';
-				$key = str_replace('req_', '', $key);
-				$value = str_replace('info:', '', $this->unencode($value));
+				$key = str_replace('req.', '', $key);
+				$value = str_replace('info:', '', $value);
 				break;
-			case (preg_match('/rft_/', $key)):
+			case (preg_match('/^rft\./', $key)):
 				$co = 'rft';
-				$key = str_replace('rft_', '', $key);
-				$value = str_replace('info:', '', );
+				$key = str_replace('rft.', '', $key);
+				$value = str_replace('info:', '', $value);
 				break;
 			default:
 				$co = 'rft';
-				$value = $this->unencode($value);
 				break;
 		}
 		
 		
 		switch ($key) {
-			case "advisor":
+			case "advisor": // not sure if this should be parsed as a name, or left as is!
 				$this->set_property($co, 'thesis_advisor', $value);
 				$this->set_reftype($co, 'dissertation');
 				break;
@@ -486,35 +563,41 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_reftype($co, 'patent');
 				break;				
 			case "au":
-				$this->set_creator($co, 'au', $value);
+				$this->set_name($co, 'au', $value);
 				break;
 			case "aufull":
-				$this->set_creator($co, 'au', $value);
+				$this->set_name($co, 'au', $value);
 				break;
 			case "aucorp":
-				$this->set_creator($co, 'aucorp', $value);
+				$this->set_name($co, 'aucorp', $value);
 				break;				
 			case "aufirst":
-				$this->set_creator($co, 'aufirst', $value);
+				$this->set_name($co, 'aufirst', $value);
 				break;
 			case "auinit":
-				$this->set_creator($co, 'auinit', $value);
+				$this->set_name($co, 'auinit', $value);
+				break;
+			case "auinit1":
+				$this->set_name($co, 'auinit1', $value);
+				break;
+			case "auinitm":
+				$this->set_name($co, 'auinitm', $value);
 				break;
 			case "aulast":
-				$this->set_creator($co, 'aulast', $value);
+				$this->set_name($co, 'aulast', $value);
 				break;	
 			case "btitle":
 				$this->set_property($co, 'title', $value);
-				$this->set_reftype($co, $co, 'book');
+				$this->set_reftype($co, 'book');
 				break;
 			case "coden":
 				$this->set_identifier($co, 'coden', $value);
 				break;
 			case "contributor":
-				$this->set_creator($co, 'contributor', $value);
+				$this->set_name($co, 'contributor', $value);
 				break;
 			case "creator":
-				$this->set_creator($co, 'creator', $value);
+				$this->set_name($co, 'creator', $value);
 				break;
 			case "ctx_ver":
 				$newvalue = strtoupper($value);
@@ -531,6 +614,21 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_property($co, 'thesis_type', $value);
 				$this->set_reftype($co, 'dissertation');
 				break;
+			case "ed":
+				$this->set_name($co, 'ed', $value);
+				break;
+			case "edfirst":
+				$this->set_name($co, 'edfirst', $value);
+				break;
+			case "edfull":
+				$this->set_name($co, 'ed', $value);
+				break;				
+			case "edinit":
+				$this->set_name($co, 'edinit', $value);
+				break;
+			case "edlast":
+				$this->set_name($co, 'edlast', $value);
+				break;				
 			case "eissn":
 				$this->set_issn($co, 'eissn', $value);
 				break;
@@ -546,16 +644,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->set_identifier($co, $newvalue);
 				break;
 			case "inv":
-				$this->set_creator($co, 'inv', $value);
+				$this->set_name($co, 'inv', $value);
 				break;
 			case "invfirst":
-				$this->set_creator($co, 'invfirst', $value);
+				$this->set_name($co, 'invfirst', $value);
 				break;
 			case "invinit":
-				$this->set_creator($co, 'invinit', $value);
+				$this->set_name($co, 'invinit', $value);
 				break;
 			case "invlast":
-				$this->set_creator($co, 'invlast', $value);
+				$this->set_name($co, 'invlast', $value);
 				break;
 			case "isbn":
 				$this->set_isbn($co, $value);
@@ -621,13 +719,14 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
-	function build_from_querystring($str) {
-		$pairs = explode('&', (str_replace(' ', '', $str)));			// split on outer delimiter
+	function build_from_querystring() {
+		$pairs = explode('&', $this->request['http_get']);			// split on & into KV pairs
 		// echo $pairs;
 		# loop through each pair
 		foreach ($pairs as $values) {
 			# split into key and value
 			list($key,$value) = explode('=', $values, 2);
+			$key = (str_replace('[%20][\s]', '', $key));
 			$this->build($key, $value);
 		}
 	}
@@ -657,31 +756,69 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 	
 	function translate_openurl($co, $key, $value){
-	$openurl_keys=array // translate between OpenURL keys and English lowercase names (spaces substituted for underscores)
-		(				// some of these aren't translations, they're placeholders so they're not forgotten!
-		"artnum" => "article_number",
-		"atitle" => "item_title",
-		"cc" => "country_code",
-		"co" => "country_name",
-		"coverage" => "coverage",
-		"description" => "description",
-		"edition" => "edition",
-		"epage" => "end_page",
-		"inst" => "instution",
-		"issue" => "issue",
-		"pages" => "pages",
-		"pub" => "publisher",
-		"pubdate" => "published",
-		"publisher" => "publisher",
-		"quarter" => "quarter",
-		"series" => "series_title",
-		"spage" => "start_page",
-		"ssn" => "season",
-		"stitle" => "abbreviated_title",
-		"subject" => "subject",
-		"type" => "type",
-		"tpages" => "total_pages"
-		);
+	if (!defined($this->define_openurl_keys)){
+		// translate between OpenURL keys and English lowercase names (spaces substituted for underscores)
+		// some of these aren't translations, they're placeholders so they're not forgotten!
+		$openurl_keys['advisor'] = 'thesis_advisor';
+		$openurl_keys['applcc'] = 'patent_application_country';
+		$openurl_keys['appldate'] = 'patent_application_date';
+		$openurl_keys['applnumber'] = 'patent_application_num';
+		$openurl_keys['applyear'] = 'patent_application_year';
+		$openurl_keys['artnum'] = 'article_number';
+		$openurl_keys['assignee'] = 'patent_assignee';
+		$openurl_keys['atitle'] = 'item_title';
+		$openurl_keys['au'] = 'author_fullname';
+		$openurl_keys['aufull'] = 'author_fullname';
+		$openurl_keys['aucorp'] = 'author_corporate';
+		$openurl_keys['aufirst'] = 'author_firstname';
+		$openurl_keys['auinit'] = 'author_initials';
+		$openurl_keys['auinit1'] = 'author_initial_1';
+		$openurl_keys['auinitm'] = 'author_initial_m';
+		$openurl_keys['aulast'] = 'author_lastname';
+		$openurl_keys['btitle'] = 'title';
+		$openurl_keys['cc'] = 'country_code';
+		$openurl_keys['co'] = 'country_name';
+		$openurl_keys['coden'] = 'coden';
+		$openurl_keys['contributor'] = 'contributor';
+		$openurl_keys['coverage'] = 'coverage';
+		$openurl_keys['creator'] = 'creator';
+		$openurl_keys['degree'] = 'thesis_type';
+		$openurl_keys['description'] = 'description';
+		$openurl_keys['ed'] = 'editor_fullname';
+		$openurl_keys['edfull'] = 'editor_fullname';
+		$openurl_keys['edfirst'] = 'editor_firstname';
+		$openurl_keys['edinit'] = 'editor_initials';
+		$openurl_keys['edlast'] = 'editor_lastname';
+		$openurl_keys['edition'] = 'edition';
+		$openurl_keys['eissn'] = 'eissn';
+		$openurl_keys['epage'] = 'end_page';
+		$openurl_keys['genre'] = 'genre';
+		$openurl_keys['inv'] = 'inventor_fullname';
+		$openurl_keys['invfull'] = 'inventor_fullname';
+		$openurl_keys['invfirst'] = 'inventor_firstname';
+		$openurl_keys['invinit'] = 'inventor_initials';
+		$openurl_keys['invlast'] = 'inventor_lastname';
+		$openurl_keys['isbn'] = 'isbn';
+		$openurl_keys['issn'] = 'issn';
+		$openurl_keys['inst'] = 'instution';
+		$openurl_keys['issue'] = 'issue';
+		$openurl_keys['jtitle'] = 'title';
+		$openurl_keys['kind'] = 'patent_kind';
+		$openurl_keys['pages'] = 'pages';
+		$openurl_keys['pub'] = 'publisher';
+		$openurl_keys['pubdate'] = 'published';
+		$openurl_keys['publisher'] = 'publisher';
+		$openurl_keys['quarter'] = 'quarter';
+		$openurl_keys['series'] = 'series_title';
+		$openurl_keys['sid'] = 'referer_id';
+		$openurl_keys['spage'] = 'start_page';
+		$openurl_keys['ssn'] = 'season';
+		$openurl_keys['stitle'] = 'abbreviated_title';
+		$openurl_keys['subject'] = 'subject';
+		$openurl_keys['title'] = 'title';
+		$openurl_keys['type'] = 'type';
+		$openurl_keys['tpages'] = 'total_pages';
+	}
 		
 		if (isset($openurl_keys[$key])){
 			$newkey = $openurl_keys[$key];
@@ -689,46 +826,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$newkey = $this->normalise($key);
 		}
 		$this->set_property($co, $newkey, $value);
-	}
-	
-	function parse_rule($rule_filenames){
-	$rule = $this->normalise($rule_filename)
-	$path_to_rule = $_SETTINGS['rule_location'].'/'.$rule;
-	$$rule = array();
-	if (!file_exists($path_to_rule)){
-		$this->errors['rule'] .= .'\n'.$rule.' not found.';
-		return null;
-	}
-	include ($path_to_rule);
-	if (!isset($required_items)) | (!is_array($required_items)){
-		$this->errors['rule'] .= .'\n'.$rule.' was found, but $required_items is either not an array, or is not set.';
-		return null;
-	} 
-		foreach ($required_items as $validator => $item){
-		$$rule[$item] = '';
-		$path_to_validator = $_SETTINGS['validators_location'].'/'.$validator
-			if ((!defined($this->$validator)) && (!file_exists($path_to_validator))) {
-				$$rule[$item] .= '\nValidation method '.$validator.' does not exist, or is not loaded.';
-				$break = true;
-			} elseif (!defined($this->$validator) {
-				include($path_to_validator);
-				if(!isset($this->$$item)){
-					$$rule[$item] .= '\n'.$item.' is not set, so can not be tested by '.$validator.'.';
-					$break = true;
-				} elseif (($validator($item) == false) | ($validate($item) == null)){
-					$$rule[$item] .= '\n'.$item.' did not pass the test '.$validator.'.';
-					$break = true;
-				} else {
-					$$rule[$item] .= '\n'.$item.' successfully completed initial test'.$validator.'.';
-				}
-			}
-			if ($break == true){
-				$this->errors['rules'] .= $$rule;
-				return null;
-			} else {
-				
-			}
-		}
 	}
 
 }
