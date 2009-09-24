@@ -265,30 +265,26 @@ class named_entity(){
 		}
 	}
 	
-	function set_type($name_type){
+	function set_type($name_type, $type = "personal", $subtype = "unknown"){
 		$name_type = $this->normalise($name_type);
-		switch(true){
-			case ($name_type == 'aucorp'): // corporate author
-				$this->type				= 'corporate';
-				$this->subtype			= 'author';
-				break;
-			case (preg_match('/^au/', $name_type) : // author
-				$this->type				= 'personal';
-				$this->subtype			= 'author';
-				break;
-			case (preg_match('/^ed/', $name_type): // editor
-				$this->type				= 'personal';
-				$this->subtype			= 'editor';
-				break;
-			case (preg_match('/^inv/', $name_type) // inventor
-				$this->type				= 'personal';
-				$this->subtype			= 'inventor';
-				break; // then it gets slightly more complicated
-			default: // hmmm... "other"
-				$this->type				= 'personal';
-				$this->subtype			= $name_type;			
-				break;
+		if($name_type == 'aucorp'){ // corporate author
+			$this->type				= 'corporate';
+		} elseif ($type != "personal"){
+			$this->type				= $type;
+		
 		}
+		if ($subtype == "unknown"){
+			switch(true){
+				case (preg_match('/^au/', $name_type) : // author
+					$this->subtype			= 'author';
+					break;
+				case (preg_match('/^ed/', $name_type): // editor
+					$this->subtype			= 'editor';
+					break;
+				case (preg_match('/^inv/', $name_type) // inventor
+					$this->subtype			= 'inventor';
+					break;
+		}	
 	}
 	
 	function parse_name($name){

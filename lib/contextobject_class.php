@@ -33,6 +33,8 @@ class contextobject{
 		$this->name_partials[0]		= 0; // used to store the last number used in this array 
 		$this->name_check[0]		= 0; // used to store the last number used in this array
 		$this->first_name[0]		= 0;
+		$this->initial_1[0]			= 0;
+		$this->initial_m[0]			= 0;
 		$this->initials[0]			= 0;
 		$this->last_name[0]			= 0;
 		$this->pre_last_name[0]		= 0; // e.g. 'van der' 	as in Willem van der Weerden
@@ -121,44 +123,12 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 
 	require ('common_funcs.inc.php');
 	require ('settings.inc.php');
-
+	
 	function set_property($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
-	if ($value !== null){
-			switch($co){
-				case "ctx":
-					if (!isset($this->ctx[$key])){		// has this key already been set?
-						$this->ctx[$key] = $value;		// if not, then set it
-						$this->ctx[0]++;				// add to the field count as we go
-					}
-					break;
-				case "rfe":
-					if (!isset($this->rfe[$key])){
-						$this->rfe[$key] = $value;
-						$this->rfe[0]++;
-					}
-					break;
-				case "rfr":
-					if (!isset($this->rfr[$key])){
-						$this->rfr[$key] = $value;
-						$this->rfr[0]++;
-					}
-					break;
-				case "req":
-					if (!isset($this->req[$key])){
-						$this->req[$key] = $value;
-						$this->req[0]++;
-					}
-					break;
-				case "rft":
-					if (!isset($this->rft[$key])){
-						$this->rft[$key] = $value;
-						$this->rft[0]++;
-					}
-					break;
-				default:
-					break;
-			}
+	if (($value !== null) && (!isset($this->ctx[$key]))){		// has this key already been set?
+		$this->$co[$key] = $value;								// if not, then set it
+		$this->$co[0] = count(array_keys($this->$co));			// add to the field count as we go
 		}
 	}
 
@@ -166,133 +136,147 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		return array($this->name_registry);
 	}
 	
+	/*
+	Trying to:
+	a) create a registry, which lists all name parts collected
+	b) either:
+		 i) create a named entity, when provided with a full name
+		ii) stored the name parts for later creation of a named entity as:
+				$this->name_partials[0] 			= 3;
+				$this->name_partials[1]				= array('rfe_aufirst' => 1);
+				$this->name_partials[2] 			= array('rfe_aulast' => 1);
+				
+				$this->first_name[0]				= 2;
+				$this->first_name['rfe_aufirst']	= array(1 => 'Tom'));
+				
+				$this->last_name[0]					= 2;
+				$this->last_name['rfe_aulast']		= array(1 => 'Pasley');
+	c) 
+	
+	
+	*/	
 	function set_name($co, $name_type, $value){
-		$r = $this->name_registry[0];						// use name_registry to store last used number
-		$p = $this->name_partials[0];						// use name_partials to store last used number
-		$p++;												// increment $p
-		$this->name_partials[$p]	= $co.'_'.$name_type;	// register what came in which order, useful for name fragments.
-		switch($name_type){
-		case "aucorp": // corporate author full name
-				$r++;								// increment $r by 1
-				$entity = $co.'_aucorp_'.$r;		// using entity in this format as we can explode on '_' this later to get 3 values
-				$this->name_registry[$r] = $entity;	// add the entity as a value to the registry
-				$$entity = new($named_entity);		// create a new object called (the value of entity)
-				$$entity->set_type($name_type);		// set a couple of values based on what we were given
-				$$entity->parse_name($value);		// parse the full name if we were given it
-				break;								// stop processing, move on...
-			// personal full names first might be easier?
-			case "au": // author full names
-				$r++;
-				$entity = $co.'_author_'.$r;
-				$this->name_registry[$r] = $entity;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->parse_name($value);
-				break;
-			case "contributor": // contributor full names
-				$r++;
-				$entity = $co.'_contributor_'.$r;
-				$this->name_registry[$r] = $entity;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->parse_name($value);
-				break;
-			case "creator": // creator full names
-				$r++;
-				$entity = $co.'_creator_'.$r;
-				$this->name_registry[$r] = $entity;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->parse_name($value);
-				break;
-			case "ed": // editor full names first
-				$r++;
-				$entity = $co.'_editor_'.$r;
-				$this->name_registry[$r] = $entity;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->parse_name($value);
-				break;
-			case "inv": // inventor full names first
-				$r++;
-				$entity = $co.'_inventor_'.$r;
-				$this->name_registry[$r] = $entity;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->parse_name($value);
-				break; 
+		if (!defined($this->define_names)){
+			$entity_types['au'] 			= 'author';
+			$entity_types['aufull'] 		= 'author';
+			$entity_types['aucorp']			= 'author_corp';
+			$entity_types['ed']				= 'editor';
+			$entity_types['edfull']			= 'editor';
+			$entity_types['inv'] 			= 'inventor';
+			$entity_types['invfull'] 		= 'inventor';
+			$entity_types['contributor'] 	= 'contributor';
+			$entity_types['creator'] 		= 'creator';
+		}
+		$r = count(array_keys($this->name_registry);		// use name_registry to store last used number
+		$p = count(array_keys($this->name_partials);		// use name_partials to store last used number [0] is reserved for count
+		$co_entity = $co.'_'.$name_type;					// register what came in which order, useful for name fragments.
+		$this->name_partials[$p] = array($co_entity);
+		switch(true){
+			case (isset($entity_types[$name_type])): 		// full names first!
+				$entity_type = $entity_types[$name_type];
+				$co_entity_r = $co_entity.'_'.$r;			// using entity in this format as we can explode on '_' this later to get 3 values
+				$this->name_registry[$r] = $co_entity_r;	// add the entity as a value to the registry
+				$$co_entity = new($named_entity);			// create a new object called (the value of entity)
+				$$co_entity->set_type($name_type);			// set a couple of values based on what we were given
+				$$co_entity->parse_name($value);			// parse the full name if we were given it
+				break;										// stop processing, move on...
 			// then it gets slightly more complicated
 			// surnames next - should only be one of these per person!
-			case "aulast": // author surname 
-				$r++;									// increment $r by 1
-				$entity = $co.'_author_'.$r;			// using entity in this format as we can explode on '_' this later to get 3 values
-				$this->name_registry[$r] 	= $entity;	// add the entity as a value to the registry
-				$this->name_check[$p]		= $entity;	// this will need to be checked for completeness later.
-				$this->last_name[$p] 		= $value;	// add the last name to list directly
-				$$entity = new($named_entity);			// create a new object called (the value of entity) - can work out other names parts later.
-				$$entity->set_type($name_type);			// set a couple of values based on what we were given
-				$$entity->last_name		 	= $value;	// set the last name directly.
+			case (preg_match('/last$/', $name_type)):
+				$entity-type = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entity-type])){
+					$entity_type = $entity_types[$entity-type];	// should be author, editor, etc.
+				} else {
+					$entity_type = $entity-type;				// otherwise, we'll use what's left
+				}
+				$this->name_check[$p]		= $co_entity;		// last names need to be checked
+				$this->name_registry[$r] 	= $co_entity.'_'.$r ;
+				$this->last_name[0]			= count(array_keys($this->last_name));
+				$ln					 		= $this->last_name[0];
+				$this->last_name[$ln]		= array($co_entity => array($p => $value);
 				break;
-			case "edlast": // editor surname
-				$r++;
-				$entity = $co.'_editor_'.$r;
-				$this->name_registry[$r] 	= $entity;
-				$this->name_check[$p]		= $entity;
-				$this->last_name[$p] 		= $value;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->last_name 		= $value;
+			case (preg_match('/first$/', $name_type)):
+				$entity-type = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entity-type])){
+					$entity_type = $entity_types[$entity-type];
+				} else {
+					$entity_type = $entity-type;
+				}
+				$this->first_name[0]		= count(array_keys($this->first_name));
+				$fn							= $this->first_name[0];
+				$this->first_name[$fn]		= array($co_entity => array($p => $value)	
 				break;
-			case "invlast": // inventor surname
-				$r++;
-				$entity = $co.'_inventor_'.$r;
-				$this->name_registry[$r] 	= $entity;
-				$this->name_check[$p]		= $entity;
-				$this->last_name[$p] 		= $value;
-				$$entity = new($named_entity);
-				$$entity->set_type($name_type);
-				$$entity->last_name		 	= $value;			
+			case (preg_match('/init$/', $name_type)):
+				$entity-type = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entity-type])){
+					$entity_type = $entity_types[$entity-type];
+				} else {
+					$entity_type = $entity-type;
+				}
+				$this->initials[0]			= count(array_keys($this->initials));
+				$is							= $this->initials[0];
+				$this->initials[$is] 		= array($co_entity => array($p => $value)
 				break;
-			// we don't generate a new named_entity for these, because we do that only for "last_names"
-			case "aufirst": // author first name
-				$this->first_name[$p] 		= $value;
+			case (preg_match('/init1$/', $name_type)):
+				$entity-type = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entity-type])){
+					$entity_type = $entity_types[$entity-type];
+				} else {
+					$entity_type = $entity-type;
+				}
+				$this->initial_1[0]			= count(array_keys($this->initial_1));
+				$i1							= $this->initial_1[0];
+				$this->initial_1[$i1]		= array($co_entity => array($p => $value)
 				break;
-			case "edfirst": // editor first name
-				$this->first_name[$p] 		= $value;
+			case (preg_match('/initm$/', $name_type)):
+				$entity-type = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entity-type])){
+					$entity_type = $entity_types[$entity-type];
+				} else {
+					$entity_type = $entity-type;
+				}
+				$this->initial_m[0]			= count(array_keys($this->initial_m));
+				$im							= $this->initial_m[0];
+				$this->initial_m[$im]		= array($co_entity => array($p => $value)
 				break;
-			case "invfirst": // inventor first name
-				$this->first_name[$p] 		= $value;
+			default:
+				$co_entity 					= $co.'_'.$name_type.'_'.$p;
+				$$co_entity[$p]				= $value;
+				if (!isset($this->$co_entity[0]){
+					$this->$co_entity[0] 	= 0;
+				}
+				$this->$co_entity[0]		= count(array_keys($this->$co_entity));
+				$ce							= $this->$co_entity[0];
+				$this->$co_entity[$ce] 		= array($co_entity => array($p => $value);		
 				break;
-			case "auinit": // author initials
-				$this->initials[$p]			= $value;
-				break;
-			case "auinit1": // author first initial
-				$this->initials[$p]			= $value;
-				break;
-			case "auinitm": // author middle initial(s)
-				$this->initials[$p]			= $value;
-				break;
-			case "edinit": // editor initials
-				$this->initials[$p]			= $value;
-				break;
-			case "invinit": // inventor initials
-				$this->initials[$p] 		= $value;
-				break;
-			default: // hmmm... "other"
-				$this->$name_type[$p]		= $value;
-				break;
-		}
-		$this->name_registry[0]		= $r;
-		$this->name_partials[0]		= $p;
+			}
 	}
-		
+	
+	
 	function check_name_registry(){ // need to ensure that count(last_names) == count(first_names) + count(initials);
 		$registry = $this->get_name_registry();
+		foreach ($registry as $num => $name) {
+			list($co, $entity, $order) = explode($name, '_');
+			$$entity[$order] = $name;
+			if (is_array($this->$co['authors'])){ // add the sorted names here somehow
+			$this->$co['authors'] = array_merge($entity, $this->$$co['authors']);		
+			} else {
+			$this->$co['authors'] = $$entity;
+			}
+		}
 	}
 	
 	function get_names(){
-	
-	
+		$registry = $this->get_name_registry();
+		foreach ($registry as $num => $name) {
+			list($co, $entity, $order) = explode($name, '_');
+			$$entity[$order] = $name;
+			if (is_array($this->$$co['authors'])){ // add the sorted names here somehow
+			$this->$co['authors'] = array_merge($$entity, $this->$$co['authors']);		
+			} else {
+			$this->$co['authors'] = $$entity;
+			}
+		}	
 	}
 
 	function set_date($co, $value){
