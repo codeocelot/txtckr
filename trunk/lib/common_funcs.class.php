@@ -9,6 +9,7 @@
  * @copyright 	open source
  */
 
+class common_functions {
 ###################### STRING FUNCTIONS : START ######################
  
 //-- normalise : START
@@ -32,7 +33,7 @@
 //-- unencode : START
 	// quick and dirty function for handling data sent in KEV format
 	// returns cleaned value
-	function unencode($value)
+	function unencode($value){
 		$value = urldecode(rawurldecode($value));
 		return ($value);
 	}
@@ -131,6 +132,6 @@
 
 ###################### OBJECT FUNCTIONS : START ######################	
 
-
+}
 	
 ?>
