@@ -34,7 +34,7 @@ class named_entity(){
 	require ('settings.inc.php');
 	
 	function check_prefix(){ // need to check if this works with preg_match and function
-	if (!defined($this->define_n-prefixes)){	
+	if (!function_exists($this->define_n-prefixes)){	
 		// any names which are part of the last name, see examples below, with more complex last name prefixes first!
 		$prefixes[00] = '/\bvan\sden\b/i'; // van den = Dutch
 		$prefixes[01] = '/\bvan\sder\b/i'; // van der = Dutch
@@ -69,7 +69,7 @@ class named_entity(){
 	}
 
 	function check_prefix_ne_other($order){
-	if (!defined($this->define_n-pre_others)){
+	if (!function_exists($this->define_n-pre_others)){
 		// any names which could be either first names or prefixes (see below)
 		// must start with "'/" and end with "$/D'" as we're after complete matches only
 		$pre_others[00] = '/^Van$/D'; // Van = "West, Van", "Morrison, Van", or "Van Lustbader, Eric"?
@@ -119,7 +119,7 @@ class named_entity(){
 	}
 	
 	function check_suffix($value){
-	if (!defined(define_n-suffixes)){
+	if (!function_exists(define_n-suffixes)){
 		// any "titles" or other differentatiors for people with same/common names, e.g. Senior, Junior, Dr.
 		$suffixes[00] = '/\bjr\.\b/i'; // Jr. = American
 		$suffixes[01] = '/\bsr\.\b/i'; // Sr. = American
