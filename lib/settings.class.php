@@ -12,15 +12,15 @@
 class settings {
  
 	function define_services(){
-		$services[00]		=	"fulltext";
-		$services[01]		=	"holdings";
-		$services[02]		=	"request";
-		$services[03]		=	"citation";
-		$services[04]		=	"abstract";
-		$services[05]		=	"reference";
-		$services[06]		=	"information";
-		$services[07]		=	"indexing";
-		$services[08]		=	"ranking";		
+		$this->services[00]		=	"fulltext";
+		$this->services[01]		=	"holdings";
+		$this->services[02]		=	"request";
+		$this->services[03]		=	"citation";
+		$this->services[04]		=	"abstract";
+		$this->services[05]		=	"reference";
+		$this->services[06]		=	"information";
+		$this->services[07]		=	"indexing";
+		$this->services[08]		=	"ranking";		
 	}
 		
 		
@@ -109,6 +109,51 @@ class settings {
 	function undefine_contexttypes(){
 		$this->types = array();
 	}
+	
+	
+	function define_name_parts(){
+		$this->prefixes[00] = '/\bvan\sden\b/i'; // van den = Dutch
+		$this->prefixes[01] = '/\bvan\sder\b/i'; // van der = Dutch
+		$this->prefixes[02] = '/\bvan\sde\b/i'; // van de = Dutch
+		$this->prefixes[03] = '/\bvan\b/i'; // van = Dutch
+		$this->prefixes[04] = '/\bvon\b/i'; // von = German
+		$this->prefixes[05] = '/\bdela\b/i'; // dela = French/Italian?
+		$this->prefixes[06] = '/\bde\sla\b/i'; // de la = French
+		$this->prefixes[07] = '/\bde\b/i'; // de = Dutch/French?
+		$this->prefixes[08] = '/\bdes\b/i'; // des = French
+		$this->prefixes[09] = '/\bdi\b/i'; // di = Italian
+		$this->prefixes[10] = '/\bdu\b/i'; // du = French
+		$this->prefixes[11] = '/\baf\b/i'; // af = Swedish
+		$this->prefixes[12] = '/\bbin\b/i'; // bin = Arabic
+		$this->prefixes[13] = '/\bben\b/i'; // ben = Hebrew
+		$this->prefixes[14] = '/\bibn\b/i'; // ibn = Arabic
+		$this->prefixes[15] = '/\buyt\sden\b/i'; // uyt den = Dutch
+		$this->prefixes[16] = '/\buyt\sder\b/i'; // uyt der = Dutch
+		$this->prefixes[17] = '/\bten\b/i'; // ten = Dutch
+		$this->prefixes[18] = '/\bter\b/i'; // ter = Dutch
+		$this->prefixes[19] = '/\bhet\b/i'; // het = Dutch?
+		$this->prefixes[20] = '/\bab\b/i'; // ab = Welsh
+		$this->prefixes[21] = '/\bap\b/i'; // ap = Welsh
+		$this->prefixes[22] = '/\bst\.\b/i'; // st. = English/French?
+		
+		$this->others[00] = '/^Van$/D'; // Van = "West, Van", "Morrison, Van", or "Van Lustbader, Eric"?
+		$this->others[01] = '/^Ben$/D'; // Ben = "Ben Carey, Donald" or "Carey, Ben"?
+		
+		$this->titles[00] = '/\bjr\.\b/i'; // Jr. = American
+		$this->titles[01] = '/\bsr\.\b/i'; // Sr. = American
+		$this->titles[02] = '/\b[ivx]+\b/i'; // IV, III = English/American
+		$this->titles[03] = '/\bph\.?d\b/i'; // Doctor
+		$this->titles[04] = '/\bm\.?d\b/i'; // Masters
+		$this->titles[05] = '/\besq\.\b/i'; // Esquire
+		$this->titles[06] = '/\besquire\b/i'; // Esquire
+		$this->titles[07] = '/\bjudge\b/i'; // Esquire
+	}
+
+	function undefine_name_parts(){
+		$this->prefixes			= array();
+		$this->pre_others		= array();
+		$this->titles			= array();
+	}	
 	
 	function define_openurl_keys(){
 		// translate between OpenURL keys and English lowercase names (spaces substituted for underscores)
