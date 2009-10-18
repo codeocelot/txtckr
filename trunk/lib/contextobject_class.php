@@ -1,13 +1,100 @@
 <?php
-/**
- * This is the base class for an OpenURL context object.
- *
- * @author		Tom Pasley
- * @date		13/07/2009
- * @last mod	18/09/2009
- * @package 	txtckr
- * @copyright 	open source
- */
+ /**
+  * @file
+  * Context object class file
+  *
+  * $Id: common_funcs.class.php,v 1.0 10/16/2009 5:47 PM tom.pasley Exp $
+  */
+ 
+  /**
+  * txtckr
+  *
+  * The base class for an OpenURL context object.
+  * 
+  * @package txtckr
+  * @author Tom Pasley
+  * @copyright 	open source: LGPL
+  **/
+  
+  /** 
+  * @notes	adapted from [http://q6.oclc.org/openurl/simple_openurl/]
+  * _When_
+  * ContextObject {ctx_}
+  * There seems to be a general feeling on the OpenURL discussion list that the lack of a when-style Entity was an oversight.
+  * OTOH, a handful of candidates have emerged in the discussion, but it's difficult to identify any one of them as deserving Entity-level status.
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * ContextObject
+  * ctx				ctx_id	
+
+  * _Which_
+  * Referer {rfr_}
+  * Which database/discovery source was the user using when they invoked the request?
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * Referrer
+  * rfr     		rfr_id      rfr_val_fmt        rfr_ref_fmt			rfr_dat
+  * 												rfr_ref
+
+  * _Where_
+  * Referring Entity {rfe_}
+  * Where was the user when they invoked the request?
+  * e.g. typically this might be taken from the HTTP 'Referer' header
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * 												
+  * ReferringEntity
+  * rfe   			rfe_id      rfe_val_fmt        rfe_ref_fmt			rfe_dat
+  * 												rfe_ref
+
+  * _Who_
+  * Requester {req_}
+  * Who originated the request?
+  * e.g. could contain information such as an authenticated user ID and authorized roles
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * Requester
+  * req				req_id      req_val_fmt        req_ref_fmt			req_dat
+  * 												req_ref
+
+  * _What_
+  * Referent {rft_}
+  * What is the subject of the request?
+  * e.g. the Requester is interested in a record in the database
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * Referent         
+  * rft  			rft_id      rft_val_fmt        rft_ref_fmt			rft_dat
+  * 												rft_ref
+
+  * _Why_
+  * ServiceType {svc_}
+  * Why is the request being made?
+  * e.g. the Requester wants to edit the Referent
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * ServiceType
+  * svc			     svc_id     svc_val_fmt         svc_ref_fmt  		svc_dat
+  * 												svc_ref
+
+  * _How_
+  * Transport {res_}
+  * How did the user express the request?
+  * This indicates the URL/SOAP structure used to conveny the information above in a web service request.
+
+  * 				Identifier By-Value Metadata By-Reference Metadata Private Data
+  * 					id             val                 ref              dat
+  * Resolver
+  * res				res_id      res_val_fmt        res_ref_fmt			res_dat
+  * 												res_ref
+  */
+
 require ('common_funcs.class.php');
 require ('settings.class.php');
  
@@ -39,111 +126,95 @@ class contextobject extends common_functions{
 		// $this->log				= '';
 	}
 
-/* adapted from [http://q6.oclc.org/openurl/simple_openurl/]
-_When_
-ContextObject {ctx_}
-There seems to be a general feeling on the OpenURL discussion list that the lack of a when-style Entity was an oversight.
-OTOH, a handful of candidates have emerged in the discussion, but it's difficult to identify any one of them as deserving Entity-level status.
 
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-ContextObject
-ctx				ctx_id	
 
-_Which_
-Referer {rfr_}
-Which database/discovery source was the user using when they invoked the request?
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-Referrer
-rfr     		rfr_id      rfr_val_fmt        rfr_ref_fmt			rfr_dat
-												rfr_ref
-
-_Where_
-Referring Entity {rfe_}
-Where was the user when they invoked the request?
-e.g. typically this might be taken from the HTTP 'Referer' header
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-												
-ReferringEntity
-rfe   			rfe_id      rfe_val_fmt        rfe_ref_fmt			rfe_dat
-												rfe_ref
-
-_Who_
-Requester {req_}
-Who originated the request?
-e.g. could contain information such as an authenticated user ID and authorized roles
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-Requester
-req				req_id      req_val_fmt        req_ref_fmt			req_dat
-												req_ref
-
-_What_
-Referent {rft_}
-What is the subject of the request?
-e.g. the Requester is interested in a record in the database
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-Referent         
-rft  			rft_id      rft_val_fmt        rft_ref_fmt			rft_dat
-												rft_ref
-
-_Why_
-ServiceType {svc_}
-Why is the request being made?
-e.g. the Requester wants to edit the Referent
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-ServiceType
-svc			     svc_id     svc_val_fmt         svc_ref_fmt  		svc_dat
-												svc_ref
-
-_How_
-Transport {res_}
-How did the user express the request?
-This indicates the URL/SOAP structure used to conveny the information above in a web service request.
-
-				Identifier By-Value Metadata By-Reference Metadata Private Data
-					id             val                 ref              dat
-Resolver
-res				res_id      res_val_fmt        res_ref_fmt			res_dat
-												res_ref
-*/
-
-###################### TXTCKA FUNCTIONS : START ######################	
+#### TXTCKA FUNCTIONS : START ####
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_property(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @param	string/integer
+	 * @return	void
+	 * @example	set_property($co, $key, $value) >> $this->$co[$key] = $value
+	 * @note	
+	 */
 	function set_property($co, $key, $value){
-	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
-	if (($value !== null) && (!isset($this->$co[$key]))){		// has this key already been set?
+	// $this->log .= "\nSetting $this->".$co.'['.$key.']='.$value;
+	if (($value !== null) && (!isset($this->$co[$key]))){			// has this key already been set?
 		$this->{$co}[$key] = $value;								// if not, then set it
-		$this->{$co}[0] = ((count(array_keys($this->{$co})) - 2));			// add to the field count as we go
+		$this->{$co}[0] = ((count(array_keys($this->{$co})) - 2));	// add to the field count as we go
 		}
 	}
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_hash(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @param	string/integer
+	 * @param	integer
+	 * @return	void
+	 * @example	set_hash($co, $hash_name, $property, $value, $p=1) >> $this->$co[$entitytype][$p] = array($property => $value);
+	 * @note	
+	 */
+	function set_hash($co, $hash_name, $property, $value, $p=1){
+	if ((is_array($property)) && ($value === null)) {
+		$array = $property;
+		foreach($array as $property => $value){
+			$this->set_hash($co, $hash_name, $property, $value, $p);
+		}
+	}
+		switch (true){ // trying to set $this->rfe['author'][1]['last_name'] = 'Pasley');
+		case (!isset($this->{$co}[$hash_name])):				// there is no $this->rfe['author']
+			$this->{$co} 					= array($hash_name => array(0 => $p, $p => array($property => $value)))+array($this->{$co});
+			break;
+		case (!isset($this->{$co}[$hash_name][$p])):			// there is no $this->rfe['author'][1]
+			$this->{$co}[$hash_name]		= array(0 => 1, $p => array($property => $value));
+			$this->{$co}[$hash_name][0]		= count(array_keys($this->{$co}[$hash_name]));
+			break;		
+		case (isset($this->{$co}[$hash_name][$p][$property])):	// $this->rfe['author'][1]['last_name'] is already set
+			$p = ($p + 1);
+			$this->set_hash($co, $hash_name, $property, $value, $p);
+			break;
+		case (isset($this->{$co}[$hash_name][$p])):				// $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
+			$this->{$co}[$hash_name][$p] 	= array_merge($this->{$co}[$hash_name][$p], array($property => $value));
+			break;	
+		default:												// $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
+			$this->{$co}[$hash_name][$p] 	= array_merge($this->{$co}[$hash_name][$p], array($property => $value));
+		}
+		// $this->log .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
+		// $this->names .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
+	}
 	
-	/*
-	Trying to:
-	a) create a named entity as a complex property (hierachial array)
-	  ["rft"]=> // context_segment 
-	  array(11) {
-		["inventor"]=> //named entity type
-		array(2) {
-		  [0]=>
-		  int(1) // number of this entity types in this array
-		  [1]=>  // then each entity type with it's properties
-		  array(2) {
-			["last_name"]=>
-			string(10) "rftinvlast"
-			["first_name"]=>
-			string(11) "rftinvfirst"
-		
-	*/	
-	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_name(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @param	string/integer
+	 * @return	void
+	 * @example	set_name($co, $name_type, $value)
+	 * @note	similar to set_property, except attempting to set each named_entity as a complex property (hierachial array/hash)
+	 *   ["rft"]=> // context_segment 
+	 *   array(11) {
+	 * 	["inventor"]=> //named entity type
+	 * 	array(2) {
+	 * 	  [0]=>
+	 * 	  int(1) // number of this entity types in this array
+	 * 	  [1]=>  // then each entity type with it's properties
+	 * 	  array(2) {
+	 * 		["last_name"]=>
+	 * 		string(10) "rftinvlast"
+	 * 		["first_name"]=>
+	 * 		string(11) "rftinvfirst"
+	 */	
 	function set_name($co, $name_type, $value){
 			$entity_types['advisor'] 		= 'advisor';
 			$entity_types['au'] 			= 'author';
@@ -157,8 +228,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$entity_types['invfull'] 		= 'inventor';
 		switch(true){
 			case (isset($entity_types[$name_type])): 		// full names first!
-				$entity_type = $entity_types[$name_type];
-				$co_entity_r = $co.'_'.$entity_type.'_'.$r;	// using entity in this format as we can explode on '_' this later to get 3 values
+				$hash_name = $entity_types[$name_type];
+				$co_entity_r = $co.'_'.$hash_name.'_'.$r;	// using entity in this format as we can explode on '_' this later to get 3 values
 				//$this->name_registry[$r] = $co_entity_r;	// add the entity as a value to the registry
 				$this->$co_entity = new named_entity;		// create a new object called (the value of entity)
 				$this->$co_entity->set_type($name_type);	// set a couple of values based on what we were given
@@ -169,93 +240,71 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			case (preg_match('/last$/', $name_type)):
 				$entitytype = preg_replace('/last$/', '', $name_type);
 				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
-					$entity_type 							= $entity_types[$entitytype]; // e.g. author
+					$hash_name 							= $entity_types[$entitytype]; // e.g. author
 				} else {								 // otherwise, we'll use what's left
-					$entity_type 							= $entitytype;	// e.g. collaborator
+					$hash_name 							= $entitytype;	// e.g. collaborator
 				}
-				$partial										= 'name_0';
-				$this->set_name_arr($co, $entity_type, $partial, $value, 1);
+				$property										= 'name_0';
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			case (preg_match('/first$/', $name_type)):
 				$entitytype = preg_replace('/first$/', '', $name_type);
 				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
-					$entity_type 								= $entity_types[$entitytype]; // e.g. author
+					$hash_name 								= $entity_types[$entitytype]; // e.g. author
 				} else {								 // otherwise, we'll use what's left
-					$entity_type 								= $entitytype;	// e.g. collaborator
+					$hash_name 								= $entitytype;	// e.g. collaborator
 				}
-				$partial										= 'name_1';
-				$this->set_name_arr($co, $entity_type, $partial, $value, 1);
+				$property										= 'name_1';
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			case (preg_match('/init$/', $name_type)):
 				$entitytype = preg_replace('/init$/', '', $name_type);
 				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
-					$entity_type 								= $entity_types[$entitytype]; // e.g. author
+					$hash_name 								= $entity_types[$entitytype]; // e.g. author
 				} else {								 // otherwise, we'll use what's left
-					$entity_type 								= $entitytype;	// e.g. collaborator
+					$hash_name 								= $entitytype;	// e.g. collaborator
 				}
-				$partial										= 'initial_all';
-				$this->set_name_arr($co, $entity_type, $partial, $value, 1);
+				$property										= 'initial_all';
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			case (preg_match('/init1$/', $name_type)):
 				$entitytype = preg_replace('/init1$/', '', $name_type);
 				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
-					$entity_type 								= $entity_types[$entitytype]; // e.g. author
+					$hash_name 								= $entity_types[$entitytype]; // e.g. author
 				} else {								 // otherwise, we'll use what's left
-					$entity_type 								= $entitytype;	// e.g. collaborator
+					$hash_name 								= $entitytype;	// e.g. collaborator
 				}
-				$partial										= 'initial_1';
-				$this->set_name_arr($co, $entity_type, $partial, $value, 1);
+				$property										= 'initial_1';
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			case (preg_match('/initm$/', $name_type)):
 				$entitytype = preg_replace('/initm$/', '', $name_type);
 				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
-					$entity_type 								= $entity_types[$entitytype]; // e.g. author
+					$hash_name 								= $entity_types[$entitytype]; // e.g. author
 				} else {								 // otherwise, we'll use what's left
-					$entity_type 								= $entitytype;	// e.g. collaborator
+					$hash_name 								= $entitytype;	// e.g. collaborator
 				}
-				$partial										= 'initial_2';
-				$this->set_name_arr($co, $entity_type, $partial, $value, 1);
+				$property										= 'initial_2';
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			default:
-				$partial										= $name_type;
+				$property										= $name_type;
+				$this->set_hash($co, $hash_name, $property, $value, 1);
 				break;
 			}
 	}
 	
-	function set_name_arr($co, $entity_type, $partial, $value, $p=1){ 
-	// this needs lots of work - set directly
-	// e.g. $this->$co[$entitytype][$p] = array($partial => $value);
-		switch (true){ // trying to set $this->rfe['author'][1]['last_name'] = 'Pasley');
-		case (!isset($this->{$co}[$entity_type])): // there is no $this->rfe['author']
-			$this->{$co} = array($entity_type => array(0 => $p, $p => array($partial => $value)))+array($this->{$co});
-			// $this->log .= "\n".'$this->'.$co.'['.$entity_type.'] isn\'t already set';
-			// $this->log .= "\nSetting ".$co.'_'.$entity_type.'::'.$p.':'.$partial.'='.$value;
-			break;
-		case (!isset($this->{$co}[$entity_type][$p])): // there is no $this->rfe['author'][1]
-			$this->{$co}[$entity_type]						= array(0 => 1, $p => array($partial => $value));
-			$this->{$co}[$entity_type][0]					= count(array_keys($this->{$co}[$entity_type]));
-			// $this->log .= "\n".'$this->'.$co.'['.$entity_type.']['.$p.'] isn\'t already set';
-			// $this->log .= "\nSetting ".$co.'_'.$entity_type.'::'.$p.':'.$partial.'='.$value;
-			break;		
-		case (isset($this->{$co}[$entity_type][$p][$partial])): // $this->rfe['author'][1]['last_name'] is already set
-			$p = ($p + 1);
-			$this->set_name_arr($co, $entity_type, $partial, $value, $p);
-			// $this->log .= "\n".'$this->'.$co.'['.$entity_type.']['.$p.']['.$partial.'] is already set';
-			// $this->log .= "\nSetting ".$co.'_'.$entity_type.'::'.$p.':'.$partial.'='.$value;
-			break;
-		case (isset($this->{$co}[$entity_type][$p])): // $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
-			$this->{$co}[$entity_type][$p] = array_merge($this->{$co}[$entity_type][$p], array($partial => $value));
-			// $this->log .= "\n".'$this->'.$co.'['.$entity_type.']['.$p.'] is already set';
-			// $this->log .= ' but $this->'.$co.'['.$entity_type.']['.$p.']['.$partial."] isn't";
-			// $this->log .= "\nSetting ".$co.'_'.$entity_type.'::'.$p.':'.$partial.'='.$value;
-			break;	
-		default: // $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
-			$this->{$co}[$entity_type][$p] = array_merge($this->{$co}[$entity_type][$p], array($partial => $value));
-		}
-		// $this->names .= "\nSetting ".$co.'_'.$entity_type.'::'.$p.':'.$partial.'='.$value;
-	}
-	
-	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::get_last_entity_type(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @return	integer
+	 * @example	get_last_entity_type($co, $entity_type) >> '1';
+	 * @note	
+	 */	
 	function get_last_entity_type($co, $entity_type){ // need to ensure that count(last_names) == count(first_names) + count(initials);
 	$num = 1;
 		if (isset($this->{$co}[$entity_type][0])){
@@ -266,45 +315,49 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 	
 
+	/**
+	 * public static method
+	 *
+	 *	contextobject::parse_name(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @param	string	 
+	 * @return	void
+	 * @example	parse_name($co, $entity_type, $name) >> '1';
+	 * @note	
+	 */		
 	function parse_name($co, $entity_type, $name){
 	if (!isset($this->settings->prefixes[00])){
 			$this->settings->define_name_parts();
 	}
 	$num = $this->get_last_entity_type($co, $entity_type);
-	$name_0 = '';
-	$name_1 = '';
-	$name_2 = '';
-	$name_3 = '';
-	$initial_0 = '';
-	$initial_1 = '';
-	$initial_2 = '';
-	$initial_3 = '';	
 		if ($name === null) {
 			break;
 		}
 		$name = preg_replace('/[,]\s+/',' ',trim($name));
 		if ($entity_type == 'author_corp'){
-			$this->set_name_arr($co, $entity_type, 'full_name', $name, $num);
-			$this->set_name_arr($co, $entity_type, 'complete', 'constructed', $num);
+			$this->set_hash($co, $entity_type, 'full_name', $name, $num);
+			$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
 			break;
 		}
 		$matches = array();
 			foreach ($this->prefixes as $num => $prefix){
 				if (preg_match ($prefix, $name, $matches)){
-					$this->set_name_arr($co, $entity_type, 'prefix', $matches[1], $num);
+					$this->set_hash($co, $entity_type, 'prefix', $matches[1], $num);
 				}
 		}
 		$matches = array();
 			foreach ($this->titles as $num => $title){
 				if (preg_match ($title, $name, $matches)){
-					$this->set_name_arr($co, $entity_type, 'title', $matches[1], $num);
+					$this->set_hash($co, $entity_type, 'title', $matches[1], $num);
 				}
 			}
-		$this->set_name_arr($co, $entity_type, 'complete', 'constructed', $num);
+		$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
 		if (stristr(', ', $name)){
 				$this->temparr = explode(',', $name);
 				$last_name = array_shift($this->temparr); // shift the first value off the temparr - this should hopefully be the "last_name"
-				$this->set_name_arr($co, $entity_type, 'name_0', $last_name, $num);
+				$this->set_hash($co, $entity_type, 'last_name', $last_name, $num);
 				$name = implode(' ', $this->temparr);
 				$this->temparr = array(); // empty the temparr, and start again...
 		}
@@ -313,61 +366,50 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		if ((array_count_values($this->temparr)) > 1){ // make sure there's something worth processing
 			if (!isset($last_name)){
 				$last_name = array_pop($this->temparr); // pop the last value off the temparr - this should be the "last_name"
-				$this->set_name_arr($co, $entity_type, 'name_0', $last_name, $num);
+				$this->set_hash($co, $entity_type, 'last_name', $last_name, $num);
 			} 
 			$full_name = $last_name.',';
 			foreach ($this->temparr as $item => $name_segment) {
 				if ($name_segment !== null) {
 					$name_segment = str_replace('.', '', $name_segment);
 					$nseg_strlen = strlen($name_segment);
+					$error = '';
 					$i = 1; $i++;
-					$full_name .= ' ';
-					switch(true){
-						case(($i == 1) && ($nseg_strlen > 1)): 						// if it's the first name segment, and is not just an initial
-							$name_1  	 = $name_segment;					// it's a first name
-							$initials = str_split(strtoupper($name_segment), 1);	// create the initial
-							$initial_1	 = $initials[0].'. ';				// set the 1st initials
-							$initial_0 	 = $initials[0].'. ';				// start the initials
-							break;
-						case (($i == 2) && ($nseg_strlen > 1)):
-							$name_2 	 = $name_segment;
-							$initials = str_split(strtoupper($name_segment), 1);
-							$initial_2	 = $initials[0].'. ';
-							$initial_0 	.= $initials[0].'. ';
-							break;
-						case(($i == 3) && ($nseg_strlen > 1)):
-							$name_3 	 = $name_segment;
-							$initials = str_split(strtoupper($name_segment), 1);
-							$initial_0 	.= $initials[0].'. ';
-							break;
-						case(($i == 1) && ($nseg_strlen = 1)):						// just 1 character
-							$initial_1	 = strtoupper($name_segment).'. ';	// so add it as an initial
-							$initial_0 	.= strtoupper($name_segment).'. ';
-							break;
-						case(($i == 2) && ($nseg_strlen = 1)):
-							$initial_2	 = strtoupper($name_segment).'. ';
-							$initial_0 	.= strtoupper($name_segment).'. ';
-							break;
-						default:
-							$initials = str_split(strtoupper($name_segment), 1);
-							$initial_0 	.= $initials[0].'. ';
-							break;
+					if (($nseg_strlen > 1) && (isset($this->name_initials[$i])) && (isset($this->name_segments[$i]))){ 
+					// it's a name segment, and not just an initial
+						$initials = str_split(strtoupper($name_segment), 1);	// create the initial
+						$initial	 = $initials[0].'. ';						// set the 1st initials
+						$this->set_hash($co, $entity_type, $this->name_initials[$i], $initial, $num);
+						$this->set_hash($co, $entity_type, $this->name_segments[$i], $name_segment, $num);
+					} elseif (($nseg_strlen = 1) && (isset($this->name_initials[$i]))){
+						$initial	 = strtoupper($name_segment).'. ';
+						$this->set_hash($co, $entity_type, $this->name_initials[$i], $initial, $num);
+					} else {	// error!
+						if (!isset($this->name_initials[$i]){
+						$error .= '$this->name_initials['$i.'] is not set for '.$name;
+						}
+						if (!isset($this->name_segments[$i]){
+						$error .= '$this->name_segments['$i.'] is not set for '.$name;
+						}
+						$this->set_hash('errors', 'settings', 'name_parser', $error, 1)
 					}
 				}
 			}
-			$this->set_name_arr($co, $entity_type, 'initial_0', $initial_0, $num);
-			$this->set_name_arr($co, $entity_type, 'initial_1', $initial_1, $num);
-			$this->set_name_arr($co, $entity_type, 'initial_2', $initial_2, $num);
-			$this->set_name_arr($co, $entity_type, 'initial_3', $initial_3, $num);
-			$this->set_name_arr($co, $entity_type, 'name_0', $name_0, $num);
-			$this->set_name_arr($co, $entity_type, 'name_1', $name_1, $num);
-			$this->set_name_arr($co, $entity_type, 'name_2', $name_2, $num);
-			$this->set_name_arr($co, $entity_type, 'name_3', $name_3, $num);
-			$this->set_name_arr($co, $entity_type, 'full_name', $full_name, $num);
 		}
 	}
 	
 
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_date(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_date($co, $value) sets individual properties from one value;
+	 * @note	
+	 */	
 	function set_date($co, $value){
 		if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))){
 		$this->set_property($co, 'artyear', (int)$value);
@@ -398,6 +440,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 	
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_identifier(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_identifier($co, $identifier) sets individual properties from one value;
+	 * @note	
+	 */	
 	function set_identifier($co, $identifier){
 		switch (true) {
 			case (preg_match('/^doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
@@ -438,7 +492,17 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 # IDENTIFIER HANDLERS -- START
-	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_doi(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_doi($co, $doi) sets individual properties from one value;
+	 * @note	
+	 */		
 	function set_doi($co, $doi){
 		$doi = preg_replace('doi[=:/]', '', $doi);
 		$this->set_property($co, 'doi', $doi);
@@ -450,6 +514,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_handle(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_handle($co, $handle) sets individual properties from one value;
+	 * @note	
+	 */		
 	function set_handle($co, $handle){
 		$handle = preg_replace('hdl[=:/]', '', $handle);
 		$this->set_property($co, 'handle', $handle);
@@ -459,6 +535,17 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_isbn(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_isbn($co, $isbn) sets individual properties from one value;
+	 * @note	
+	 */	
 	function set_isbn($co, $isbn){
 		$find[0] = '[-\s]';	$replace[0] = '';					// remove any hyphens or spaces
 		$find[1] = 'isbns';	$replace[1] = '';					// tidy up any gunge
@@ -469,7 +556,19 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
-	function set_issn($co, $issn_type, $issn){
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_issn(params)
+	 *
+	 * @param	string	
+	 * @param	string	 
+	 * @param	string	 
+	 * @return	void
+	 * @example	set_issn($co, $issn_type, $issn) sets individual properties from one value;
+	 * @note	
+	 */		
+	function set_issn($co, $issn, $issn_type='print'){
 		if (preg_match('/\(/', $issn)){
 			@list($issn,$junk) = explode('(', $issn, 2);		// tidy up any gunge
 		}	
@@ -484,7 +583,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$this->set_property($co, $issn_type, $issn);		// voila - it's an issn!
 		}
 	}
-	
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_oai(params)
+	 *
+	 * @param	string	
+	 * @param	string	  
+	 * @return	void
+	 * @example	set_oai($co, $oai) sets individual properties from one value;
+	 * @note	
+	 */	
 	function set_oai($co, $oai){
 		$oai = preg_replace('oai[=:\/]', '', $oai);
 		$this->set_property($co, 'oai', $oai);
@@ -493,7 +603,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$this->set_property($co, 'oaiLink', $oaiLink);						// OAI search link
 		}
 	}
-	
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_oclcnum(params)
+	 *
+	 * @param	string	
+	 * @param	string	  
+	 * @return	void
+	 * @example	set_oclcnum($co, $oclcnum) sets individual properties from one value;
+	 * @note	
+	 */		
 	function set_oclcnum($co, $oclcnum){	
 		$oclcnum = preg_replace('oclcnum[=:\/]', '', $oclcnum);
 		$this->set_property($co, 'oclcnum', $oclcnum);
@@ -503,6 +624,17 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_pmid(params)
+	 *
+	 * @param	string	
+	 * @param	string	  
+	 * @return	void
+	 * @example	set_pmid($co, $pmid) sets individual properties from one value;
+	 * @note	
+	 */		
 	function set_pmid($co, $pmid){
 		$find[0] = 'pmid[=:\/]'; 							$replace[0]= '';
 		$find[1] = 'http://www.ncbi.nlm.nih.gov/pubmed/'; 	$replace[1] = '';
@@ -515,7 +647,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 # IDENTIFIER HANDLERS -- FINISH
-	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_referer(param)
+	 *
+	 * @param	string	  
+	 * @return	void
+	 * @example	set_referer($value) sets individual properties from one value;
+	 * @note	
+	 */		
 	function set_referer($value){
 		//$details['table'] = 'referers';
 		//$details[0] = 'referer_name';
@@ -527,6 +668,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		$this->set_property('rfr', 'referer_type', $referer);
 	}
 
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_contexttype(param)
+	 *
+	 * @param	string	  
+	 * @param	string
+	 * @return	void
+	 * @example	set_contexttype($co, $type) sets individual properties from one value;
+	 * @note	
+	 */	
 	function set_contexttype($co, $type){
 		$this->settings->define_contexttypes();
 		switch (true) {
@@ -545,6 +698,18 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 	
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::build(param)
+	 *
+	 * @param	string	  
+	 * @param	string
+	 * @return	void
+	 * @example	build($key, $value) sets individual properties from one value;
+	 * @note	
+	 */
 	function build($key, $value){
 	//echo $key.'='.$value.'<br/>';
 	$key = $this->unencode($key); 		// remove any spaces - there shouldn't be any in the key names!
@@ -770,10 +935,31 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::build()
+	 *
+	 * @return	void
+	 * @example	build_from_querystring sets individual properties from one value;
+	 * @note	
+	 */	
 	function build_from_querystring() {
 		$this->build_from_string($this->request['http_get']);
 	}
 
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::build_from_string(param)
+	 *
+	 * @param	string	 
+	 * @return	void
+	 * @example	build_from_string sets individual properties from one value;
+	 * @note	
+	 */		
 	function build_from_string($string) {
 		$pairs = explode('&', $string);								// split on & into KV pairs
 		echo $pairs;
@@ -786,7 +972,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 		$this->settings->undefine_contexttypes(); // free up some memory
 	}
-	
+
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::check_rft_dates()
+	 *	 
+	 * @return	void
+	 * @note	checks on the dates hopefully set as part of the incoming request
+	 */		
 	function check_rft_dates(){ 
 		if (isset ($this->rft['year'])){
 			$date = $this->rft['year'];
@@ -810,7 +1005,19 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$this->set_property($co, 'dateisyear', 'false');
 		}
 	}
-	
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::translate_openurl(params)
+	 *
+	 * @param	string	 
+	 * @param	string
+	 * @param	string	
+	 * @return	void
+	 * @example	'aucorp' >> 'author_corporate'
+	 * @note	translate_openurl sets individual properties for unparsed key
+	 */		
 	function translate_openurl($co, $key, $value){
 		$this->settings->define_openurl_keys();		
 		if (isset($openurl['key'][$key])){

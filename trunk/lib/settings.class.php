@@ -153,7 +153,22 @@ class settings {
 		$this->prefixes			= array();
 		$this->pre_others		= array();
 		$this->titles			= array();
-	}	
+	}
+
+
+	function define_name_segments(){
+		$this->name_segments[1]			= 'first_name';
+		$this->name_segments[2]			= 'second_name';
+		$this->name_segments[3]			= 'third_name';
+		$this->name_initials[1]			= 'first_initial';
+		$this->name_initials[2]			= 'second_initial';
+		$this->name_initials[3]			= 'third_initial';
+	}
+	
+	function define_name_segments(){
+		$this->name_segments	= array();
+		$this->name_initals		= array();
+	}
 	
 	function define_openurl_keys(){
 		// translate between OpenURL keys and English lowercase names (spaces substituted for underscores)
