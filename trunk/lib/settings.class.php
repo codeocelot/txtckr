@@ -165,7 +165,7 @@ class settings {
 		$this->name_initials[3]			= 'third_initial';
 	}
 	
-	function define_name_segments(){
+	function undefine_name_segments(){
 		$this->name_segments	= array();
 		$this->name_initals		= array();
 	}

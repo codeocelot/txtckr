@@ -165,8 +165,8 @@ class contextobject extends common_functions{
 	function set_hash($co, $hash_name, $property, $value, $p=1){
 	if ((is_array($property)) && ($value === null)) {
 		$array = $property;
-		foreach($array as $property => $value){
-			$this->set_hash($co, $hash_name, $property, $value, $p);
+		foreach($array as $hashproperty => $hashvalue){
+			$this->set_hash($co, $hash_name, $hashproperty, $hashvalue, $p);
 		}
 	}
 		switch (true){ // trying to set $this->rfe['author'][1]['last_name'] = 'Pasley');
@@ -385,13 +385,13 @@ class contextobject extends common_functions{
 						$initial	 = strtoupper($name_segment).'. ';
 						$this->set_hash($co, $entity_type, $this->name_initials[$i], $initial, $num);
 					} else {	// error!
-						if (!isset($this->name_initials[$i]){
-						$error .= '$this->name_initials['$i.'] is not set for '.$name;
+						if (!isset($this->name_initials[$i])){
+						$error .= '$this->name_initials['.$i.'] is not set for '.$name;
 						}
-						if (!isset($this->name_segments[$i]){
-						$error .= '$this->name_segments['$i.'] is not set for '.$name;
+						if (!isset($this->name_segments[$i])){
+						$error .= '$this->name_segments['.$i.'] is not set for '.$name;
 						}
-						$this->set_hash('errors', 'settings', 'name_parser', $error, 1)
+						$this->set_hash('errors', 'settings', 'name_parser', $error, 1);
 					}
 				}
 			}
@@ -644,6 +644,83 @@ class contextobject extends common_functions{
 			$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
 			$this->set_property($co, 'pmidLink', $pmidLink);				// link to PubMed record	
 		}
+	}
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_sici(params)
+	 *
+	 * @param	string
+	 * @param	string
+	 * @return	void
+	 * @example	set_sici($co, $pmid) sets individual properties from one value;
+	 * @note	sourcecode from bioguid
+	 */		
+	function set_sici($co, $sici){
+	//--------------------------------------------------------------------------------------------------
+	// code pinched from Roderic Page's bioguid project, and modified to suit:
+	// see:[http://code.google.com/p/bioguid/source/browse/trunk/www/jstor.php]
+	// Rod Page's notes follow:
+	// Decompose a SICI, based on regular expressions in Biblio Utils.pm
+	// I've edited the item regular expression to handle ISSNs that end in 'X'
+
+		$match = array();
+        if (preg_match('/^(.*)<(.*)>(.*)$/', $sici, $match)){
+		$this->set_property($co, 'sici', $sici);
+                //print_r($match);
+                $this->set_property($co, 'item', $match[1]);
+                $this->set_property($co, 'contrib', $match[2]);
+                $this->set_property($co, 'control', $match[3]);
+        }
+        
+        if (isset($this->{$co}['item'])) {
+			//  if (preg_match('/^(\d{4}-\d{4})\((.+)\)(.+)/', $this->set_property($co, 'item', $match))
+            if (preg_match('/^(\d{4}-\d{3}([0-9]|X))\((.+)\)(.+)/', $this->{$co}['item'], $match)){       
+                //print_r($match);
+                $this->set_property($co, 'issn', $match[1]);
+                $this->set_property($co, 'chron', $match[3]);
+                $this->set_property($co, 'enum', $match[4]);
+            }
+        }
+        
+        if (isset($this->{$co}['chron'])){
+            if (preg_match('/^(\d{4})?(\d{2})?(\d{2})?(\/(\d{4})?(\d{2})?(\d{2})?)?/', $this->{$co}['chron'], $match)){       
+                //print_r($match);
+                if (isset($match[1])) $this->set_property($co, 'year', $match[1]);
+                if (isset($match[2])) $this->set_property($co, 'month', $match[2]);
+                if (isset($match[3])) $this->set_property($co, 'day', $match[3]);
+                if (isset($match[4])) $this->set_property($co, 'seryear', $match[4]);
+                if (isset($match[5])) $this->set_property($co, 'sermonth', $match[5]);
+                if (isset($match[6])) $this->set_property($co, 'serday', $match[6]);
+            }
+        }
+        
+        if (isset($this->{$co}['contrib'])){
+            list($site, $title, $locn) = split (":", $this->{$co}['contrib']);
+			$this->set_property($co, 'site', $site);
+			$this->set_property($co, 'title', $title);
+			$this->set_property($co, 'locn', $locn);
+        }
+        
+        if (isset($this->{$co}['enum'])){
+            list($volume, $issue, $locn) = split (":", $this->{$co}['enum']);
+			$this->set_property($co, 'volume', $volume);
+			$this->set_property($co, 'issue', $issue);
+			$this->set_property($co, 'locn', $locn);
+        }
+        
+        
+        if (isset($this->{$co}['control'])){
+            if (preg_match('/^^(.+)\.(.+)\.(.+);(.+)-(.+)$/', $this->{$co}['control'], $match)){
+                //print_r($match);
+                if (isset($match[1])) $this->set_property($co, 'csi', $match[1]);
+                if (isset($match[2])) $this->set_property($co, 'dpi', $match[2]);
+                if (isset($match[3])) $this->set_property($co, 'mfi', $match[3]);
+                if (isset($match[4])) $this->set_property($co, 'version', $match[4]);
+                if (isset($match[5])) $this->set_property($co, 'check', $match[5]);
+            }
+        }
 	}
 
 # IDENTIFIER HANDLERS -- FINISH
