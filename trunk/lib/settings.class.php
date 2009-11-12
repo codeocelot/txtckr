@@ -112,46 +112,47 @@ class settings {
 	
 	
 	function define_name_parts(){
-		$this->prefixes[00] = '/\bvan\sden\b/i'; // van den = Dutch
-		$this->prefixes[01] = '/\bvan\sder\b/i'; // van der = Dutch
-		$this->prefixes[02] = '/\bvan\sde\b/i'; // van de = Dutch
-		$this->prefixes[03] = '/\bvan\b/i'; // van = Dutch
-		$this->prefixes[04] = '/\bvon\b/i'; // von = German
-		$this->prefixes[05] = '/\bdela\b/i'; // dela = French/Italian?
-		$this->prefixes[06] = '/\bde\sla\b/i'; // de la = French
-		$this->prefixes[07] = '/\bde\b/i'; // de = Dutch/French?
-		$this->prefixes[08] = '/\bdes\b/i'; // des = French
-		$this->prefixes[09] = '/\bdi\b/i'; // di = Italian
-		$this->prefixes[10] = '/\bdu\b/i'; // du = French
-		$this->prefixes[11] = '/\baf\b/i'; // af = Swedish
-		$this->prefixes[12] = '/\bbin\b/i'; // bin = Arabic
-		$this->prefixes[13] = '/\bben\b/i'; // ben = Hebrew
-		$this->prefixes[14] = '/\bibn\b/i'; // ibn = Arabic
-		$this->prefixes[15] = '/\buyt\sden\b/i'; // uyt den = Dutch
-		$this->prefixes[16] = '/\buyt\sder\b/i'; // uyt der = Dutch
-		$this->prefixes[17] = '/\bten\b/i'; // ten = Dutch
-		$this->prefixes[18] = '/\bter\b/i'; // ter = Dutch
-		$this->prefixes[19] = '/\bhet\b/i'; // het = Dutch?
-		$this->prefixes[20] = '/\bab\b/i'; // ab = Welsh
-		$this->prefixes[21] = '/\bap\b/i'; // ap = Welsh
-		$this->prefixes[22] = '/\bst\.\b/i'; // st. = English/French?
+		$this->prefixes[00] = '/_van_den_/i'; // van den = Dutch
+		$this->prefixes[01] = '/_van_der_/i'; // van der = Dutch
+		$this->prefixes[02] = '/_van_de_/i'; // van de = Dutch
+		$this->prefixes[03] = '/_van_/i'; // van = Dutch
+		$this->prefixes[04] = '/_von_/i'; // von = German
+		$this->prefixes[05] = '/_dela_/i'; // dela = French/Italian?
+		$this->prefixes[06] = '/_de_la_/i'; // de la = French
+		$this->prefixes[07] = '/_de_/i'; // de = Dutch/French?
+		$this->prefixes[08] = '/_des_/i'; // des = French
+		$this->prefixes[09] = '/_di_/i'; // di = Italian
+		$this->prefixes[10] = '/_du_/i'; // du = French
+		$this->prefixes[11] = '/_af_/i'; // af = Swedish
+		$this->prefixes[12] = '/_bin_/i'; // bin = Arabic
+		$this->prefixes[13] = '/_ben_/i'; // ben = Hebrew
+		$this->prefixes[14] = '/_ibn_/i'; // ibn = Arabic
+		$this->prefixes[15] = '/_uyt_den_/i'; // uyt den = Dutch
+		$this->prefixes[16] = '/_uyt_der_/i'; // uyt der = Dutch
+		$this->prefixes[17] = '/_ten_/i'; // ten = Dutch
+		$this->prefixes[18] = '/_ter_/i'; // ter = Dutch
+		$this->prefixes[19] = '/_het_/i'; // het = Dutch?
+		$this->prefixes[20] = '/_ab_/i'; // ab = Welsh
+		$this->prefixes[21] = '/_ap_/i'; // ap = Welsh
+		$this->prefixes[22] = '/_st\._/i'; // st. = English/French?
 		
 		$this->others[00] = '/^Van$/D'; // Van = "West, Van", "Morrison, Van", or "Van Lustbader, Eric"?
 		$this->others[01] = '/^Ben$/D'; // Ben = "Ben Carey, Donald" or "Carey, Ben"?
 		
-		$this->titles[00] = '/\bjr\.\b/i'; // Jr. = American
-		$this->titles[01] = '/\bsr\.\b/i'; // Sr. = American
-		$this->titles[02] = '/\b[ivx]+\b/i'; // IV, III = English/American
-		$this->titles[03] = '/\bph\.?d\b/i'; // Doctor
-		$this->titles[04] = '/\bm\.?d\b/i'; // Masters
-		$this->titles[05] = '/\besq\.\b/i'; // Esquire
-		$this->titles[06] = '/\besquire\b/i'; // Esquire
-		$this->titles[07] = '/\bjudge\b/i'; // Esquire
+		$this->titles[00] = '/_jr[\.,]_/i'; // Jr. = American
+		$this->titles[01] = '/_sr[\.,]_/i'; // Sr. = American
+		$this->titles[02] = '/_[ivx]+_/i'; // IV, III = English/American
+		$this->titles[03] = '/_ph\.?d_/i'; // Doctor
+		$this->titles[04] = '/_m\.?d_/i'; // Masters
+		$this->titles[05] = '/_esq[\.,]_/i'; // Esquire
+		$this->titles[06] = '/_esquire_/i'; // Esquire
+		$this->titles[07] = '/_judge_/i'; // Esquire
 	}
 
 	function undefine_name_parts(){
 		$this->prefixes			= array();
 		$this->pre_others		= array();
+		$this->others			= array();
 		$this->titles			= array();
 	}
 
@@ -167,7 +168,35 @@ class settings {
 	
 	function undefine_name_segments(){
 		$this->name_segments	= array();
-		$this->name_initals		= array();
+		$this->name_initials	= array();
+	}
+
+
+	function define_ris_keys(){
+        $this->ris['key']['AV'] = 'availability';
+		$this->ris['key']['EP'] = 'epage';
+		$this->ris['key']['ID'] = 'id';
+		$this->ris['key']['IS'] = 'issue';
+        $this->ris['key']['JO'] = 'title';
+        $this->ris['key']['JF'] = 'title';
+		$this->ris['key']['L1'] = 'pdf'; 
+        $this->ris['key']['L2'] = 'fulltext';
+		$this->ris['key']['L3'] = 'id';
+		$this->ris['key']['M3'] = 'id'; // used by Ingenta for DOI
+		$this->ris['key']['N1'] = 'id';
+        $this->ris['key']['N2'] = 'abstract';
+		$this->ris['key']['PY'] = 'date';
+		$this->ris['key']['SN'] = 'issn';
+		$this->ris['key']['SP'] = 'spage';
+		$this->ris['key']['T1'] = 'atitle';
+        $this->ris['key']['TI'] = 'atitle';
+        $this->ris['key']['UR'] = 'id';
+		$this->ris['key']['VL'] = 'volume';
+		$this->ris['key']['Y1'] = 'date';
+	}
+	
+	function undefine_ris_keys(){
+		$this->ris = array();
 	}
 	
 	function define_openurl_keys(){

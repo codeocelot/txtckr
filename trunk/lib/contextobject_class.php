@@ -97,6 +97,8 @@
 
 require ('common_funcs.class.php');
 require ('settings.class.php');
+//require('FirePHP.class.php');
+
  
 class contextobject extends common_functions{
 
@@ -123,7 +125,8 @@ class contextobject extends common_functions{
 		$this->svc[0]				= 0;
 		$this->settings 			= new settings;
 		// $this->names				= '';
-		// $this->log				= '';
+		$this->log					= '';
+		//$this->log					= FirePHP::getInstance(true);
 	}
 
 
@@ -163,33 +166,33 @@ class contextobject extends common_functions{
 	 * @note	
 	 */
 	function set_hash($co, $hash_name, $property, $value, $p=1){
-	if ((is_array($property)) && ($value === null)) {
-		$array = $property;
-		foreach($array as $hashproperty => $hashvalue){
-			$this->set_hash($co, $hash_name, $hashproperty, $hashvalue, $p);
+		if ((is_array($property)) && ($value === null)) {
+			$array = $property;
+			foreach($array as $hashproperty => $hashvalue){
+				$this->set_hash($co, $hash_name, $hashproperty, $hashvalue, $p);
+			}
 		}
+			switch (true){ // trying to set $this->rfe['author'][1]['last_name'] = 'Pasley');
+			case (!isset($this->{$co}[$hash_name])):                // there is no $this->rfe['author']
+				$this->{$co}[$hash_name]        = array(0 => $p, $p => array($property => $value));
+				break;
+			case (!isset($this->{$co}[$hash_name][$p])):            // there is no $this->rfe['author'][1]
+				$this->{$co}[$hash_name][$p]    = array($property => $value);
+				break;   
+			case (@((isset($this->{$co}[$hash_name][$p][$property])) | ($this->{$co}[$hash_name][$p]['complete'] == 'constructed'))):    // $this->rfe['author'][1]['last_name'] is already set
+				$x = ($p + 1);
+				$this->set_hash($co, $hash_name, $property, $value, $x);
+				break;
+			case (isset($this->{$co}[$hash_name][$p])):                // $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
+				$this->{$co}[$hash_name][$p]     = array($property => $value)+ (array)$this->{$co}[$hash_name][$p];
+				break;   
+			default:                                                // $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
+				$this->{$co}[$hash_name][$p]     = array($property => $value)+ (array)$this->{$co}[$hash_name][$p];
+			}
+			// $this->log .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
+			// $this->names .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
 	}
-		switch (true){ // trying to set $this->rfe['author'][1]['last_name'] = 'Pasley');
-		case (!isset($this->{$co}[$hash_name])):				// there is no $this->rfe['author']
-			$this->{$co} 					= array($hash_name => array(0 => $p, $p => array($property => $value)))+array($this->{$co});
-			break;
-		case (!isset($this->{$co}[$hash_name][$p])):			// there is no $this->rfe['author'][1]
-			$this->{$co}[$hash_name]		= array(0 => 1, $p => array($property => $value));
-			$this->{$co}[$hash_name][0]		= count(array_keys($this->{$co}[$hash_name]));
-			break;		
-		case (isset($this->{$co}[$hash_name][$p][$property])):	// $this->rfe['author'][1]['last_name'] is already set
-			$p = ($p + 1);
-			$this->set_hash($co, $hash_name, $property, $value, $p);
-			break;
-		case (isset($this->{$co}[$hash_name][$p])):				// $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
-			$this->{$co}[$hash_name][$p] 	= array_merge($this->{$co}[$hash_name][$p], array($property => $value));
-			break;	
-		default:												// $this->rfe['author'][1] is already set, but $this->rfe['author'][1]['last_name'] isn't
-			$this->{$co}[$hash_name][$p] 	= array_merge($this->{$co}[$hash_name][$p], array($property => $value));
-		}
-		// $this->log .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
-		// $this->names .= "\nSetting $this->".$co.'['.$hash_name.']['.$p.']['.$property.']='.$value;
-	}
+
 	
 	/**
 	 * public static method
@@ -228,12 +231,8 @@ class contextobject extends common_functions{
 			$entity_types['invfull'] 		= 'inventor';
 		switch(true){
 			case (isset($entity_types[$name_type])): 		// full names first!
-				$hash_name = $entity_types[$name_type];
-				$co_entity_r = $co.'_'.$hash_name.'_'.$r;	// using entity in this format as we can explode on '_' this later to get 3 values
-				//$this->name_registry[$r] = $co_entity_r;	// add the entity as a value to the registry
-				$this->$co_entity = new named_entity;		// create a new object called (the value of entity)
-				$this->$co_entity->set_type($name_type);	// set a couple of values based on what we were given
-				$this->$co_entity->parse_name($value);		// parse the full name if we were given it
+				$full_name = $entity_types[$name_type];
+				$this->parse_name($co, $full_name, $value, 1);
 				break;										// stop processing, move on...
 			// then it gets slightly more complicated
 			// surnames next - should only be one of these per person!
@@ -308,7 +307,7 @@ class contextobject extends common_functions{
 	function get_last_entity_type($co, $entity_type){ // need to ensure that count(last_names) == count(first_names) + count(initials);
 	$num = 1;
 		if (isset($this->{$co}[$entity_type][0])){
-			$num = (int($this->{$co}[$entity_type][0]));
+			$num = $this->{$co}[$entity_type][0];
 			$num = ($num + 1);
 		} 
 	return ($num);
@@ -327,75 +326,110 @@ class contextobject extends common_functions{
 	 * @example	parse_name($co, $entity_type, $name) >> '1';
 	 * @note	
 	 */		
-	function parse_name($co, $entity_type, $name){
-	if (!isset($this->settings->prefixes[00])){
-			$this->settings->define_name_parts();
-	}
-	$num = $this->get_last_entity_type($co, $entity_type);
-		if ($name === null) {
-			break;
-		}
-		$name = preg_replace('/[,]\s+/',' ',trim($name));
+	function parse_name($co, $entity_type, $name, $num){
+	// echo "<br/>".'name to be parsed is: '.$name;
+	if ($name !== null) {
+	$this->settings->define_name_parts();
+		$name = preg_replace('/\s+/', '_',trim($name));
 		if ($entity_type == 'author_corp'){
 			$this->set_hash($co, $entity_type, 'full_name', $name, $num);
 			$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
 			break;
 		}
 		$matches = array();
-			foreach ($this->prefixes as $num => $prefix){
+			foreach ($this->settings->prefixes as $ab => $prefix){
 				if (preg_match ($prefix, $name, $matches)){
 					$this->set_hash($co, $entity_type, 'prefix', $matches[1], $num);
+					$name = trim(preg_replace($prefix, '', $name), '_,');
 				}
 		}
 		$matches = array();
-			foreach ($this->titles as $num => $title){
-				if (preg_match ($title, $name, $matches)){
-					$this->set_hash($co, $entity_type, 'title', $matches[1], $num);
+			foreach ($this->settings->titles as $ab => $title){
+				if (preg_match($title, $name, $matches)){
+					$value = trim(preg_replace('/_/', '', $matches[0]), ',_');
+					$this->set_hash($co, $entity_type, 'title', $value, $num);
+					$name = trim(preg_replace($title, '_', $name), ',');
+					$name_array = (array)explode('_', $name);
+					$this->temparr = array_combine(array_map('strlen', $name_array), $name_array);
+					asort($this->temparr);
+					$name = ''.implode('_', $this->temparr);
+					$this->temparr = array(); 
+					// echo 'full name:'.$name;
 				}
 			}
-		$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
-		if (stristr(', ', $name)){
+		if (stristr($name, ',')){
 				$this->temparr = explode(',', $name);
 				$last_name = array_shift($this->temparr); // shift the first value off the temparr - this should hopefully be the "last_name"
 				$this->set_hash($co, $entity_type, 'last_name', $last_name, $num);
-				$name = implode(' ', $this->temparr);
+				$name = implode('_', $this->temparr);
 				$this->temparr = array(); // empty the temparr, and start again...
 		}
-		$this->temparr = explode(' ', $name);
-		
-		if ((array_count_values($this->temparr)) > 1){ // make sure there's something worth processing
-			if (!isset($last_name)){
-				$last_name = array_pop($this->temparr); // pop the last value off the temparr - this should be the "last_name"
-				$this->set_hash($co, $entity_type, 'last_name', $last_name, $num);
-			} 
-			$full_name = $last_name.',';
-			foreach ($this->temparr as $item => $name_segment) {
-				if ($name_segment !== null) {
-					$name_segment = str_replace('.', '', $name_segment);
-					$nseg_strlen = strlen($name_segment);
-					$error = '';
-					$i = 1; $i++;
-					if (($nseg_strlen > 1) && (isset($this->name_initials[$i])) && (isset($this->name_segments[$i]))){ 
-					// it's a name segment, and not just an initial
-						$initials = str_split(strtoupper($name_segment), 1);	// create the initial
-						$initial	 = $initials[0].'. ';						// set the 1st initials
-						$this->set_hash($co, $entity_type, $this->name_initials[$i], $initial, $num);
-						$this->set_hash($co, $entity_type, $this->name_segments[$i], $name_segment, $num);
-					} elseif (($nseg_strlen = 1) && (isset($this->name_initials[$i]))){
-						$initial	 = strtoupper($name_segment).'. ';
-						$this->set_hash($co, $entity_type, $this->name_initials[$i], $initial, $num);
-					} else {	// error!
-						if (!isset($this->name_initials[$i])){
-						$error .= '$this->name_initials['.$i.'] is not set for '.$name;
-						}
-						if (!isset($this->name_segments[$i])){
-						$error .= '$this->name_segments['.$i.'] is not set for '.$name;
-						}
-						$this->set_hash('errors', 'settings', 'name_parser', $error, 1);
+		$this->temparr = explode('_', $name);
+		$num_vals = array_count_values($this->temparr);
+			if ($num_vals > 0){ // make sure there's something worth processing
+				if (!isset($last_name)){
+					$last_name = array_pop($this->temparr); // pop the last value off the temparr - this should be the "last_name"
+					$this->set_hash($co, $entity_type, 'last_name', $last_name, $num);
+				} 
+				$n = 1;
+				foreach ($this->temparr as $x => $val){
+				$val_strlen = strlen(trim($val));
+					if (@($val !== null) & ($val_strlen > 0)){
+						$this->set_name_segment($co, $entity_type, $n, $val, $num);
+						$n++;
 					}
 				}
 			}
+		$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
+		$this->settings->undefine_name_parts();
 		}
+	}
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_name_segment(params)
+	 *
+	 * @param	string	
+	 * @param	string
+	 * @param	int	 
+	 * @return	void
+	 * @example	set_name_segment($co, $entity_type, $i, $name_segment, $num) >> '1';
+	 * @note	
+	 */		
+	function set_name_segment($co, $entity_type, $i, $name_segment, $num){
+	$this->settings->define_name_segments();
+		$nseg_strlen = strlen(trim($name_segment));
+		//echo "<br/>".'length of '.$name_segment.' is '.$nseg_strlen;
+		if ($nseg_strlen > 0){
+		$this->{$co}[$entity_type][0] = (int)$this->{$co}[$entity_type][0] + 1;
+			if (preg_match('/^[A-Z]+$/', $name_segment)){
+				$initials = str_split($name_segment, 1);
+				// print_r($initials);
+				foreach($initials as $i => $initial){
+				$x = $i + 1;
+				$initial .= '. ';
+					if (isset($this->settings->name_initials[$x])){
+						$this->set_hash($co, $entity_type, $this->settings->name_initials[$x], $initial, $num);
+					}
+				}
+			} elseif ($nseg_strlen = 1){
+				$initial = strtoupper($name_segment).'. ';
+				if (isset($this->settings->name_initials[$i])){
+					$this->set_hash($co, $entity_type, $this->settings->name_initials[$i], $initial, $num);
+				}
+			} elseif ($nseg_strlen > 1){
+				$initials = str_split(strtoupper($name_segment), 1);
+				$initial = $initials[0]. '. ';
+				if (isset($this->settings->name_segments[$i])){
+					$this->set_hash($co, $entity_type, $this->settings->name_segments[$i], $name_segment, $num);
+				}
+				if (isset($this->settings->name_initials[$i])){
+					$this->set_hash($co, $entity_type, $this->settings->name_initials[$i], $initial, $num);
+				}
+			}
+		}	
+	$this->settings->undefine_name_segments();
 	}
 	
 
@@ -678,7 +712,7 @@ class contextobject extends common_functions{
 			//  if (preg_match('/^(\d{4}-\d{4})\((.+)\)(.+)/', $this->set_property($co, 'item', $match))
             if (preg_match('/^(\d{4}-\d{3}([0-9]|X))\((.+)\)(.+)/', $this->{$co}['item'], $match)){       
                 //print_r($match);
-                $this->set_property($co, 'issn', $match[1]);
+                $this->set_issn($co, $match[1], 'unknown');
                 $this->set_property($co, 'chron', $match[3]);
                 $this->set_property($co, 'enum', $match[4]);
             }
@@ -773,8 +807,39 @@ class contextobject extends common_functions{
 				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
 				break;
 		}
+		$this->settings->undefine_contexttypes(); 
 	}
-	
+
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::set_reftype(param)
+	 *
+	 * @param	string	  
+	 * @param	string
+	 * @return	void
+	 * @example	set_reftype($co, $reftype) sets individual properties from one value;
+	 * @note	
+	 */	
+	function set_reftype($co, $reftype){
+		$this->settings->define_contexttypes();
+		switch (true) {
+			case ($type = array_search($reftype,  (array)$this->settings->types['reftype'])): // not sure about this - not tested, but more configurable!
+				$this->set_property($co, 'reftype', $reftype);
+				$this->set_property($co, 'reqtype', $this->settings->types['reqtype'][$type]);
+				$this->set_property($co, 'sourcetype', $this->settings->types['sourcetype'][$type]);
+				$this->set_property($co, 'notes', $this->settings->types['notes'][$type]);
+				break;
+			default:
+				$this->set_property($co, 'reftype', 'GEN');
+				$this->set_property($co, 'reqtype', 'Unknown');
+				$this->set_property($co, 'sourcetype', 'Unknown');
+				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
+				break;
+		}
+		$this->settings->undefine_contexttypes();
+	}	
 
 	/**
 	 * public static method
@@ -1054,6 +1119,87 @@ class contextobject extends common_functions{
 	/**
 	 * public static method
 	 *
+	 *	contextobject::build_from_string(param)
+	 *
+	 * @param	string	 
+	 * @return	void
+	 * @example	build_from_string sets individual properties from one value;
+	 * @note	
+	 */		
+	function build_from_ris($ris, $co='rft'){
+		$rows = split("\n", $ris);
+		foreach ($rows as $r){
+            $parts = split ("  - ", $r);
+            if (isset($parts[1])){
+                $key = $parts[0];
+                $value = trim($parts[1]); // clean up any leading and trailing spaces
+            }
+			switch ($key){
+                case 'ER':
+					break;
+				case 'AU':
+                case 'A1': 
+                    $value = trim($value);
+                    // Trim trailing periods and other junk
+                    $value = preg_replace("/\.$/", "", $value);
+                    $value = preg_replace("/ $/", "", $value);
+                    // Clean Ingenta crap                                          
+                    $value = preg_replace("/\[[0-9]\]/", "", $value);
+                    // Space initials nicely
+                    $value = preg_replace("/\.([A-Z])/", ". $1", $value);
+                    // Make nice
+                    //echo __LINE__ . " $value\n";
+					$this->set_name($co, 'au', $value);
+                    break;  
+                // Handle cases where both pages SP and EP are in this field
+                case 'SP':
+                    if (preg_match('/^-$/', trim($value))){
+						$pages = explode('-', trim($value));
+						$key =  $co.'_spage';
+						$this->build($key, $pages['0']);
+						$key = $co.'_epage';
+						$this->build($key, $pages['1']);
+                    } else {
+						$key =  $co.'_spage';
+						$this->build($key, $value);
+                    }                              
+                    break;
+                case 'M1':
+                    if (preg_match('/^S/', $value)){
+                    // TreeBASE study id
+                        // $obj->treebase->StudyID = $value;
+                    }
+                    break;					
+				case 'TY':
+					$this->set_reftype($co, $value);
+					break;
+                default:
+                    $this->translate_ris($co, $key, $value);
+                    break;
+			}
+		}
+	}
+
+	/**
+	 * public static method
+	 *
+	 *	contextobject::build_from_string(param)
+	 *
+	 * @param	string	 
+	 * @return	void
+	 * @example	build_from_string sets individual properties from one value;
+	 * @note	
+	 */		
+	function build_from_risfile($risfile, $co='rft'){
+		if (file_exists($risfile)){
+			$ris = string(file_get_contents($risfile));
+			$this->build_from_ris($ris, $co);
+		}
+	}
+
+	/**
+	 * public static method
+	 *
 	 *	contextobject::check_rft_dates()
 	 *	 
 	 * @return	void
@@ -1097,14 +1243,39 @@ class contextobject extends common_functions{
 	 */		
 	function translate_openurl($co, $key, $value){
 		$this->settings->define_openurl_keys();		
-		if (isset($openurl['key'][$key])){
-			$newkey = $openurl['key'][$key];
+		if (isset($this->settings->openurl['key'][$key])){
+			$newkey = $this->settings->openurl['key'][$key];
 		} else {
 			$newkey = $this->normalise($key);
 		}
 		$this->set_property($co, $newkey, $value);
 		$this->settings->undefine_openurl_keys(); // free up some resources
 	}
+	
+	/**
+	 * public static method
+	 *
+	 *	contextobject::translate_ris(params)
+	 *
+	 * @param	string	 
+	 * @param	string
+	 * @param	string	
+	 * @return	void
+	 * @example	'au' >> 'author'
+	 * @note	translate_openurl sets individual properties for unparsed key
+	 */		
+	function translate_ris($co, $key, $value){
+		$this->settings->define_ris_keys();	
+		$newkey = $co.'_';
+		if (isset($this->settings->ris['key'][$key])){
+			$newkey .= $this->settings->ris['key'][$key];
+		} else {
+			$newkey .= $this->normalise($key);
+		}
+		$this->build($newkey, $value);
+		$this->settings->undefine_ris_keys(); // free up some resources
+	}
+	
 ###################### TXTCKA FUNCTIONS : FINISH ######################
 }
 ?>
