@@ -1,5 +1,5 @@
 #summary General things to bear in mind with OpenURL resolving.
-#labels Phase-Design,Phase-Requirements
+#labels Phase-Design,Phase-Requirements,Featured
 
 = Introduction =
 
