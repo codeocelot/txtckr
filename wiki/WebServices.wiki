@@ -1,5 +1,5 @@
 #summary Web services useful for OpenURL resolving
-#labels Phase-Design
+#labels Phase-Design,Featured
 
 = Introduction =
 
