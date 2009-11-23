@@ -12,7 +12,7 @@ ISSN data:
 
 If you're doing ISSNs, you might need a look-up table in a SQL database(/RDF store?). These sources of ISSN data might well be useful for such a thing:
 
-    * <a href="http://www.issn.org/files/issn/ISSN-L/ISSN_ISSN-L_tables_20090105.zip">ISSN-L table</a> (14MB zipped)
+    * <a href="http://www.issn.org/files/issn/ISSN-L/ISSN_ISSN-L_tables_20091008.zip">ISSN-L table</a> (14MB zipped)
     * <a href="http://www.tictocs.ac.uk/text.php">ticTOCs</a> (????? lines - rss feed urls)
     * <a href="http://www.crossref.org/titleList/">CrossRef title list</a> (20029 lines - title coverage data isn't much use)
 
