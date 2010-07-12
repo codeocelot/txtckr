@@ -1,5 +1,5 @@
 #summary (Database) storage
-#labels Phase-Implementation,Phase-Design,database,mongodb,mysql,postgres
+#labels Phase-Implementation,Phase-Design,database,mongodb,mysql,postgres,Featured
 
 = Introduction =
 What sort of database systems will be used?
