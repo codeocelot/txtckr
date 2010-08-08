@@ -96,7 +96,7 @@
   */
 
 require ('common_funcs.class.php');
-require ('settings.class.php');
+require ('config.class.php');
 //require('FirePHP.class.php');
 
  
@@ -111,7 +111,7 @@ class contextobject extends common_functions{
 		$this->request['http_get'] 	= $_SERVER['QUERY_STRING'];
 		$this->request['http_post']	= file_get_contents('php://input');
 		$this->errors['http_curl']	= '';
-		$this->errors['settings']	= '';
+		$this->errors['config']	= '';
 		$this->ctx[0]				= 0; 
 		$this->req[0]				= 0;
 		$this->req['ids']			= array();
@@ -123,7 +123,7 @@ class contextobject extends common_functions{
 		$this->rft[0]				= 0;
 		$this->rft['ids']			= array();
 		$this->svc[0]				= 0;
-		$this->settings 			= new settings;
+		$this->config 			    = new config;
 		// $this->names				= '';
 		$this->log					= '';
 		//$this->log					= FirePHP::getInstance(true);
@@ -131,7 +131,7 @@ class contextobject extends common_functions{
 
 
 
-#### TXTCKA FUNCTIONS : START ####
+#### TXTCKR FUNCTIONS : START ####
 	/**
 	 * public static method
 	 *
@@ -179,7 +179,8 @@ class contextobject extends common_functions{
 			case (!isset($this->{$co}[$hash_name][$p])):            // there is no $this->rfe['author'][1]
 				$this->{$co}[$hash_name][$p]    = array($property => $value);
 				break;   
-			case (@((isset($this->{$co}[$hash_name][$p][$property])) | ($this->{$co}[$hash_name][$p]['complete'] == 'constructed'))):    // $this->rfe['author'][1]['last_name'] is already set
+			// case (@((isset($this->{$co}[$hash_name][$p][$property])) | ($this->{$co}[$hash_name][$p]['complete'] == 'constructed'))):
+			case (isset($this->{$co}[$hash_name][$p][$property])): // $this->rfe['author'][1]['last_name'] is already set
 				$x = ($p + 1);
 				$this->set_hash($co, $hash_name, $property, $value, $x);
 				break;
@@ -329,7 +330,7 @@ class contextobject extends common_functions{
 	function parse_name($co, $entity_type, $name, $num){
 	// echo "<br/>".'name to be parsed is: '.$name;
 	if ($name !== null) {
-	$this->settings->define_name_parts();
+	$this->config->define_name_parts();
 		$name = preg_replace('/\s+/', '_',trim($name));
 		if ($entity_type == 'author_corp'){
 			$this->set_hash($co, $entity_type, 'full_name', $name, $num);
@@ -337,14 +338,14 @@ class contextobject extends common_functions{
 			break;
 		}
 		$matches = array();
-			foreach ($this->settings->prefixes as $ab => $prefix){
+			foreach ($this->config->prefixes as $ab => $prefix){
 				if (preg_match ($prefix, $name, $matches)){
 					$this->set_hash($co, $entity_type, 'prefix', $matches[1], $num);
 					$name = trim(preg_replace($prefix, '', $name), '_,');
 				}
 		}
 		$matches = array();
-			foreach ($this->settings->titles as $ab => $title){
+			foreach ($this->config->titles as $ab => $title){
 				if (preg_match($title, $name, $matches)){
 					$value = trim(preg_replace('/_/', '', $matches[0]), ',_');
 					$this->set_hash($co, $entity_type, 'title', $value, $num);
@@ -381,7 +382,7 @@ class contextobject extends common_functions{
 				}
 			}
 		$this->set_hash($co, $entity_type, 'complete', 'constructed', $num);
-		$this->settings->undefine_name_parts();
+		$this->config->undefine_name_parts();
 		}
 	}
 	
@@ -398,7 +399,7 @@ class contextobject extends common_functions{
 	 * @note	
 	 */		
 	function set_name_segment($co, $entity_type, $i, $name_segment, $num){
-	$this->settings->define_name_segments();
+	$this->config->define_name_segments();
 		$nseg_strlen = strlen(trim($name_segment));
 		//echo "<br/>".'length of '.$name_segment.' is '.$nseg_strlen;
 		if ($nseg_strlen > 0){
@@ -409,27 +410,27 @@ class contextobject extends common_functions{
 				foreach($initials as $i => $initial){
 				$x = $i + 1;
 				$initial .= '. ';
-					if (isset($this->settings->name_initials[$x])){
-						$this->set_hash($co, $entity_type, $this->settings->name_initials[$x], $initial, $num);
+					if (isset($this->config->name_initials[$x])){
+						$this->set_hash($co, $entity_type, $this->config->name_initials[$x], $initial, $num);
 					}
 				}
 			} elseif ($nseg_strlen = 1){
 				$initial = strtoupper($name_segment).'. ';
-				if (isset($this->settings->name_initials[$i])){
-					$this->set_hash($co, $entity_type, $this->settings->name_initials[$i], $initial, $num);
+				if (isset($this->config->name_initials[$i])){
+					$this->set_hash($co, $entity_type, $this->config->name_initials[$i], $initial, $num);
 				}
 			} elseif ($nseg_strlen > 1){
 				$initials = str_split(strtoupper($name_segment), 1);
 				$initial = $initials[0]. '. ';
-				if (isset($this->settings->name_segments[$i])){
-					$this->set_hash($co, $entity_type, $this->settings->name_segments[$i], $name_segment, $num);
+				if (isset($this->config->name_segments[$i])){
+					$this->set_hash($co, $entity_type, $this->config->name_segments[$i], $name_segment, $num);
 				}
-				if (isset($this->settings->name_initials[$i])){
-					$this->set_hash($co, $entity_type, $this->settings->name_initials[$i], $initial, $num);
+				if (isset($this->config->name_initials[$i])){
+					$this->set_hash($co, $entity_type, $this->config->name_initials[$i], $initial, $num);
 				}
 			}
 		}	
-	$this->settings->undefine_name_segments();
+	$this->config->undefine_name_segments();
 	}
 	
 
@@ -602,7 +603,7 @@ class contextobject extends common_functions{
 	 * @example	set_issn($co, $issn_type, $issn) sets individual properties from one value;
 	 * @note	
 	 */		
-	function set_issn($co, $issn, $issn_type='print'){
+	function set_issn($co, $issn_type, $issn){
 		if (preg_match('/\(/', $issn)){
 			@list($issn,$junk) = explode('(', $issn, 2);		// tidy up any gunge
 		}	
@@ -712,7 +713,7 @@ class contextobject extends common_functions{
 			//  if (preg_match('/^(\d{4}-\d{4})\((.+)\)(.+)/', $this->set_property($co, 'item', $match))
             if (preg_match('/^(\d{4}-\d{3}([0-9]|X))\((.+)\)(.+)/', $this->{$co}['item'], $match)){       
                 //print_r($match);
-                $this->set_issn($co, $match[1], 'unknown');
+                $this->set_issn($co, 'issn', $match[1]);
                 $this->set_property($co, 'chron', $match[3]);
                 $this->set_property($co, 'enum', $match[4]);
             }
@@ -792,13 +793,13 @@ class contextobject extends common_functions{
 	 * @note	
 	 */	
 	function set_contexttype($co, $type){
-		$this->settings->define_contexttypes();
+		$this->config->define_contexttypes();
 		switch (true) {
-			case ($this->settings->types['key'][$type] != ''): // not sure about this - not tested, but more configurable!
-				$this->set_property($co, 'reftype', $this->settings->types['reftype'][$type]);
-				$this->set_property($co, 'reqtype', $this->settings->types['reqtype'][$type]);
-				$this->set_property($co, 'sourcetype', $this->settings->types['sourcetype'][$type]);
-				$this->set_property($co, 'notes', $this->settings->types['notes'][$type]);
+			case ($this->config->types['key'][$type] != ''): // not sure about this - not tested, but more configurable!
+				$this->set_property($co, 'reftype', $this->config->types['reftype'][$type]);
+				$this->set_property($co, 'reqtype', $this->config->types['reqtype'][$type]);
+				$this->set_property($co, 'sourcetype', $this->config->types['sourcetype'][$type]);
+				$this->set_property($co, 'notes', $this->config->types['notes'][$type]);
 				break;
 			default:
 				$this->set_property($co, 'reftype', 'GEN');
@@ -807,7 +808,7 @@ class contextobject extends common_functions{
 				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
 				break;
 		}
-		$this->settings->undefine_contexttypes(); 
+		$this->config->undefine_contexttypes(); 
 	}
 
 
@@ -823,13 +824,13 @@ class contextobject extends common_functions{
 	 * @note	
 	 */	
 	function set_reftype($co, $reftype){
-		$this->settings->define_contexttypes();
+		$this->config->define_contexttypes();
 		switch (true) {
-			case ($type = array_search($reftype,  (array)$this->settings->types['reftype'])): // not sure about this - not tested, but more configurable!
+			case ($type = array_search($reftype,  (array)$this->config->types['reftype'])): // not sure about this - not tested, but more configurable!
 				$this->set_property($co, 'reftype', $reftype);
-				$this->set_property($co, 'reqtype', $this->settings->types['reqtype'][$type]);
-				$this->set_property($co, 'sourcetype', $this->settings->types['sourcetype'][$type]);
-				$this->set_property($co, 'notes', $this->settings->types['notes'][$type]);
+				$this->set_property($co, 'reqtype', $this->config->types['reqtype'][$type]);
+				$this->set_property($co, 'sourcetype', $this->config->types['sourcetype'][$type]);
+				$this->set_property($co, 'notes', $this->config->types['notes'][$type]);
 				break;
 			default:
 				$this->set_property($co, 'reftype', 'GEN');
@@ -838,7 +839,7 @@ class contextobject extends common_functions{
 				$this->set_property($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
 				break;
 		}
-		$this->settings->undefine_contexttypes();
+		$this->config->undefine_contexttypes();
 	}	
 
 	/**
@@ -1112,7 +1113,7 @@ class contextobject extends common_functions{
 			// $key = (str_replace('[%20][\s]', '', $key));
 			$this->build($key, $value);
 		}
-		$this->settings->undefine_contexttypes(); // free up some memory
+		$this->config->undefine_contexttypes(); // free up some memory
 	}
 
 
@@ -1242,14 +1243,14 @@ class contextobject extends common_functions{
 	 * @note	translate_openurl sets individual properties for unparsed key
 	 */		
 	function translate_openurl($co, $key, $value){
-		$this->settings->define_openurl_keys();		
-		if (isset($this->settings->openurl['key'][$key])){
-			$newkey = $this->settings->openurl['key'][$key];
+		$this->config->define_openurl_keys();		
+		if (isset($this->config->openurl['key'][$key])){
+			$newkey = $this->config->openurl['key'][$key];
 		} else {
 			$newkey = $this->normalise($key);
 		}
 		$this->set_property($co, $newkey, $value);
-		$this->settings->undefine_openurl_keys(); // free up some resources
+		$this->config->undefine_openurl_keys(); // free up some resources
 	}
 	
 	/**
@@ -1265,17 +1266,31 @@ class contextobject extends common_functions{
 	 * @note	translate_openurl sets individual properties for unparsed key
 	 */		
 	function translate_ris($co, $key, $value){
-		$this->settings->define_ris_keys();	
+		$this->config->define_ris_keys();	
 		$newkey = $co.'_';
-		if (isset($this->settings->ris['key'][$key])){
-			$newkey .= $this->settings->ris['key'][$key];
+		if (isset($this->config->ris['key'][$key])){
+			$newkey .= $this->config->ris['key'][$key];
 		} else {
 			$newkey .= $this->normalise($key);
 		}
 		$this->build($newkey, $value);
-		$this->settings->undefine_ris_keys(); // free up some resources
+		$this->config->undefine_ris_keys(); // free up some resources
 	}
 	
-###################### TXTCKA FUNCTIONS : FINISH ######################
+	/**
+	 * public static method
+	 *
+	 *	contextobject::log_request()
+	 *	
+	 * @return	void
+	 * @example	'au' >> 'author'
+	 * @note	logs the current request
+	 */		
+	function log_request(){
+		$this->db_insert($openurl->rft, 'txtckr', 'local');
+		$this->config->undefine_ris_keys(); // free up some resources
+	}		
+	
+###################### TXTCKR FUNCTIONS : FINISH ######################
 }
 ?>
