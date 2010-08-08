@@ -184,6 +184,44 @@ class common_functions {
 
 
 #### OBJECT FUNCTIONS : FINISH ####	
+#### DATABASE FUNCTIONS : START ####	
+
+	/**
+	 * public static method
+	 *
+	 *	common_functions::db_connect(params)
+	 *
+	 * @param	string	 
+	 * @param	string
+	 * @return	void
+	 * @example	$this->db_connect($collection, $db) >> $this->collection
+	 * @note	setup a connection to the collection in db
+	 */		
+	function db_connect($collection, $db){
+		$connection = new Mongo(); // $connection = new Mongo( "192.168.2.1:65432" );
+		$this->{$db} = $connection->selectDB($db);
+		$this->{$collection} = $this->{$db}->selectCollection($collection);
+	}
+	
+	/**
+	 * public static method
+	 *
+	 *	common_functions::db_insert(params)
+	 *
+	 * @param	string	 
+	 * @return	void
+	 * @example	$this->{$collection}->insert($object)
+	 * @note	insert object into MongoDB
+	 */		
+	 function db_insert($object, $collection, $db){
+        if (!isset($this->{$collection})){
+            $this->db_connect($collection, $db);
+        }
+        $safe_insert = true;
+        $this->{$collection}->insert($object, $safe_insert)	;
+	}	
+	
+#### DATABASE FUNCTIONS : FINISH ####	
 
 }
 	
