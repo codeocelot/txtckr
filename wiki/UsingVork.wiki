@@ -9,9 +9,9 @@ Vork details at their website http://www.vork.us - doesn't seem to be much elsew
 = Details =
 
 MVC design:
-* Model: MongoDB objects
-* View: HTML + jQuery, XML, (RDF/XML?)
-* Controllers: txtckrs code
+  * Model: MongoDB objects
+  * View: HTML + jQuery, XML, (RDF/XML?)
+  * Controllers: txtckrs code
 
 Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
 Built-in support for MongoDB and other databases
