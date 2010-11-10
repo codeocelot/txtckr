@@ -13,5 +13,6 @@ MVC design:
   * View: HTML + jQuery, XML, (RDF/XML?)
   * Controllers: txtckrs code
 
-Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
-Built-in support for MongoDB and other databases
+Other aspects:
+  *Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
+  * Built-in support for MongoDB and other databases
