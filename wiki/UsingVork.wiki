@@ -1,0 +1,17 @@
+#summary Vork notes and how txtckr will be built using the Vork framework.
+#labels Phase-Design,vork
+
+= Introduction =
+
+Vork details at their website http://www.vork.us - doesn't seem to be much elsewhere!
+
+
+= Details =
+
+MVC design:
+* Model: MongoDB objects
+* View: HTML + jQuery, XML, (RDF/XML?)
+* Controllers: txtckrs code
+
+Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
+Built-in support for MongoDB and other databases
