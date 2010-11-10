@@ -4,6 +4,7 @@
 = Introduction =
 What sort of database systems will be used?
 
+txtckr will use the Vork framework, so MongoDB will be used as the txtckr base install (for internal storage, logging, etc). People can still use databases if they want for individual modules, etc.
 
 = Details =
 *MongoDB* - Preferred option.
