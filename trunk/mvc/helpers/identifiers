@@ -2,7 +2,7 @@
 
 class identifiersHelper {
     /**
-     * Checks a DOI, returns "" if not valid
+     * Checks a DOI, returns null if not valid
      *
      * @param string
      * @return string
@@ -288,6 +288,9 @@ class identifiersHelper {
 		$snArr = str_split($protosn, 1);
 		$checkArr = array_reverse($snArr);
 		$echecksum = $checkArr[0];
+		if ($echecksum == "x"){
+			strtoupper($echecksum);
+		}
 		$lengthSN = strlen($sn);
 		$verify = false;
 		switch($lengthSN){
