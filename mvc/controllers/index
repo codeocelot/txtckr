@@ -1,0 +1,25 @@
+<?php
+/**
+ * This controller loads automatically when controller is not defined explicitly in the URL
+ */
+class indexController {
+    /**
+     * The index method loads automatically when the action is not defined explicitly in the URL
+     *
+     * @return array
+     */
+    public function index() {
+        if (isset($_POST['logout'])) {
+            get::component('account')->logout();
+            load::redirect('/'); //removes POST values
+            return;
+        }
+        if (isset($_GET['forgotPassword'])) {
+            $return = get::component('account')->forgotPassword();
+        }
+        $return['title'] = get::$config->SITE_NAME;
+        $return['head']['meta'] = array('keywords' => '',
+                                        'description' => '');
+        return $return;
+    }
+}

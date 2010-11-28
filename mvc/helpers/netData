@@ -1,0 +1,67 @@
+<?php
+# code from http://www.navioo.com/php/docs/function.curl-multi-exec.php
+
+class netDataHelper {
+
+    function __construct(){
+        $this->error    			= "";
+    }
+
+
+    function netDataGet($netRequest){
+
+        $mh = curl_multi_init();
+        foreach ($netRequest as $netSource => $netURL) {
+            $this->{$netSource} = array();
+            if (str_match(':', $netSource){
+                @list($this->{$netSource}['name'], $this->{$netSource}['datatype']) = explode(':', $netSource);
+				// test this to see whether we can create a reliable convention for the Helper function
+				$this->{$netSource}['helper'] = ${$netSource['name']}.${$this->{$netSource}['datatype'])}."Helper";
+            } else {
+                $this->{$netSource}['name'] = $netSource;
+				// test this to see whether we can create a reliable convention for the Helper function
+				$this->{$netSource}['helper'] = ${$netSource['name']}."Helper";
+            }
+            $this->{$netSource}['result']  = "";
+            $this->{$netSource}['error']   = "";
+            $conn[$netSource] = curl_init($netURL);
+            curl_setopt($conn[$netSource], CURLOPT_RETURNTRANSFER, 1);
+            curl_multi_add_handle ($mh,$conn[$netSource]);
+        }
+        // start performing the request
+        do {
+         $mrc = curl_multi_exec($mh, $active);
+        } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            while ($active and $mrc == CURLM_OK) {
+             // wait for network
+             if (curl_multi_select($mh) != -1) {
+               // pull in any new data, or at least handle timeouts
+               do {
+                 $mrc = curl_multi_exec($mh, $active);
+               } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+             }
+            }
+        if ($mrc != CURLM_OK) {
+            $this->error .= "Curl multi read error $mrc\n";
+        }
+        // retrieve data
+        foreach ($netRequest as $netSource => $netURL) {
+            if (($err = curl_error($conn[$netSource])) == '') {
+				// no problems
+               $this->{$netSource}['result'] = curl_multi_getcontent($conn[$netSource]);
+			   // not sure if this works...
+			   if method_exists($this->{$netSource}['helper']){
+			   $this->{$netSource}['helper']($this->{$netSource}['result']);
+			   }
+            } else {
+				// okay, errors do happen
+               $this->{$netSource}['error'] .= "Error: $err\n";
+            }
+         curl_multi_remove_handle($mh,$conn[$netSource]);
+         curl_close($conn[$netSource]);
+        }
+        curl_multi_close($mh);
+    }
+	
+	
+}

@@ -1,0 +1,19 @@
+<?php
+$head['title'] = get::htmlentities(isset($title) ? $title : get::$config->SITE_NAME);
+$head['css'] = '/css/main.css?1';
+$head['favicon'] = '/favicon.ico';
+$head['animatedFavicon'] = '/favicon.gif';
+//$head['metaheader']['X-UA-Compatible'] = 'IE=EmulateIE7';
+//$head['head'][] = $html->css('/css/print.css?1', 'print');
+echo $html->header($head);
+
+if (isset($alert)) {
+    echo $html->getNotifications($alert);
+}
+
+echo $view;
+
+//uncomment the next line to show your appreciation of Vork
+//echo $html->div($html->link('http://www.Vork.us', 'Super-Powered by Vork, High-Performance Framework'));
+
+echo $html->footer();

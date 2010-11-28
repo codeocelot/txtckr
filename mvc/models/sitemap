@@ -1,0 +1,22 @@
+<?php
+/**
+ * Retrieve the page URLs required to build a sitemap
+ */
+class sitemapModel extends model {
+    /**
+     * Retrieve the URLs. Adjust this for your application.
+     *
+     * By default this only returns your wiki-generated pages (if there are any)
+     *
+     * @return array
+     */
+    public function getUrls() {
+        $sql = 'select controller, wikiaction from wikicache';
+        if ($res = $this->db->query($sql)) {
+            while ($row = $res->fetch_assoc()) {
+                $return[] = $row['controller'] . ($row['wikiaction'] != 'index' ? '/' . $row['wikiaction'] : '');
+            }
+        }
+        return (isset($return) ? $return : array());
+    }
+}
