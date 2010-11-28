@@ -1,0 +1,9 @@
+<?php
+$baseUrl = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+echo '<' . '?xml version="1.0" encoding="UTF-8"?' . '>' . PHP_EOL
+   . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL
+   . '<url><loc>' . $baseUrl . '</loc><changefreq>weekly</changefreq></url>' . PHP_EOL;
+foreach ($urls as $url) {
+   echo '<url><loc>' . $baseUrl . $url . '</loc><changefreq>weekly</changefreq></url>' . PHP_EOL;
+}
+echo '</urlset>';

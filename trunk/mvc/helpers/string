@@ -1,0 +1,62 @@
+<?php
+/**
+ * string tools helper
+ */
+class stringHelper {
+    /**
+     * Normalises a string, replacing spaces with underscores, making string lowercase, returns normalised value 
+     *
+     * @param string
+     * @return string
+     */
+//-- normalise : START
+	public function normalise($value){
+		$value = strtolower(preg_replace('/\s/', '_', $value));
+		return ($value);
+	}
+//-- normalise : FINISH
+
+    /**
+     * Safely normalises a string, replacing spaces, colons, backslashes, etc. with underscores, making string lowercase, returns normalised value 
+     *
+     * @param string
+     * @return string
+     */
+//-- safeNormalise : START
+ 	public function safeNormalise($value){
+		$value = strtolower(preg_replace('/[\s\\\/;:\.]', '_', $value));
+		return ($value);
+	}
+//-- safeNormalise : FINISH
+
+    /**
+     * Quick and dirty function for handling data sent in KEV format, returns cleaned value 
+     *
+     * @param string
+     * @return string
+     */
+//-- unencode : START
+	public function unencode($value){
+		$value = urldecode(rawurldecode($value));
+		return ($value);
+	}
+//-- unencode : FINISH
+
+
+    /**
+     * Similar to pre_match, but for strings, returns boolean: true if found; false if not found 
+     *
+     * @param string
+     * @return bool
+     */
+//-- stringMatch : START
+	public function stringMatch($needle, $haystack){
+		$result = true;
+		$pos = strpos($haystack, $needle);
+			if ($pos === FALSE) { // Note the use of === strpos may also return a non-Boolean value which evaluates to FALSE
+				$result = false;
+			}
+		return ($result);
+	}
+//-- stringMatch : FINISH
+}

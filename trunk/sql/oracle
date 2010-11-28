@@ -1,0 +1,84 @@
+<?php
+/**
+ * Converts the procedural Oracle PHP class to object-oriented
+ */
+class oracle {
+    /**
+     * Database resource ID
+     * @var object
+     */
+    public $resource;
+
+    /**
+     * The database method used to sanitize user input strings
+     */
+    const ESCAPE_STRING = 'escapeString';
+
+    /**
+     * Creates a string sanitation method as it is missing in the MS SQL PHP extension
+     *
+     * @param string $var
+     * @return string
+     */
+    public function escapeString($var) {
+        return str_replace("'", "\\'", $var);
+    }
+
+    /**
+     * Alias for oci_parse() to update OCI8 to use the modern naming convention
+     * and not require passing the connection to every statement via argument
+     *
+     * @param string $query
+     * @return resource
+     */
+    public function query($query) {
+        return oci_parse($this->resource, $query);
+    }
+
+    /**
+     * Connect to Oracle via OCI8
+     *
+     * @param string $username
+     * @param string $passwd
+     * @param string $dbname Optional
+     * @param boolean $persistent Optional default is true
+     * @param string $charset Optional
+     * @param int $sessionMode Optional
+     */
+    public function __construct($username, $password, $dbname = null, $persistent = true,
+                                $charset = null, $sessionMode = null) {
+        try {
+            $connect = 'oci_ ' . ($persistent ? 'pconnect' : 'connect');
+            $this->resource = $connect($username, $password, $dbname, $charset, $sessionMode);
+            if (!$this->resource) {
+                throw new Exception('Cannot connect to Oracle');
+            }
+        } catch (Exception $e) {
+            $this->error = $e->getMessage();
+        }
+    }
+
+    /**
+     * Catch-all method allowing you to call any OCI8 function via camel-cap object-oriented syntax.
+     *
+     * From your models you could access:
+     *
+     * $this->db->fetchAll()
+     * $this->db->fetchAssoc()
+     * $this->db->commit()
+     * $this->db->parse()
+     * $this->db->result()
+     * $this->db->rollback()
+     * $this->db->close()
+     * etc.
+     *
+     * @param string $name
+     * @param mixed $val
+     */
+    public function __call($name, $val) {
+        $name = strtolower('oci_' . preg_replace('/[A-Z]/', '_$0', $name));
+        if (function_exists($name)) {
+            return call_user_func_array($name, $val);
+        }
+    }
+}

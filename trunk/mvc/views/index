@@ -1,0 +1,2 @@
+<?php
+echo $html->h1('Installation successful! Hello World!');

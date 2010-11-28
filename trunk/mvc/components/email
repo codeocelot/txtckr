@@ -1,0 +1,30 @@
+<?php
+/**
+ * Email-sending functionality
+ */
+class emailComponent {
+    /**
+     * Sends an email.
+     *
+     * Required argument keys are: to, from, subject, body
+     * Optional keys are: fromName, (boolean) html, (array) headers
+     *
+     * @param array $args
+     * @return boolean Success status sending email
+     */
+    public function sendEmail(array $args) {
+        extract($args);
+
+        $headers['from'] = 'From: ';
+        if (isset($fromName)) {
+            $headers['from'] .= '"' . $fromName . '" ';
+        }
+        $headers['from'] .= '<' . $from . ">\r\n";
+        ini_set('sendmail_from', $from);
+
+        if (isset($html) && $html) {
+            $headers['html'] = "Content-type: text/html; charset=iso-8859-1\r\n";
+        }
+        return mail($to, $subject, $body, implode($headers), '-f' . $from);
+    }
+}

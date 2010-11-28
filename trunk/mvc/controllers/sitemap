@@ -1,0 +1,15 @@
+<?php
+/**
+ * Passes the URLs from the sitemap model to the view
+ */
+class sitemapController {
+    /**
+     * Turns off the layout as the sitemap output is XML
+     *
+     * @return array
+     */
+    public function index() {
+        mvc::$layout = null;
+        return array('urls' => get::model()->getUrls());
+    }
+}

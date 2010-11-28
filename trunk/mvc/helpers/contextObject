@@ -1,0 +1,765 @@
+<?php
+
+class contextObjectHelper {
+
+	function __construct(){
+		$this->co['logid'] 			= date("YmdHis").rand(00,59);
+		$this->co['date'] 			= date("F j, Y, g:i a");
+		$this->co['req_type'] 		= '';
+		$this->co['ip'] 			= $_SERVER["REMOTE_ADDR"];
+		$this->co['browser'] 		= $_SERVER["HTTP_USER_AGENT"];
+		$this->request['http_get'] 	= $_SERVER['QUERY_STRING'];
+		$this->request['http_post']	= file_get_contents('php://input');
+		$this->errors['http_curl']	= '';
+		$this->errors['settings']	= '';
+		$this->ctx[0]				= 0; // these replace name_registry
+		$this->req[0]				= 0;
+		$this->rfe[0]				= 0;
+		$this->rfr[0]				= 0;
+		$this->rft[0]				= 0;
+		$this->rft['id']			= 0;
+		$this->svc[0]				= 0;
+		# name attributes now embedded in contextobject
+		$this->name_registry[0]		= 0; // used to store the last number used in this array
+		$this->name_partials[0]		= 0; // used to store the last number used in this array 
+		$this->name_check[0]		= 0; // used to store the last number used in this array
+		$this->first_name[0]		= 0;
+		$this->initial_1[0]			= 0;
+		$this->initial_m[0]			= 0;
+		$this->initials[0]			= 0;
+		$this->last_name[0]			= 0;
+		$this->pre_last_name[0]		= 0; // e.g. 'van der' 	as in Willem van der Weerden
+		$this->post_last_name[0]	= 0; // e.g. 'III'		as in William Gates III
+		$this->full_name[0]			= 0;
+		$this->corp_name[0]			= 0;
+		$this->settings				= new settings;
+		$identifiers 				= get::helper('identifiers');
+	}
+
+/* adapted from [http://q6.oclc.org/openurl/simple_openurl/]
+_When_
+ContextObject {ctx_}
+There seems to be a general feeling on the OpenURL discussion list that the lack of a when-style Entity was an oversight.
+OTOH, a handful of candidates have emerged in the discussion, but it's difficult to identify any one of them as deserving Entity-level status.
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+ContextObject
+ctx				ctx_id	
+
+_Which_
+Referer {rfr_}
+Which database/discovery source was the user using when they invoked the request?
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+Referrer
+rfr     		rfr_id      rfr_val_fmt        rfr_ref_fmt			rfr_dat
+												rfr_ref
+
+_Where_
+Referring Entity {rfe_}
+Where was the user when they invoked the request?
+e.g. typically this might be taken from the HTTP 'Referer' header
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+												
+ReferringEntity
+rfe   			rfe_id      rfe_val_fmt        rfe_ref_fmt			rfe_dat
+												rfe_ref
+
+_Who_
+Requester {req_}
+Who originated the request?
+e.g. could contain information such as an authenticated user ID and authorized roles
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+Requester
+req				req_id      req_val_fmt        req_ref_fmt			req_dat
+												req_ref
+
+_What_
+Referent {rft_}
+What is the subject of the request?
+e.g. the Requester is interested in a record in the database
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+Referent         
+rft  			rft_id      rft_val_fmt        rft_ref_fmt			rft_dat
+												rft_ref
+
+_Why_
+ServiceType {svc_}
+Why is the request being made?
+e.g. the Requester wants to edit the Referent
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+ServiceType
+svc			     svc_id     svc_val_fmt         svc_ref_fmt  		svc_dat
+												svc_ref
+
+_How_
+Transport {res_}
+How did the user express the request?
+This indicates the URL/SOAP structure used to conveny the information above in a web service request.
+
+				Identifier By-Value Metadata By-Reference Metadata Private Data
+					id             val                 ref              dat
+Resolver
+res				res_id      res_val_fmt        res_ref_fmt			res_dat
+												res_ref
+*/
+
+###################### TXTCKA FUNCTIONS : START ######################	
+	function setProperty($co, $key, $value){
+	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
+	if (($value !== null) && (!isset($this->ctx[$key]))){		// has this key already been set?
+		$this->{$co}[$key] = $value;								// if not, then set it
+		$this->{$co}[0] = count(array_keys($this->$co));			// add to the field count as we go
+		}
+	}
+
+	function getNameRegistry(){
+		return array($this->name_registry);
+	}
+	
+	/*
+	Trying to:
+	a) create a registry, which lists all name parts collected, in the order parsed
+
+	b) either:
+		 i) create a named entity, when provided with a full name
+		ii) stored the name parts for later creation of a named entity as:
+				$this->name_partials[0] 			= 3;
+				$this->name_partials[1]				= 'rfe_aufirst'.'_'.1;
+				$this->name_partials[2] 			= 'rfe_aulast'.'_'.1;
+				
+				$this->first_name[0]				= 3;
+				$this->first_name['rfe_au'][1] 		= 'Tom';
+				$this->first_name['rfe_au'][2] 		= 'Alison';
+				
+				$this->last_name[0]					= 2;
+				$this->last_name['rfe_au'][1]		= 'Pasley';
+
+	c) create a named entity for each 'last_name' collected, together with suitable 'first_name' or 'initials', etc.
+	
+	*/	
+	
+	function setName($co, $name_type, $value){
+			$entity_types['advisor'] 		= 'advisor';
+			$entity_types['au'] 			= 'author';
+			$entity_types['aufull'] 		= 'author';
+			$entity_types['aucorp']			= 'author_corp';
+			$entity_types['contributor'] 	= 'contributor';
+			$entity_types['creator'] 		= 'creator';
+			$entity_types['ed']				= 'editor';
+			$entity_types['edfull']			= 'editor';
+			$entity_types['inv'] 			= 'inventor';
+			$entity_types['invfull'] 		= 'inventor';
+		$r = count(array_keys($this->name_registry));		// use name_registry to store last used number
+		$p = count(array_keys($this->name_partials));		// use name_partials to store last used number [0] is reserved for count
+		switch(true){
+			case (isset($entity_types[$name_type])): 		// full names first!
+				$entity_type = $entity_types[$name_type];
+				$co_entity_r = $co.'_'.$entity_type.'_'.$r;	// using entity in this format as we can explode on '_' this later to get 3 values
+				$this->name_registry[$r] = $co_entity_r;	// add the entity as a value to the registry
+				$this->$co_entity = new named_entity;		// create a new object called (the value of entity)
+				$this->$co_entity->set_type($name_type);	// set a couple of values based on what we were given
+				$this->$co_entity->parse_name($value);		// parse the full name if we were given it
+				break;										// stop processing, move on...
+			// then it gets slightly more complicated
+			// surnames next - should only be one of these per person!
+			case (preg_match('/last$/', $name_type)):
+				$entitytype = preg_replace('/last$/', '', $name_type);
+				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
+					$entity_type 							= $co.'_'.$entity_types[$entitytype]; // e.g. rfe_author
+				} else {								 // otherwise, we'll use what's left
+					$entity_type 							= $co.'_'.$entitytype;	// e.g. rfe_collaborator
+				}
+				$co_entity = $co.'_'.$entitytype;		// register what came in which order, useful for name fragments.
+				// $this->name_check[$p]						= $entity_type;	// last names need to be checked
+				$this->name_registry[$r] 					= $entity_type.'_'.$r ;
+				$partial										= 'last_name';
+				break;
+			case (preg_match('/first$/', $name_type)):
+				$entitytype = preg_replace('/first$/', '', $name_type);
+				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
+					$entity_type 								= $co.'_'.$entity_types[$entitytype]; // e.g. rfe_author
+				} else {								 // otherwise, we'll use what's left
+					$entity_type 								= $co.'_'.$entitytype;	// e.g. rfe_collaborator
+				}
+				$partial										= 'first_name';
+				break;
+			case (preg_match('/init$/', $name_type)):
+				$entitytype = preg_replace('/init$/', '', $name_type);
+				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
+					$entity_type 								= $co.'_'.$entity_types[$entitytype]; // e.g. rfe_author
+				} else {								 // otherwise, we'll use what's left
+					$entity_type 								= $co.'_'.$entitytype;	// e.g. rfe_collaborator
+				}
+				$partial										= 'initials';
+				break;
+			case (preg_match('/init1$/', $name_type)):
+				$entitytype = preg_replace('/init1$/', '', $name_type);
+				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
+					$entity_type 								= $co.'_'.$entity_types[$entitytype]; // e.g. rfe_author
+				} else {								 // otherwise, we'll use what's left
+					$entity_type 								= $co.'_'.$entitytype;	// e.g. rfe_collaborator
+				}
+				$partial										= 'initial_m';
+				break;
+			case (preg_match('/initm$/', $name_type)):
+				$entitytype = preg_replace('/initm$/', '', $name_type);
+				if (isset($entity_types[$entitytype])){ // should be author, editor, etc.
+					$entity_type 								= $co.'_'.$entity_types[$entitytype]; // e.g. rfe_author
+				} else {								 // otherwise, we'll use what's left
+					$entity_type 								= $co.'_'.$entitytype;	// e.g. rfe_collaborator
+				}
+				$partial										= 'initial_m';
+				break;
+			default:
+				$partial										= $name_type;
+				break;
+			}
+			if (!isset($this->{$partial}[$entitytype][0])){
+			$this->{$partial}[$entitytype][0]				= 1;
+			}
+			$name_count										= $this->{$partial}[$entitytype][0];
+			$this->{$partial}[$entitytype][$name_count]		= $value;
+			$this->{$partial}[$entitytype][0]				= count(array_keys($this->{$partial}));
+			$this->name_partials[$p] 						= 'this->'.$co.'->['.$partial.']['.$name_count.']'; // register what came in which order, useful for name fragments.
+	}
+	
+	
+	function checkNameRegistry(){ // need to ensure that count(last_names) == count(first_names) + count(initials);
+	$check_names = (array_keys(array_flatten(array_values($this->$co_entity))));
+		$registry = $this->getNameRegistry();
+		foreach ($registry as $num => $name) {
+			list($co_entity, $order) = explode($name, ':');
+			if (is_array($this->$co['authors'])){ // add the sorted names here somehow
+			$this->$co['authors'] = array_merge($entity, $this->$$co['authors']);		
+			} else {
+			$this->$co['authors'] = $$entity;
+			}
+		}
+	}
+	
+	function getNames(){
+		$registry = $this->getNameRegistry();
+		foreach ($registry as $num => $name) {
+			list($co, $entity, $order) = explode($name, '_');
+			$$entity[$order] = $name;
+			if (is_array($this->$$co['authors'])){ // add the sorted names here somehow
+			$this->$co['authors'] = array_merge($$entity, $this->$$co['authors']);		
+			} else {
+			$this->$co['authors'] = $$entity;
+			}
+		}	
+	}
+
+	function setDate($co, $value){
+		if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))){
+		$this->setProperty($co, 'artyear', (int)$value);
+		$this->setProperty($co, 'dateisyear', 'false');
+		} elseif ((ctype_digit($value)) |(is_numeric($value))){
+		$arr = str_split($value, 8);
+		$datearr = str_split($arr[0], 2);
+		$year 	= @(int)($datearr[0].$datearr[1]);
+		$month 	= @(int)($datearr[3]);
+		$day	= @(int)($datearr[4]);
+		$this->setProperty($co, 'year', $year);
+		$this->setProperty($co, 'month', $month);
+		$this->setProperty($co, 'day', $day);
+		} else {
+			if (preg_match('/\//', $value)){
+				$newvalue = preg_replace('/\//', '-', $value); 
+				$this->setProperty($co, 'date', $newvalue);
+				$datearr = explode("-", $value);
+				foreach ($datearr as $poss => $year) {
+				$year = (int) $year;
+					if ((strlen($value) == 4) && (($year > 1600) && ($year < 2100))){		// artyear is between 1800 and 2100... 
+						$this->setProperty($co, 'dateisyear', 'true');
+						$this->setProperty($co, 'year', $year);
+						break;
+					} 
+				}
+			}
+		}
+	}
+	
+	function setIdentifier($co, $identifier){
+		switch (true) {
+			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
+				$handle = $identifiers->tidyHDL($identifier);
+				if ($handle !== null){
+					$this->setProperty($co, 'handle', $handle);
+					$handleLink = 'http://hdl.handle.net/'.$handle;
+					$this->setProperty($co, 'handleLink', $handleLink);				// human-friendly url
+					if ($co == 'rft'){
+						$this->rft['id']['doi'] = $doi;
+						$this->rft['id'][0]++;
+					}	
+				}
+				break;
+			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):	// OCLC number
+				$handle = $identifiers->tidyHDL($identifier)
+				$this->setProperty($co, 'oclcnum', $oclcnum);
+				if ($oclcnum !== null){
+					$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
+					$this->setProperty($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+				}
+				if ($co == 'rft'){
+					$this->rft['id']['oclcnum'] = $oclcnum;
+					$this->rft['id'][0]++;
+				}
+				break;
+			case (preg_match('/^isbn[=:\/]/', $identifier)):			// ISBN id.				
+				$isbn = $identifiers->tidyISBN($identifier);
+				if ($isbn !== null){
+					$this->setProperty($co, 'isbn', $isbn); 			// it must be an isbn
+					if ($co == 'rft'){
+						$this->rft['id']['doi'] = $doi;
+						$this->rft['id'][0]++;
+					}
+				}
+				break;		
+			case (preg_match('/^issn[=:\/]/', $identifier)):			// ISSN id.
+				$issn = $identifiers->tidyISSN($identifier);
+				if ($issn !== null){		
+					$this->setProperty($co, $issn_type, $issn);			// voila - it's an issn!
+					if ($co == 'rft'){
+						$this->rft['id']['.$issn_type.'] = $issn;
+						$this->rft['id'][0]++;
+					}
+				}
+				break;
+			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
+				$oai = $identifiers->tidyOAI($identifier);
+				$this->setProperty($co, 'oai', $oai);
+				if ($oai !== null){
+					$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
+					$this->setProperty($co, 'oaiLink', $oaiLink);						// OAI search link
+				}
+				if ($co == 'rft'){
+					$this->rft['id']['oai'] = $oai;
+					$this->rft['id'][0]++;
+				}
+				break;
+			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
+			case (preg_match('/^http:\/\/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
+				$pmid = $identifiers->tidyPMID($identifier);
+				$this->setProperty($co, 'pmid', $pmid);
+				if ($pmid !== null){
+					$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
+					$this->setProperty($co, 'pmidLink', $pmidLink);				// link to PubMed record	
+					if ($co == 'rft'){
+						$this->rft['id_count']++;
+					}
+				}
+				break; 
+			case (preg_match('/^doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
+			case (preg_match ('/^http:\/\/dx.doi.org\/10.([0-9]+)/i', $identifier):
+				$doi = $identifiers->tidyDOI($identifier);
+				if ($doi !== null){
+					$this->setProperty($co, 'doi', $doi);
+					$doiLink = 'http://dx.doi.org/'.$doi;
+					$this->setProperty($co, 'doiLink', $doiLink);		// human-friendly doi
+					if ($co == 'rft'){
+						$this->rft['id']['doi'] = $doi;
+						$this->rft['id'][0]++;
+					}
+				}
+				break; 				
+			case (preg_match('/^http:\/\//', $identifier)):				// http link?
+			case (preg_match('/^www./', $identifier)):					// web link?
+				$webid = $identifiers->tidyWEBID($identifier);
+				$this->setProperty($co, 'web', $webid);
+				if ($webid !== null){
+					$webLink = 'http://'.$webid;
+					$this->setProperty($co, 'webLink', $webLink);	
+					if ($co == 'rft'){
+						$this->rft['id_count']++;
+					}
+				}	
+			default:
+				$this->setProperty($co, 'id', $identifier);
+				break;
+		}
+	}
+
+# IDENTIFIER HANDLERS -- START
+	
+
+	function setHDL($co, $handle){
+		$handle = $identifiers->tidyHDL($handle);
+		if ($handle !== null){
+			$this->setProperty($co, 'handle', $handle);
+			$handleLink = 'http://hdl.handle.net/'.$handle;
+			$this->setProperty($co, 'handleLink', $handleLink);				// human-friendly url
+			if ($co == 'rft'){
+				$this->rft['id']['doi'] = $doi;
+				$this->rft['id'][0]++;
+			}	
+		}
+	}
+
+	function setISBN($co, $isbn){
+
+	}
+
+	function setISSN($co, $issn_type, $issn){
+		$issn = $identifiers->tidyISSN($issn);
+		if ($issn !== null){		
+			$this->setProperty($co, $issn_type, $issn);			// voila - it's an issn!
+			if ($co == 'rft'){
+				$this->rft['id']['.$issn_type.'] = $issn;
+				$this->rft['id'][0]++;
+			}
+		}
+	}
+	
+	function setOAI($co, $oai){
+		
+	}
+	
+	function setOCLCNUM($co, $oclcnum){	
+		$oclcnum = str_replace('oclcnum[=:\/]', '', $oclcnum);
+		$this->setProperty($co, 'oclcnum', $oclcnum);
+		if ($oclcnum !== null){
+			$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
+			$this->setProperty($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+		}
+		if ($co == 'rft'){
+			$this->rft['id']['oclcnum'] = $oclcnum;
+			$this->rft['id'][0]++;
+		}
+	}
+
+	function setPMID($co, $pmid){
+
+	}
+	
+	function setWEBID($co, $webid){
+		$webid = $identifiers->tidyWEBID($webid);
+		$this->setProperty($co, 'web', $webid);
+		if ($webid !== null){
+			$webLink = 'http://'.$webid;
+			$this->setProperty($co, 'webLink', $webLink);				// link to PubMed record	
+			if ($co == 'rft'){
+				$this->rft['id_count']++;
+			}
+		}
+	}
+
+# IDENTIFIER HANDLERS -- FINISH
+	
+	function set_referer($value){
+		//$details['table'] = 'referers';
+		//$details[0] = 'referer_name';
+		//$details[1] = 'referer_type';
+		//$results = query_db($details);
+		//$results = array();
+		@list($referer_name, $referer) = explode(':', $value);
+		$this->setProperty('rfr', 'referer_name', $referer_name);
+		$this->setProperty('rfr', 'referer_type', $referer);
+	}
+
+	function set_contexttype($co, $type){ // not working!!!
+		$this->settings->define_contexttypes();
+		switch (true) {
+			case ($this->settings->types['key'][$type] != ''): // not sure about this - not tested, but more configurable!
+				$this->setProperty($co, 'reftype', $this->settings->types['reftype'][$type]);
+				$this->setProperty($co, 'reqtype', $this->settings->types['reqtype'][$type]);
+				$this->setProperty($co, 'sourcetype', $this->settings->types['sourcetype'][$type]);
+				$this->setProperty($co, 'notes', $this->settings->types['notes'][$type]);
+				break;
+			default:
+				$this->setProperty($co, 'reftype', 'GEN');
+				$this->setProperty($co, 'reqtype', 'Unknown');
+				$this->setProperty($co, 'sourcetype', 'Unknown');
+				$this->setProperty($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
+				break;
+		}
+	}
+	
+	function build($key, $value){
+	//echo $key.'='.$value.'<br/>';
+	$key = $this->unencode($key); 		// remove any spaces - there shouldn't be any in the key names!
+	$key = $this->normalise($key);		// then standardise the rest of the key name.
+	$value = $this->unencode($value);	// unencode any value, by urldecoding any rawurlencoded strings
+	$value = str_replace('info:', '', $value);
+		switch(true){
+			case (preg_match('/^ctx\./', $key)):
+				$co = 'ctx';
+				$key = str_replace('ctx_', '', $key);
+				break;
+			case (preg_match('/^rfe\./', $key)):
+				$co = 'rfe';
+				$key = str_replace('rfe_', '', $key);
+				break;
+			case (preg_match('/^rfr_id$/', $key)):
+				$co = 'rfr';
+				$find[1] = '/sid:/i';	$replace[1] = '';
+				$find[2] = '/sid\//i';	$replace[2] = '';
+				$value = preg_replace($find, $replace, $value);
+				break;
+			case (preg_match('/^rfr\./', $key)):
+				$co = 'rfr';
+				$key = str_replace('rfr.', '', $key);
+				break;
+			case (preg_match('/^req\./', $key)):
+				$co = 'req';
+				$key = str_replace('req.', '', $key);
+				break;
+			case (preg_match('/^rft\./', $key)):
+				$co = 'rft';
+				$key = str_replace('rft.', '', $key);
+				break;
+			default:
+				$co = 'rft';
+				break;
+		}
+		
+		
+		switch ($key) {
+			case "advisor": // not sure if this should be parsed as a name, or left as is!
+				$this->setProperty($co, 'thesis_advisor', $value);
+				$this->set_contexttype($co, 'dissertation');
+				break;
+			case "applcc":
+				$this->setProperty($co, 'patent_application_country', $value);
+				$this->set_contexttype($co, 'patent');
+				break;
+			case "appldate":
+				$this->setProperty($co, 'patent_application_date', $value);
+				$this->set_contexttype($co, 'patent');
+				break;
+			case "applnumber":
+				$this->setProperty($co, 'patent_application_num', $value);
+				$this->set_contexttype($co, 'patent');
+				break;
+			case "applyear":
+				$this->setProperty($co, 'patent_application_year', $value);
+				$this->set_contexttype($co, 'patent');
+				break;
+			case "assignee":
+				$this->setProperty($co, 'patent_assignee', $value);
+				$this->set_contexttype($co, 'patent');
+				break;				
+			case "au":
+				$this->setName($co, 'au', $value);
+				break;
+			case "aufull":
+				$this->setName($co, 'au', $value);
+				break;
+			case "aucorp":
+				$this->setName($co, 'aucorp', $value);
+				break;				
+			case "aufirst":
+				$this->setName($co, 'aufirst', $value);
+				break;
+			case "auinit":
+				$this->setName($co, 'auinit', $value);
+				break;
+			case "auinit1":
+				$this->setName($co, 'auinit1', $value);
+				break;
+			case "auinitm":
+				$this->setName($co, 'auinitm', $value);
+				break;
+			case "aulast":
+				$this->setName($co, 'aulast', $value);
+				break;	
+			case "btitle":
+				$this->setProperty($co, 'title', $value);
+				$this->set_contexttype($co, 'book');
+				break;
+			case "coden":
+				$this->setIdentifier($co, 'coden', $value);
+				break;
+			case "contributor":
+				$this->setName($co, 'contributor', $value);
+				break;
+			case "creator":
+				$this->setName($co, 'creator', $value);
+				break;
+			case "ctx_ver":
+				$newvalue = strtoupper($value);
+				if ($newvalue == "Z39.88-2004") {
+				$this->setProperty('ctx', 'openurl', '1.0');
+				} else {
+				$this->setProperty('ctx', 'openurl', '0.1');
+				}
+				break;
+			case "date":
+				$this->setDate($co, $value);
+				break;
+			case "degree":
+				$this->setProperty($co, 'thesis_type', $value);
+				$this->set_contexttype($co, 'dissertation');
+				break;
+			case "ed":
+				$this->setName($co, 'ed', $value);
+				break;
+			case "edfirst":
+				$this->setName($co, 'edfirst', $value);
+				break;
+			case "edfull":
+				$this->setName($co, 'ed', $value);
+				break;				
+			case "edinit":
+				$this->setName($co, 'edinit', $value);
+				break;
+			case "edlast":
+				$this->setName($co, 'edlast', $value);
+				break;				
+			case "eissn":
+				$this->set_issn($co, 'eissn', $value);
+				break;
+			case "format":
+				$this->set_contexttype($co, $value);
+				break;
+			case "genre":
+				$this->setProperty($co, 'genre', $value);
+				$this->set_contexttype($co, $value);
+				break;
+			case "id":
+				$newvalue = str_replace ('\s', '', $value);
+				$this->setIdentifier($co, $newvalue);
+				break;
+			case "inv":
+				$this->setName($co, 'inv', $value);
+				break;
+			case "invfirst":
+				$this->setName($co, 'invfirst', $value);
+				break;
+			case "invinit":
+				$this->setName($co, 'invinit', $value);
+				break;
+			case "invlast":
+				$this->setName($co, 'invlast', $value);
+				break;
+			case "isbn":
+				$this->setISBN($co, $value);
+				break;
+			case "issn":
+				$this->set_issn($co, 'issn', $value);
+				break;
+			case "jtitle":
+				$this->setProperty($co, 'title', $value);
+				$this->set_contexttype($co, 'article');
+				break;
+			case "kind":
+				$this->setProperty($co, 'patent_kind', $value);
+				$this->set_contexttype($co, 'patent');
+				break;		
+			case "oclcnum":
+				$this->set_oclcnum($co, $value);
+				break;	
+			case "prioritydate":
+				$this->setProperty($co, 'patent_priority_date', $value);
+				$this->set_contexttype($co, 'patent');
+				break;
+			case "rfr_id":
+				$newvalue = preg_replace('/sid[:][\/]/i', '', $value);
+				$this->set_referer($newvalue);
+				break;
+			case "rft_val_fmt":
+				$value = str_replace('info:', '', $value);
+				if (preg_match('/ofi\/fmt:xml:xsd/', $value)){
+						$type = str_replace('ofi/fmt:xml:xsd', '', $value);
+						$this->set_contexttype($co, $type);
+						$this->setProperty($co, 'format', $type);
+						$this->setProperty($co, 'metaformat', 'XML');
+				} else{
+						$type = str_replace('ofi/fmt:kev:mtx:', '', $value);
+						$this->set_contexttype($co, $type);
+						$this->setProperty($co, 'format', $type);
+						$this->setProperty($co, 'metaformat', 'KEV');
+				}
+				break;
+			case "sici":
+				$this->set_sici($co, $value);
+				break;
+			case "sid":
+				$this->set_referer($value);
+				break;
+			case "title":
+				$newvalue = trim($value, "\"");
+				$this->setProperty($co, 'title', $newvalue);
+				break;
+			case "url_ver":
+				$newvalue = strtoupper($value);
+				if ($newvalue == "Z39.88-2004") {
+				$this->setProperty($co, 'openurl', '1.0');
+				} else {
+				$this->setProperty($co, 'openurl', '0.1');
+				}
+				break;
+			case "url_ctx_val":
+				$newvalue = str_replace('rft_id=info:', '', rawurldecode($value));
+				$this->setIdentifier($newvalue);
+				break;
+			default:
+				$this->translate_openurl($co, $key, $value);
+				break;
+		}
+	}
+
+	function build_from_querystring() {
+		$this->build_from_string($this->request['http_get']);
+	}
+
+	function build_from_string($string) {
+		$pairs = explode('&', $string);								// split on & into KV pairs
+		echo $pairs;
+		# loop through each pair
+		foreach ($pairs as $values) {
+			# split into key and value
+			list($key,$value) = explode('=', $values, 2);
+			// $key = (str_replace('[%20][\s]', '', $key));
+			$this->build($key, $value);
+		}
+		$this->settings->undefine_contexttypes(); // free up some memory
+	}
+	
+	function check_rft_dates(){ 
+		if (isset ($this->rft['year'])){
+			$date = $this->rft['year'];
+			if (isset($this->rft['month'])){
+				$date .= $this->rft['month'];
+			} else {
+				$date .= '01';
+			}
+			if (isset($this->rft['day'])){
+				$date .= $this->rft['day'];
+			} else {
+				$date .= '01';
+			}
+			if (!isset($this->rft['date'])){
+				$this->setProperty($co, 'date', $date);
+			}
+		}
+
+		if ((!isset($this->rft['artyear'])) | (!isset($this->rft['dateisyear'])) | (isset($this->rft['artyear']))){
+			$this->setProperty($co, 'artyear', date("Y"));
+			$this->setProperty($co, 'dateisyear', 'false');
+		}
+	}
+	
+	function translate_openurl($co, $key, $value){
+		$this->settings->define_openurl_keys();		
+		if (isset($openurl['key'][$key])){
+			$newkey = $openurl['key'][$key];
+		} else {
+			$newkey = $this->normalise($key);
+		}
+		$this->setProperty($co, $newkey, $value);
+		$this->settings->undefine_openurl_keys(); // free up some resources
+	}
+###################### TXTCKA FUNCTIONS : FINISH ######################
+}
