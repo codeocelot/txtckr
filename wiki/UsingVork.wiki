@@ -14,5 +14,5 @@ MVC design:
   * Controllers: txtckrs code
 
 Other aspects:
-  *Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
+  * Helpers for common code across different views, etc. Will use txtckr code for common functions here (date/time conversions, ISBN/ISSN functions, etc.)
   * Built-in support for MongoDB and other databases
