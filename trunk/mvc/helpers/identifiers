@@ -54,8 +54,7 @@ class identifiersHelper {
      */
 //-- tidyISBN : START	 
 	public function tidyISBN($isbn){
-		$find[0] = '![^\dXx]+!';	$replace[0] = '';				// using regex from cletus http://stackoverflow.com/users/18393/cletus
-		$isbn = preg_replace($find, $replace, $isbn);				// found at http://stackoverflow.com/questions/1255481/whitelist-in-php
+		$isbn = $this->tidySN(isbn);
 		if ((strlen($isbn) == 10) && (preg_match('/\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
 			return($isbn); 									// ISBN-10
 		} elseif ((strlen($isbn) == 13) && (preg_match('/978\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
@@ -75,12 +74,13 @@ class identifiersHelper {
      */
 //-- tidyISSN : START
 	public function tidyISSN($issn){
-		$find[0] = '![^\dXx]+!';	$replace[0] = '';				// using regex from cletus http://stackoverflow.com/users/18393/cletus
-		$issn = preg_replace($find, $replace, $issn);				// found at http://stackoverflow.com/questions/1255481/whitelist-in-php
+		$issn = $this->tidySN($issn);
 		if ((strlen($issn) == 8) & (preg_match('/\d\d\d\d\d\d\d[\dX]/i', $issn))){
 			$arr = str_split($issn, 4);								// split into 2 segments of 4 characters
 			$issn = $arr[0]."-".$arr[1];							// put a hyphen in the middle (we don't want it to look numeric!)
 			return ($issn);
+		} else {
+			return (null);
 		}
 	}
 //-- tidyISSN : FINISH
@@ -147,6 +147,21 @@ class identifiersHelper {
 
 
     /**
+     * Tidies an Standard Number (ISBN or ISSN), removing any non digit or X
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyISBN : START	 
+	public function tidySN($sn){
+		$find[0] = '![^\dXx]+!';	$replace[0] = '';				// using regex from cletus http://stackoverflow.com/users/18393/cletus
+		$value = preg_replace($find, $replace, $sn);				// found at http://stackoverflow.com/questions/1255481/whitelist-in-php
+		return ($value)
+	}
+//-- tidyISBN : FINISH
+
+
+    /**
      * Tidies a Generic Web ID, returns
 	 * N.B. Could be verified using CURL via http://+$webid but won't verify relationship exists
      *
@@ -172,8 +187,7 @@ class identifiersHelper {
      */
 //-- checksumSN : START
 	function checksumSN($sn){
-		$find[0] = '![^\dXx]+!';	$replace[0] = '';				// using regex from cletus http://stackoverflow.com/users/18393/cletus
-		$protosn = preg_replace($find, $replace, $sn);				// found at http://stackoverflow.com/questions/1255481/whitelist-in-php	
+		$protosn = $this->tidySN($sn);
 		$checkArr = null;
 		$lengthSN = strlen($protosn);
 		$thirteen = false;			// ISBN-13 is the one that's different from the rest
@@ -184,15 +198,11 @@ class identifiersHelper {
 		switch($lengthSN){
 			// with ISSNs reverse the array since you count from 2... 8 from right to left
 			case (7): // ISSN, no checkdigit
+			case (9): // ISBN-10, no checkdigit			
 			$checkArr = array_reverse($snArr);
 			break;
 			case (8): // ISSN, with checkdigit... need to remove the checkdigit
-			$checkArr = array_reverse(array_pop($snArr));
-			break;			
-			case (9): // ISBN-10, no checkdigit
-			$checkArr = array_reverse($snArr);
-			break;
-			case (10): // ISBN-10, with checkdigit... need to remove the checkdigit
+			case (10): // ISBN-10, with checkdigit... need to remove the checkdigit			
 			$checkArr = array_reverse(array_pop($snArr));
 			break;
 			case (12): // ISBN-13, no checkdigit
@@ -264,6 +274,37 @@ class identifiersHelper {
 	}
 //-- checksumSN : 	FINISH
 
+
+    /**
+     * Verify SN checksum
+     *
+     * @param string
+     * @return boolean
+     */
+//-- verifySN : START
+	function verifySN($sn){
+	$sn = $this->tidySN($sn);
+		$checksum = $this->checksumSN($sn);
+		$snArr = str_split($protosn, 1);
+		$checkArr = array_reverse($snArr);
+		$echecksum = $checkArr[0];
+		$lengthSN = strlen($sn);
+		$verify = false;
+		switch($lengthSN){
+			case (8): // ISSN, with checkdigit... need to remove the checkdigit
+			case (10): // ISBN-10, with checkdigit... need to remove the checkdigit
+			case (13): // ISBN-10, with checkdigit... need to remove the checkdigit		
+			$checkArr = array_reverse(array_pop($snArr));		
+			if ($checksum === $echecksum){
+				$verify = true;
+			}
+			break;
+		}
+		return ($verify);
+	}
+//-- convertISBN : FINISH
+
+
     /**
      * Convert ISBN-10 to/from ISBN-13
      *
@@ -272,14 +313,16 @@ class identifiersHelper {
      */
 //-- convertISBN : START
 	function convertISBN($isbn){
+	$isbn = $this->tidySN($isbn);
+	$snArr = str_split($isbn, 3);
 	$to = strlen($isbn)
 		if ((strlen($isbn) == 10) && (preg_match('/\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
-		 	$sn = 					// convert to ISBN-13
-			$newIsbn .= checksumSN($sn);
+		 	$sn = 	"978".$snArr[0].$snArr[1].$snArr[2];// convert to ISBN-13
+			$newIsbn = $sn.checksumSN($sn);
 			return($newIsbn);
 		} elseif ((strlen($isbn) == 13) && (preg_match('/978\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
- 			$sn = 					// convert to ISBN-10
-			$newIsbn .= checksumSN($sn);
+ 			$sn = $snArr[1].$snArr[2].$snArr[3];		// convert to ISBN-10
+			$newIsbn = $sn.checksumSN($sn);
 			return($newIsbn);
 		} else {
 			return(null);
