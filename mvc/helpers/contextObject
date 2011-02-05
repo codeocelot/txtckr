@@ -32,7 +32,7 @@ class contextObjectHelper {
 		$this->post_last_name[0]	= 0; // e.g. 'III'		as in William Gates III
 		$this->full_name[0]			= 0;
 		$this->corp_name[0]			= 0;
-		$this->settings				= new settings;
+		$settings					= get::helper('settings');
 		$identifiers 				= get::helper('identifiers');
 	}
 
@@ -290,7 +290,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			}
 		}
 	}
-	
+
+# IDENTIFIER HANDLERS -- START	
 	function setIdentifier($co, $identifier){
 		switch (true) {
 			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
@@ -300,7 +301,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 					$handleLink = 'http://hdl.handle.net/'.$handle;
 					$this->setProperty($co, 'handleLink', $handleLink);				// human-friendly url
 					if ($co == 'rft'){
-						$this->rft['id']['doi'] = $doi;
+						$this->rft['id']['hdl'] = $handle;
 						$this->rft['id'][0]++;
 					}	
 				}
@@ -322,7 +323,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				if ($isbn !== null){
 					$this->setProperty($co, 'isbn', $isbn); 			// it must be an isbn
 					if ($co == 'rft'){
-						$this->rft['id']['doi'] = $doi;
+						$this->rft['id']['isbn'] = $isbn;
 						$this->rft['id'][0]++;
 					}
 				}
@@ -391,78 +392,9 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 
-# IDENTIFIER HANDLERS -- START
-	
-
-	function setHDL($co, $handle){
-		$handle = $identifiers->tidyHDL($handle);
-		if ($handle !== null){
-			$this->setProperty($co, 'handle', $handle);
-			$handleLink = 'http://hdl.handle.net/'.$handle;
-			$this->setProperty($co, 'handleLink', $handleLink);				// human-friendly url
-			if ($co == 'rft'){
-				$this->rft['id']['doi'] = $doi;
-				$this->rft['id'][0]++;
-			}	
-		}
-	}
-
-	function setISBN($co, $isbn){
-
-	}
-
-	function setISSN($co, $issn_type, $issn){
-		$issn = $identifiers->tidyISSN($issn);
-		if ($issn !== null){		
-			$this->setProperty($co, $issn_type, $issn);			// voila - it's an issn!
-			if ($co == 'rft'){
-				$this->rft['id']['.$issn_type.'] = $issn;
-				$this->rft['id'][0]++;
-			}
-		}
-	}
-	
-	function setOAI($co, $oai){
-		
-	}
-	
-	function setOCLCNUM($co, $oclcnum){	
-		$oclcnum = str_replace('oclcnum[=:\/]', '', $oclcnum);
-		$this->setProperty($co, 'oclcnum', $oclcnum);
-		if ($oclcnum !== null){
-			$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
-			$this->setProperty($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
-		}
-		if ($co == 'rft'){
-			$this->rft['id']['oclcnum'] = $oclcnum;
-			$this->rft['id'][0]++;
-		}
-	}
-
-	function setPMID($co, $pmid){
-
-	}
-	
-	function setWEBID($co, $webid){
-		$webid = $identifiers->tidyWEBID($webid);
-		$this->setProperty($co, 'web', $webid);
-		if ($webid !== null){
-			$webLink = 'http://'.$webid;
-			$this->setProperty($co, 'webLink', $webLink);				// link to PubMed record	
-			if ($co == 'rft'){
-				$this->rft['id_count']++;
-			}
-		}
-	}
-
 # IDENTIFIER HANDLERS -- FINISH
 	
 	function set_referer($value){
-		//$details['table'] = 'referers';
-		//$details[0] = 'referer_name';
-		//$details[1] = 'referer_type';
-		//$results = query_db($details);
-		//$results = array();
 		@list($referer_name, $referer) = explode(':', $value);
 		$this->setProperty('rfr', 'referer_name', $referer_name);
 		$this->setProperty('rfr', 'referer_type', $referer);
@@ -761,5 +693,92 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		$this->setProperty($co, $newkey, $value);
 		$this->settings->undefine_openurl_keys(); // free up some resources
 	}
+	
+		/**
+         * public static method
+         *
+         *      contextobject::build_from_string(param)
+         *
+         * @param       string   
+         * @return      void
+         * @example     build_from_string sets individual properties from one value;
+         * @note        
+         */             
+        function buildFromRis($ris, $co='rft'){
+                $rows = split("\n", $ris);
+                foreach ($rows as $r){
+            $parts = split ("  - ", $r);
+            if (isset($parts[1])){
+                $key = $parts[0];
+                $value = trim($parts[1]); // clean up any leading and trailing spaces
+            }
+                        switch ($key){
+                case 'ER':
+                    break;
+                case 'AU':
+                case 'A1': 
+                    $value = trim($value);
+                    // Trim trailing periods and other junk
+                    $value = preg_replace("/\.$/", "", $value);
+                    $value = preg_replace("/ $/", "", $value);
+                    // Clean Ingenta crap  
+                    $value = preg_replace("/\[[0-9]\]/", "", $value);
+                    // Space initials nicely
+                    $value = preg_replace("/\.([A-Z])/", ". $1", $value);
+                    // Make nice
+                    //echo __LINE__ . " $value\n";
+					$this->set_name($co, 'au', $value);
+                    break;  
+                // Handle cases where both pages SP and EP are in this field
+                case 'SP':
+                    if (preg_match('/^-$/', trim($value))){
+						$pages = explode('-', trim($value));
+						$key =  $co.'_spage';
+						$this->build($key, $pages['0']);
+						$key = $co.'_epage';
+						$this->build($key, $pages['1']);
+                    } else {
+						$key =  $co.'_spage';
+						$this->build($key, $value);
+                    }                              
+                    break;
+                case 'M1':
+                    if (preg_match('/^S/', $value)){
+                    // TreeBASE study id
+                    // $obj->treebase->StudyID = $value;
+                    }
+                    break;                                      
+                case 'TY':
+					$this->set_reftype($co, $value);
+					break;
+                default:
+                    $this->translateRis($co, $key, $value);
+                    break;
+                        }
+                }
+        }
+
+        /**
+         * public static method
+         *
+         * contextobject::translateRis(params)
+         *
+         * @param       string   
+         * @param       string
+         * @param       string  
+         * @return      void
+         * @example     'au' >> 'author'
+         * @note        translate_openurl sets individual properties for unparsed key
+         */             
+        function translateRis($co, $key, $value){      
+                $newkey = $co.'_';
+                if (isset($settings->ris['key'][$key])){
+                        $newkey .= $settings->ris['key'][$key];
+                } else {
+                        $newkey .= $this->normalise($key);
+                }
+                $this->build($newkey, $value);
+        }
+		
 ###################### TXTCKA FUNCTIONS : FINISH ######################
 }
