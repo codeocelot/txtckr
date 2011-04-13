@@ -13,3 +13,4 @@ Functional requirements:
   * *create* requests to *retrieve* data from other webservices, OpenURL resolvers
   * *store+retrieve*, *update* and *delete* native objects representing formats supported by OpenURL
   * *store+retrieve*, *update* and *delete* native objects representing formats supported by RIS specification: http://www.refman.com/support/risformat_reftypes.asp
+  * *process* rules to create links to resources which are available online
