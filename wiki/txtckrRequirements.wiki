@@ -1,0 +1,15 @@
+#summary what txtckr must be able to do...
+#labels Phase-Requirements
+
+= Introduction =
+
+*Compulsory* or _desired_ functions list for what txtckr will be able to process, retrieve, *c*reate, store+*r*etrieve, *u*pdate and *d*elete.
+
+
+= Details =
+
+Functional requirements:
+  * *process* incoming OpenURL 0.1 and 1.0 requests for all supported formats
+  * *create* requests to *retrieve* data from other webservices, OpenURL resolvers
+  * *store+retrieve*, *update* and *delete* native objects representing formats supported by OpenURL
+  * *store+retrieve*, *update* and *delete* native objects representing formats supported by [http://www.refman.com/support/risformat_reftypes.asp]RIS specification
