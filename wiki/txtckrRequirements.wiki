@@ -3,7 +3,7 @@
 
 = Introduction =
 
-*Compulsory* or _desired_ functions list for what txtckr will be able to process, retrieve, *c*reate, store+*r*etrieve, *u*pdate and *d*elete.
+*Compulsory* or _desired_ functions list for what txtckr will be able to process, retrieve, *c* reate, store+ *r* etrieve, *u* pdate and *d* elete.
 
 
 = Details =
