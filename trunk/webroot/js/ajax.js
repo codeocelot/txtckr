@@ -2,7 +2,7 @@
  * Simplified cross-browser AJAX interface
  * @author Eric David Benari
  * @link http://www.Vork.us
-*/
+ */
 var ajax = function() {}
 
 /**

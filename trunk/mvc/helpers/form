@@ -111,7 +111,9 @@ class formHelper {
             if(!isset($args['action'])) {
                 $args['action'] = $_SERVER['REQUEST_URI'];
             }
-
+            if (isset($args['upload']) && $args['upload'] && !isset($args['enctype'])) {
+                $args['enctype'] = 'multipart/form-data';
+            }
             if (isset($args['legend'])) {
                 $legend = $args['legend'];
                 unset($args['legend']);
@@ -199,7 +201,7 @@ class formHelper {
      */
     public function getErrorMessageContainer($id, $errorMessage = '') {
         return '<span class="errormessage" id="' . $id . 'errorwrapper">'
-             . get::htmlentities($errorMessage) . '</span>';
+             . get::xhtmlentities($errorMessage) . '</span>';
     }
 
     /**
@@ -275,6 +277,16 @@ class formHelper {
     }
 
     /**
+     * Sanitizes a string for use as an ID by swapping brackets with underscores
+     *
+     * @param string $str
+     * @return string
+     */
+    protected function _getValidId($str) {
+        return str_replace(array('[', ']'), '_', $str);
+    }
+
+    /**
      * Used for text, textarea (standard and WYSIWYG,) hidden, password, file, button, image and submit
      *
      * Valid args are any properties valid within an HTML input as well as label
@@ -299,7 +311,7 @@ class formHelper {
 
         if ($args['type'] == 'textarea' && isset($args['maxlength'])) {
             if (!isset($args['id']) && isset($args['name'])) {
-                $args['id'] = $args['name'];
+                $args['id'] = $this->_getValidId($args['name']);
             }
             if (isset($args['id'])) {
                 $maxlength = $args['maxlength'];
@@ -314,7 +326,7 @@ class formHelper {
         $takeFocus = (isset($args['focus']) && $args['focus'] && $args['type'] != 'hidden');
         if ($takeFocus && !isset($args['id'])) {
             if (isset($args['name'])) {
-                $args['id'] = $args['name'];
+                $args['id'] = $this->_getValidId($args['name']);
             } else {
                 $takeFocus = false;
                 if (DEBUG_MODE) {
@@ -438,7 +450,7 @@ class formHelper {
      */
     public function select(array $args) {
         if (!isset($args['id'])) {
-            $args['id'] = $args['name'];
+            $args['id'] = $this->_getValidId($args['name']);
         }
         if (isset($args['multiple']) && $args['multiple']) {
             $args['multiple'] = 'multiple';
@@ -532,7 +544,7 @@ class formHelper {
      * @return str
      */
     public function radios(array $args) {
-        $id = (isset($args['id']) ? $args['id'] : $args['name']);
+        $id = (isset($args['id']) ? $args['id'] : $this->_getValidId($args['name']));
         $properties = $this->_getProperties($args);
         if (isset($properties['value'])) {
             $checked = $properties['value'];
@@ -544,7 +556,7 @@ class formHelper {
             if (!$useValues) {
                 $value = $text;
             }
-            $properties['id'] = $id . '_' . preg_replace('/\W/', '', $value);
+            $properties['id'] = $id . '_' . $this->_getValidId(preg_replace('/\W/', '', $value));
             $properties['value'] = $value;
             if (isset($checked) &&
                 ((($properties['type'] == 'radio' || !is_array($checked)) && $value == $checked)
@@ -596,7 +608,7 @@ class formHelper {
         }
         $nameParts = explode('[', $args['name']);
         if (!isset($args['id'])) {
-            $args['id'] = $nameParts[0];
+            $args['id'] = $this->_getValidId($nameParts[0]);
         }
         if (!isset($nameParts[1]) && count($args['options']) > 1) {
             $args['name'] .= '[]';
@@ -699,7 +711,7 @@ class formHelper {
         $method = (isset($this->_formopen['method']) && $this->_formopen['method'] == 'get' ? $_GET : $_POST);
         foreach ($dateParts as $dateType => $unixCode) {
             $selectArgs[$dateType]['name'] = $args['name'] . '[' . $dateType . ']';
-            $selectArgs[$dateType]['id'] = $args['name'] . '_' . $dateType;
+            $selectArgs[$dateType]['id'] = $this->_getValidId($args['name']) . '_' . $dateType;
             if (isset($args[$dateType])) {
                 $selectArgs[$dateType] = array_merge($args[$dateType], $selectArgs[$dateType]);
             }

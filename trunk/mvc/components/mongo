@@ -1,0 +1,10 @@
+<?php
+
+class mongoHelper {
+
+$collection = $this->mongo->selectCollection('someCollection');
+$collection = $this->mongo->selectCollection('someCollection');
+$collection = $this->mongo->selectCollection('someCollection');
+$collection = $this->mongo->selectCollection('someCollection');
+
+}

@@ -15,11 +15,7 @@ class indexController {
             return;
         }
         if (isset($_GET['forgotPassword'])) {
-            $return = get::component('account')->forgotPassword();
+            return get::component('account')->forgotPassword();
         }
-        $return['title'] = get::$config->SITE_NAME;
-        $return['head']['meta'] = array('keywords' => '',
-                                        'description' => '');
-        return $return;
     }
 }

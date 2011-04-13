@@ -8,7 +8,7 @@ class accountModel extends model {
      * on the same database
      * @var string
      */
-    protected $_table = 'vork_users';
+    protected $_table = 'vorkusers';
 
     /**
      * Database type to use
@@ -150,7 +150,7 @@ class accountModel extends model {
     }
 
     /**
-     * Creates the SQL database table with the minimal required columns (_id, email, pass)
+     * Creates the SQL database table with the minimal required columns (_id, name, email, pass)
      */
     protected function _sqlInit() {
         $isMysql = (isset($dbParents['mysqli']) || isset($dbParents['mysql']));
@@ -159,7 +159,7 @@ class accountModel extends model {
         if ($isMysql) {
             $sql .= ' auto_increment';
         }
-        $sql .= ', email varchar(60) not null unique, pass varchar(16) not null)';
+        $sql .= ', name varchar(60) not null, email varchar(60) not null unique, pass varchar(16) not null)';
         $this->db->query($sql);
     }
 }

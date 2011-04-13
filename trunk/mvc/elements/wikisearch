@@ -4,7 +4,7 @@ if (!isset($withinExistingForm) || !$withinExistingForm) {
     echo $form->open();
 }
 echo $form->input(array('name' => 'wsearch', 'label' => ''))
-   . ' ' . $form->input(array('type' => 'submit', 'value' => 'Search'));
+   . ' ' . $form->submit(array('value' => 'Search'));
 if (!isset($withinExistingForm) || !$withinExistingForm) {
    echo $form->close();
 }

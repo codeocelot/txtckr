@@ -7,7 +7,8 @@ class errorController {
      * Changes to the "#error" view
      */
     public function __construct() {
-        mvc::$view = (!is::$ajax ? '#error' : '#json');
+        mvc::$view = (!is::ajax() ? '#error' : '#json');
+        get::$title = 'Error';
     }
 
     /**
@@ -29,19 +30,21 @@ class errorController {
                            'redirectEndlessLooping');
         $is404 = (in_array($method, $errors404));
         if ($is404) {
-            $title = '404 Error - Not Found';
+            get::$title = '404 Error - Not Found';
         } else {
-            $title = ($method != 'index'? 'Error: ' . str_replace('_', ' ', $method) : 'Error');
+            if ($method != 'index') {
+                get::$title = 'Error: ' . str_replace('_', ' ', $method);
+            }
             $method = 'unknownError';
-            if (is::$ajax) {
+            if (is::ajax()) {
                 get::component('error')->log('AJAX Error');
             } else {
-                get::component('error')->log($title);
+                get::component('error')->log(get::$title);
             }
         }
         $return = array('errorType' => $method, 'controller' => mvc::$controller, 'action' => mvc::$action,
-                        'is404' => $is404, 'title' => $title);
-        if (is::$ajax) {
+                        'is404' => $is404);
+        if (is::ajax()) {
             $return = array('json' => $return);
         }
         return $return;

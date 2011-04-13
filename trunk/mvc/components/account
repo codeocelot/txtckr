@@ -8,7 +8,7 @@ class accountComponent {
      *
      * @var array
      */
-    protected $_sessionKeys = array('userid');
+    protected $_sessionKeys = array('_id', 'name');
 
     /**
      * Sets the session keys upon login

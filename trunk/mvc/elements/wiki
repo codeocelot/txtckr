@@ -18,7 +18,7 @@ if (isset($returncode) && $returncode == 404) {
         echo $html->h1('Page does not exist');
     } else {
         echo $html->h1('This "' . get::htmlentities($action) . '" page does not exist');
-        if ($hasHistory) {
+        if (isset($hasHistory) && $hasHistory) {
             echo $html->h3('This page used to exist but has been deleted: ' . $historyLink);
         }
         echo $html->h2('To create this page enter the content below and click save');

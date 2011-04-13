@@ -28,18 +28,18 @@ class debug {
      * Internal buffer to store SQL queries and log messages
      * @var array
      */
-    private static $_queries = array(), $_log = array(), $_initSec = null;
+    private static $_queries = array(), $_log = array(), $_initTime = null;
 
     /**
-     * Get a float value back from the PHP microtime() function
+     * Get the PHP microtime() relative to the start of the instance
      * @return float
      */
     public static function microtime() {
-        list($usec, $sec) = explode(' ', microtime());
-        if (!self::$_initSec) {
-            self::$_initSec = $sec;
+        $now = microtime(true);
+        if (!self::$_initTime) {
+            self::$_initTime = $now;
         }
-        return ((float) $usec + (float) ($sec - self::$_initSec));
+        return ($now - self::$_initTime);
     }
 
     /**

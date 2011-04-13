@@ -1,7 +1,7 @@
 <?php
 # code from http://www.navioo.com/php/docs/function.curl-multi-exec.php
 
-class netDataComponent {
+class netDataHelper {
 
     function __construct(){
         $this->error    			= "";
