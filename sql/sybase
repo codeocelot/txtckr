@@ -39,7 +39,7 @@ class sybase {
     public function __construct($host, $username, $password, $dbname = null, $persistent = true,
                                 $charset = null, $appname = null, $new = null) {
         try {
-            $connect = 'sybase_ ' . ($persistent ? 'pconnect' : 'connect');
+            $connect = 'sybase_' . ($persistent ? 'pconnect' : 'connect');
             $this->resource = $connect($host, $username, $password, $charset, $appname, $new);
             if (!$this->resource) {
                 throw new Exception('Cannot connect to Sybase');

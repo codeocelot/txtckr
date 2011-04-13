@@ -39,11 +39,14 @@ class filterComponent {
         $html = str_ireplace(array_keys($deprecated), array_values($deprecated), $html);
         if (extension_loaded('tidy')) {
             $tidy = new tidy;
-            $tidy->parseString($html, array('show-body-only' => true, 'output-xhtml' => true, 'wrap' => false,
-                                            'drop-font-tags' => true, 'logical-emphasis' => true,
-                                            'word-2000' => true, 'hide-comments' => true));
-            $tidy->cleanRepair();
-            $html = $tidy;
+            $phpopen = '|TIDY_PHP_OPEN|';
+            $phpclose = '|TIDY_PHP_CLOSE|';
+            $html = str_replace(array('<?', '?>'), array($phpopen, $phpclose), $html);
+            $tidy->parseString($html, array('show-body-only' => true, 'output-xhtml' => true, 'word-2000' => true,
+                                            'wrap' => 0, 'wrap-php' => false, 'hide-comments' => true,
+                                            'drop-font-tags' => true, 'logical-emphasis' => true));
+            $tidy->cleanRepair(); //the next line strips out placeholders and casts to string in the process
+            $html = trim(str_replace(array($phpopen, $phpclose), array('<?', '?>'), $tidy));
         }
         $html = preg_replace('/(<img (.*?) align="(.*?)"(.*?)'.'>)/mi', '<img $2 style="float:$3;"$4>', $html);
         return $html;

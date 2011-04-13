@@ -47,13 +47,12 @@ class htmlHelper {
      * the same as the js & css methods except that they will silently skip duplicate requests instead of logging them.
      *
      * jsInlineSingleton and cssInlineSingleton makes sure a JavaScript or CSS snippet will only be output once, even
-     * if echoed out multiple times and this method will attempt to place the JS code into the head section, if <head>
-     * has already been echoed out then it will return the JS code inline the same as jsInline. Eg.:
+     * if echoed out multiple times. Eg.:
      * $helloJs = "function helloWorld() {alert('Hello World');}";
      * echo $html->jsInlineSingleton($helloJs);
      *
      * Adding an optional extra argument to jsInlineSingleton/cssInlineSingleton will return the inline code bare (plus
-     * a trailing linebreak) if it cannot place it into the head section, this is used for joint JS/CSS statements:
+     * a trailing linebreak), this is used for joint JS/CSS statements:
      * echo $html->jsInline($html->jsInlineSingleton($helloJs, true) . 'helloWorld();');
      *
      * @param string $tagType
@@ -62,7 +61,7 @@ class htmlHelper {
      */
     protected function _tagBuilder($tagType, $args = array()) {
         $arg = current($args);
-        if (empty($arg) || $arg === '') {
+        if ($arg === '' || (is_array($arg) && empty($arg))) {
             $errorMsg = 'Missing argument for ' . __CLASS__ . '::' . $tagType . '()';
             trigger_error($errorMsg, E_USER_WARNING);
         }
@@ -134,13 +133,9 @@ class htmlHelper {
                     $md5 = md5($arg);
                     if (!isset($this->{'_' . $tagTypeBase . 'Singleton'}[$md5])) {
                         $this->{'_' . $tagTypeBase . 'Singleton'}[$md5] = true;
-                        if (!$this->_bodyOpen) {
-                            $this->vorkHead[$tagTypeBase . 'Inline'][] = $arg;
-                        } else {
                             $return = (!isset($args[1]) || !$args[1] ? $this->{$tagTypeBase . 'Inline'}($arg)
                                                                      : $arg . PHP_EOL);
                         }
-                    }
                     break;
                 case 'div':
                 case 'li':
@@ -283,13 +278,13 @@ class htmlHelper {
                     . PHP_EOL . '<title>' . $title . '</title>';
 
             if (!isset($metaheader['Content-Type'])) {
-                $metaheader['Content-Type'] = 'text/html; charset=utf-8';
+                $metaheader['Content-Type'] = 'application/xhtml+xml; charset=utf-8';
             }
             foreach ($metaheader as $name => $content) {
                 $return .= PHP_EOL . '<meta http-equiv="' . $name . '" content="' . $content . '" />';
             }
 
-            $meta['generator'] = 'Vork 2.02';
+            $meta['generator'] = 'Vork 2.11';
             foreach ($meta as $name => $content) {
                 $return .= PHP_EOL . '<meta name="' . $name . '" content="' . $content . '" />';
             }
@@ -542,7 +537,7 @@ var dom = function(id) {
      * @param array $args
      * @return string
      */
-    public function image($src, $width = null, $height = null, $alt = '', $args = array()) {
+    public function image($src, $width = null, $height = null, $alt = '', array $args = array()) {
         $args['src'] = $src;
         $options = array('width', 'height', 'alt');
         foreach ($options as $option) {
@@ -600,6 +595,23 @@ var dom = function(id) {
                                                  (is_array($title) ? $this->linkList($title, $listType) : $title));
         }
         $return .= ($listType ? '</' . $listType . '>' : '');
+        return $return;
+    }
+
+    /**
+     * Display a definition list
+     *
+     * @param array $definitions
+     * @return string
+     */
+    public function dl(array $definitions) {
+        $return = '<dl>';
+        foreach ($definitions as $term => $definition) {
+            $class = ($this->alternator() ? 'odd' : 'even');
+            $return .= '<dt class="' . $class . '">' . $term  . '</dt>'
+                     . '<dd class="' . $class . '">' . $definition . '</dd>';
+        }
+        $return .= '</dl>';
         return $return;
     }
 
@@ -667,17 +679,16 @@ var dom = function(id) {
     public function pdf($filename, array $args = array()) {
         $defaults = array('height' => 400, 'width' => 400, 'noPdf' => $this->link($filename, 'Download PDF'));
         $urlParams = array_diff_key($args, $defaults);
-        if ($urlParams) {
-            if (isset($urlParams['search'])) {
-                $urlParams['search'] = '"' . urlencode($urlParams['search']) . '"';
-            }
-            if (isset($urlParams['fdf'])) { //fdf must be last in the URL
-                $fdf = $urlParams['fdf'];
-                unset($urlParams['fdf']);
-                $urlParams['fdf'] = $fdf;
-            }
-            $filename .= '#' . str_replace('%2B', ' ', http_build_query($urlParams, '', '&amp;'));
+        $urlParams = array_merge(array('navpanes' => 0, 'toolbar' => 0), $urlParams); //defaults
+        if (isset($urlParams['search'])) {
+            $urlParams['search'] = '"' . urlencode($urlParams['search']) . '"';
         }
+        if (isset($urlParams['fdf'])) { //fdf must be last in the URL
+            $fdf = $urlParams['fdf'];
+            unset($urlParams['fdf']);
+            $urlParams['fdf'] = $fdf;
+        }
+        $filename .= '#' . str_replace('%2B', ' ', http_build_query($urlParams, '', '&amp;'));
         $args = array_merge($defaults, $args);
         $return = '<object type="application/pdf" data="' . $filename
                 . '" width="' . $args['width'] . '" height="' . $args['height'] . '">'
@@ -784,5 +795,58 @@ if (doar) {
             return '<div class="' . $class . '">'
                  . (is_array($messages) ? implode('<br />', $messages) : $messages) . '</div>';
         }
+    }
+
+    /**
+     * Formats a timestamp in human-readable proximity-since/until format
+     *
+     * @param int $ts Timestamp
+     * @return string
+     */
+    public function howLongAgo($ts) {
+        $now = time();
+        $ago = ($now > $ts ? 'ago' : 'from now');
+        $secondsAgo = abs($now - $ts);
+        if ($secondsAgo < 5) {
+            $return = 'just now';
+        } else if ($secondsAgo < 91) { //5 to 90-seconds
+            $return = $secondsAgo . ' seconds ' . $ago;
+        } else if ($secondsAgo < 5400) { //2-90 minutes
+            $return = round($secondsAgo / 60) . ' minutes ' . $ago;
+        } else if ($secondsAgo < 86400) { //2-24 hours
+            $return = round($secondsAgo / 3600) . ' hours ' . $ago;
+        } else if ($secondsAgo < 172800) { //24-48 hours
+            $return = ($now > $ts ? 'yesterday' : 'tomorrow');
+        } else if ($secondsAgo < 31536000) { //up to 1-year
+            $return = round($secondsAgo / 86400) . ' days ' . $ago;
+        } else { //1+ year
+            $return = date('M. j, Y', $ts);
+        }
+        return $return;
+    }
+
+    /**
+     * Results of last usage of maxlength()
+     * @var boolean
+     */
+    public $withinMaxLength;
+
+    /**
+     * Returns a string no longer than a fixed length
+     * If the original string exceeds the set length then it is trimmed and then $append string is appended to it
+     *
+     * @param string $str
+     * @param int $len
+     * @param string $append Optional, defaults to ...
+     * @return string
+     */
+    public function maxlength($str, $len, $append = '...') {
+        $strLen = strlen($str);
+        $this->withinMaxLength = ($strLen <= $len);
+        if (!$this->withinMaxLength) {
+            $appendLen = strlen($append);
+            $str = substr($str, 0, ($len - $appendLen)) . $append;
+        }
+        return $str;
     }
 }

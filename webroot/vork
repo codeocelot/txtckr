@@ -4,7 +4,7 @@ define('DEBUG_MODE', false); //this is the only line that needs to be adjusted i
 
 /**
  * Vork Framework www.Vork.us
- * @version 2.02
+ * @version 2.11
  * @author Eric David Benari, Vork Chief Architect
  */
 class configInit {
@@ -140,10 +140,16 @@ class configDefaults extends configInit {
     }
 
     /**
-     * Establishes MVC folder locations automatically
+     * Establishes MVC folder locations automatically and sets default title/meta-data (if defaults exist)
      */
     public function __construct() {
-        is::$ajax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+        if (!get::$title) {
+            get::$title = (isset($this->title) && $this->title ? $this->title : $this->SITE_NAME);
+        }
+        if (!get::$meta && isset($this->meta) && is_array($this->meta)) {
+            get::$meta = $this->meta;
+        }
+
         if ($this->pathToMvc === null) {
             $this->pathToMvc = configDefaults::basepath() . 'mvc' . self::DS;
             if (isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] == '/webroot/vork') {
@@ -251,7 +257,7 @@ class mvc {
             get::$config->{get::$config->APP_CONSTRUCT} = new get::$config->APP_CONSTRUCT;
         }
 
-        $this->_loadAction(self::$controller, self::$action);
+        $this->_loadAction();
 
         if (get::$config->APP_DESTRUCT && is_file(get::$config->pathToMvc . get::$config->APP_DESTRUCT)) {
             require get::$config->pathToMvc . get::$config->APP_DESTRUCT;
@@ -336,7 +342,7 @@ class mvc {
                         require $helperFile;
                     }
                     $helperClassName = $helper . 'Helper';
-                    get::$loadedObjects['helper'][$helper] = self::$_viewParams[$helper] = new $helperClassName;
+                    get::$loadedObjects['helper'][$helper][null] = self::$_viewParams[$helper] = new $helperClassName;
                 } else {
                     trigger_error('File for ' . $helperFile . ' helper could not be found', E_USER_WARNING);
                 }
@@ -368,16 +374,14 @@ class mvc {
         }
 
         if (!is_file($viewFile) && $controllerName != get::$config->errorHandler) {
-            $controllerName = get::$config->errorHandler;
-            $action = 'missingView';
-            return $this->_loadAction($controllerName, $action);
+            return $this->_loadAction(get::$config->errorHandler, 'missingView');
         }
 
         if (is_array(self::$_viewParams)) {
             extract(self::$_viewParams);
         }
 
-        if (is::$ajax && get::$config->ajaxEnabled
+        if (is::ajax() && get::$config->ajaxEnabled
             && (!is_array(get::$config->ajaxEnabled) //ajax=true
                 || (isset(get::$config->ajaxEnabled[$controllerName])
                     && (get::$config->ajaxEnabled[$controllerName] === true //ajax[controllerName]=true
@@ -400,37 +404,65 @@ class mvc {
     }
 
     /**
+     * Redirects controllers and/or action
+     *
+     * @param string $originalController
+     * @param string $originalAction
+     */
+    protected function _redirectAction($originalController, $originalAction) {
+        if (count($this->_redirectHistory) < $this->_maxActionRedirects) {
+            $this->_redirectHistory[] = array('oldController' => $originalController,
+                                              'newController' => self::$controller,
+                                              'oldAction' => $originalAction,
+                                              'newAction' => self::$action);
+            $this->_loadAction();
+        } else {
+            self::$params['redirectHistory'] = $this->_redirectHistory;
+            $this->_loadAction(get::$config->errorHandler, 'redirectEndlessLooping');
+        }
+    }
+
+    /**
      * Loads an action
      *
-     * @param string $controllerName
-     * @param string $action
-     * @return mixed
+     * @param string $controllerName Optional, if omitted then self::$controller is used
+     * @param string $action Optional, if omitted then self::$action is used
+     * @return null
      */
-    protected function _loadAction($controllerName, $action) {
-        if (strpos($controllerName, '..') !== false || strpos($controllerName, ':') !== false) {
-            $controllerName = get::$config->errorHandler;
-            $action = 'invalidControllerName';
+    protected function _loadAction($controllerName = null, $action = null) {
+        if (is_null($controllerName)) {
+            $controllerName = self::$controller;
         }
-        $action = $this->_getValidObjectName($action);
+        if (is_null($action)) {
+            $action = $this->_getValidObjectName(self::$action);
+        }
+        if (strpos($controllerName, '..') !== false || strpos($controllerName, ':') !== false) {
+            return $this->_loadAction(get::$config->errorHandler, 'invalidControllerName');
+        }
         if (!is_file(get::mvcFilePath('controllers', $controllerName))) { //no controller, attempt to load view directly
             $this->_loadDefaultHelpers();
             return $this->_loadView($controllerName, $action);
         }
-
+        $originalController = $controllerName;
         $controllerClassName = $controllerName . 'Controller';
         if (!class_exists($controllerClassName)) {
             require get::mvcFilePath('controllers', $controllerName);
         }
         if (!class_exists($controllerClassName) && $controllerName != get::$config->errorHandler) {
-            $controllerName = get::$config->errorHandler;
-            $action = 'controllerNotDefined';
-            return $this->_loadAction($controllerName, $action);
+            return $this->_loadAction(get::$config->errorHandler, 'controllerNotDefined');
         }
 
+        $originalAction = self::$action;
         $controller = new $controllerClassName;
-        $optionalAction = defined($controllerName . 'Controller::optionalAction')
-                                  && constant($controllerName . 'Controller::optionalAction');
-        if (!$optionalAction) {
+        if ($controllerName != self::$controller && $controllerName != get::$config->errorHandler) {
+            return $this->_redirectAction($originalController, $action); //controller was changed in __construct()
+        }
+        if ($originalAction != self::$action) { //action was changed in __construct()
+            $action = self::$action;
+        }
+        $optionalAction = (defined($controllerName . 'Controller::optionalAction')
+                           && constant($controllerName . 'Controller::optionalAction'));
+        if (!$optionalAction) { //updates self::$action in instances where _loadAction() was called with $action arg
             self::$action = $action;
         }
         if (!method_exists($controller, $action) && $controllerName != get::$config->errorHandler) {
@@ -439,9 +471,7 @@ class mvc {
                 self::$action = 'index';
                 return $this->_loadAction($controllerName, 'index');
             } else {
-                $controllerName = get::$config->errorHandler;
-                $action = 'missingAction';
-                return $this->_loadAction($controllerName, $action);
+                return $this->_loadAction(get::$config->errorHandler, 'missingAction');
             }
         }
 
@@ -452,20 +482,8 @@ class mvc {
         }
 
         if ($controllerName != get::$config->errorHandler) {
-            $controllerBaseName = substr($controllerClassName, 0, -10);
-            if (self::$controller != $controllerBaseName || self::$action != $action) {
-                if (count($this->_redirectHistory) < $this->_maxActionRedirects) {
-                    $this->_redirectHistory[] = array('oldController' => $controllerBaseName,
-                                                      'newController' => self::$controller,
-                                                      'oldAction' => $action,
-                                                      'newAction' => self::$action);
-                    return $this->_loadAction(self::$controller, self::$action);
-                } else {
-                    $controllerName = get::$config->errorHandler;
-                    $action = 'redirectEndlessLooping';
-                    self::$params['redirectHistory'] = $this->_redirectHistory;
-                    return $this->_loadAction($controllerName, $action);
-                }
+            if (self::$controller != $originalController || self::$action != $action) {
+                return $this->_redirectAction($originalController, $action);
             }
         }
         $this->_loadView($controllerName, $action);
@@ -476,6 +494,9 @@ class mvc {
      */
     protected function _parseUrl() {
         $basepathLen = strlen(get::$config->basepath);
+        if (isset($_SERVER['REDIRECT_URL'])) {
+            $_SERVER['REQUEST_URI'] = $_SERVER['REDIRECT_URL'];
+        }
         if (isset($_SERVER['REQUEST_URI'])) {
             $path = substr($_SERVER['REQUEST_URI'], $basepathLen);
             $positionOfGet = strpos($path, '?');
@@ -519,7 +540,7 @@ class mvc {
  * the error-handler controller & view.
  * Note: static database methods will still fatal-error in pre-5.3 versions of PHP as __callStatic was not yet supported
  */
-class blackhole {
+class blackhole implements Iterator, ArrayAccess {
     public static function __callStatic($method, array $args) {
         return new blackhole;
     }
@@ -537,6 +558,21 @@ class blackhole {
     public function __toString() {
         return '';
     }
+
+    public function rewind() {}
+    public function current() {}
+    public function key() {}
+    public function next() {}
+    public function valid() {
+        return false;
+    }
+
+    public function offsetExists($offset) {
+        return false;
+    }
+    public function offsetGet($offset) {}
+    public function offsetSet($offset, $value) {}
+    public function offsetUnset($offset) {}
 }
 
 /**
@@ -544,16 +580,70 @@ class blackhole {
  */
 class is {
     /**
-     * Opens up public access to config constants
-     * @var object
+     * If instance is requested via AJAX
+     * @return Boolean
      */
-    public static $config;
+    public static function ajax() {
+        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest');
+    }
 
     /**
-     * If instance is requested via AJAX
-     * @var Boolean
+     * If instance is requested via HTTPS
+     * @return Boolean
      */
-    public static $ajax = false;
+    public static function ssl() {
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
+    }
+
+    /**
+     * Internal cache for the is::bot() and is::mobile() methods
+     * @var Boolean or null
+     */
+    protected static $_bot, $_mobile;
+
+    /**
+     * Identifies a spider/bot/crawler
+     * @return Boolean
+     */
+    public static function bot() {
+        if (is_null(self::$_bot)) {
+            self::$_bot = false;
+            if (isset($_SERVER['HTTP_USER_AGENT'])) {
+                $spiders = array('search', 'spider', 'crawler', 'archiver', 'indexer', 'webbot', 'robot',
+                                 'nagios', 'Googlebot', 'MSNbot', 'Jeeves', 'Slurp', 'Scooter', 'InfoSeek', 'Lycos',
+                                 'seoprofiler', 'Feedfetcher', 'facebookexternalhit');
+                self::$_bot = (preg_match('/' . implode('|', $spiders) . '/i', $_SERVER['HTTP_USER_AGENT']));
+            }
+        }
+        return self::$_bot;
+    }
+
+    /**
+     * Identifies a mobile user
+     * @return Boolean
+     */
+    public static function mobile() {
+        if (is_null(self::$_mobile)) {
+            self::$_mobile = false;
+            if (isset($_SERVER['HTTP_USER_AGENT'])) {
+                $mobile = array('Android', 'AvantGo', 'BlackBerry', 'DoCoMo', 'Fennec', 'iPod', 'iPhone', 'J2ME',
+                                'MIDP', 'NetFront', 'Nokia', 'Opera Mini', 'PalmOS', 'PalmSource', 'portalmmm',
+                                'Plucker', 'ReqwirelessWeb', 'SonyEricsson', 'Symbian', 'UP\.Browser', 'webOS',
+                                'Windows CE', 'Xiino');
+                self::$_mobile = (preg_match('/' . implode('|', $mobile) . '/i', $_SERVER['HTTP_USER_AGENT']));
+            }
+        }
+        return self::$_mobile;
+    }
+
+    /**
+     * If instance is requested from Flash
+     * @return Boolean
+     */
+    public static function flash() {
+        return (isset($_SERVER['HTTP_USER_AGENT'])
+                && preg_match('/^(Shockwave|Adobe) Flash/i', $_SERVER['HTTP_USER_AGENT']));
+    }
 }
 
 /**
@@ -565,6 +655,19 @@ class get {
      * @var object
      */
     public static $config, $cache;
+
+    /**
+     * Used to store the page title and meta data for layout usage
+     *
+     * You can set properties for "title" and "meta" in the .config to act as default values (setting in the view or
+     * controller will always override the defaults)
+     * public $title = 'My Default Title';
+     * public $meta = array('keyowords' => 'apples, bananas, kiwis', 'description' => 'My site is about...');
+     *
+     * @var string $title
+     * @var array $meta valid keys are description and keywords
+     */
+    public static $title, $meta = array();
 
     /**
      * Index of objects loaded, used to maintain uniqueness of singletons
@@ -593,23 +696,44 @@ class get {
     /**
      * Gets the current URL
      *
-     * @param mixed $ssl Boolean (true=https, false=http) or null (auto-selects the current protocol)
+     * @param array Optional, keys:
+     *              get - Boolean Default: false - include GET URL if it exists
+     *              abs - Boolean Default: false - true=absolute URL (aka. FQDN), false=just the path for relative links
+     *              ssl - Boolean Default: null  - true=https, false=http, unset/null=auto-selects the current protocol
+     *                                             a true or false value implies abs=true
      * @param Boolean $noGet Adds the GET request if true
      * @return string
      */
-    public static function url($ssl = null, $noGet = true) {
-        if ($ssl === null) {
-            $ssl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
-        }
+    public static function url(array $args = array()) {
+        $ssl = null;
+        $get = false;
+        $abs = false;
+        extract($args);
+
         if (!isset($_SERVER['HTTP_HOST']) && PHP_SAPI == 'cli') {
             $_SERVER['HTTP_HOST'] = trim(`hostname`);
             $argv = $_SERVER['argv'];
             array_shift($argv);
             $_SERVER['REDIRECT_URL'] = '/' . implode('/', $argv);
-            $noGet = true; // command-line has no GET
+            $get = false; // command-line has no GET
         }
-        return (!$ssl ? 'http://' : 'https://')
-             . $_SERVER['HTTP_HOST'] . $_SERVER[$noGet ? 'REDIRECT_URL' : 'REQUEST_URI'];
+
+        $url = $_SERVER['REDIRECT_URL'];
+        if (substr($url, -1) == '/') { //strip trailing slash for URL consistency
+            $url = substr($url, 0, -1);
+        }
+
+        if (is_null($ssl) && $abs == true) {
+            $ssl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on');
+        }
+        if ($abs || !is_null($ssl)) {
+            $url = (!$ssl ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'] . $url;
+        }
+
+        if ($get && isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) {
+            $url .= '?' . $_SERVER['QUERY_STRING'];
+        }
+        return ($url ? $url : '/');
     }
 
     /**
@@ -635,28 +759,45 @@ class get {
      *
      * @param string $objectType
      * @param string $objectName
+     * @param mixed $args Optional, default is null - this is sent as an argument to the constructor and used as part
+     *                    of the criteria to determine a unique singleton object - differing args return new objects
      * @return object
      */
-    protected static function _loadObject($objectType, $objectName) {
+    protected static function _loadObject($objectType, $objectName, $args = null) {
         if ($objectName == null) {
             $objectName = mvc::$controller;
         }
-        if (isset(self::$loadedObjects[$objectType][$objectName])) {
-            return self::$loadedObjects[$objectType][$objectName];
+        $argsSerialized = serialize($args);
+        if (isset(self::$loadedObjects[$objectType][$objectName][$argsSerialized])) {
+            return self::$loadedObjects[$objectType][$objectName][$argsSerialized];
         }
         $objectFile = self::mvcFilePath($objectType . 's', $objectName);
         if (is_file($objectFile)) {
-            require $objectFile;
+            if (strpos($objectName, '/')) { //objects within folders
+                $segments = explode('/', $objectName);
+                $objectName = array_shift($segments);
+                foreach ($segments as $segment) {
+                    $objectName .= ucfirst($segment);
+                }
+            }
             $objectClassName = $objectName . ucfirst($objectType);
+            if (!class_exists($objectClassName)) {
+                require $objectFile;
+            }
             if (class_exists($objectClassName)) {
-                $objectObject = new $objectClassName;
+                try {
+                $objectObject = new $objectClassName($args);
+                } catch (Exception $e) {
+                    trigger_error($e->getMessage(), E_USER_WARNING);
+                    return new blackhole;
+                }
                 if ($objectType == 'model' && config::MODEL_AUTOCONNECT) {
                     foreach (config::$modelObjects as $modelObject) {
                         self::dbConnection($modelObject);
                         $objectObject->$modelObject = config::$$modelObject;
                     }
                 }
-                self::$loadedObjects[$objectType][$objectName] = $objectObject;
+                self::$loadedObjects[$objectType][$objectName][$argsSerialized] = $objectObject;
                 if (DEBUG_MODE) {
                     debug::log($objectType . ' ' . $objectName . ' loaded');
                 }
@@ -674,29 +815,32 @@ class get {
      * Returns a model object
      *
      * @param string $model
+     * @param mixed $args Optional - arguments to be passed to the model-object constructor
      * @return object
      */
-    public static function model($model = null) {
-        return self::_loadObject('model', $model);
+    public static function model($model = null, $args = null) {
+        return self::_loadObject('model', $model, $args);
     }
 
     /**
      * Returns a component object
      *
-     * @param string $model
+     * @param string $component
+     * @param mixed $args Optional - arguments to be passed to the component-object constructor
      * @return object
      */
-    public static function component($component = null) {
-        return self::_loadObject('component', $component);
+    public static function component($component = null, $args = null) {
+        return self::_loadObject('component', $component, $args);
     }
 
     /**
      * Returns a helper object
      *
-     * @param string $model
+     * @param string $helper
+     * @param mixed $args Optional - arguments to be passed to the helper-object constructor
      * @return object
      */
-    public static function helper($helper) {
+    public static function helper($helper, $args = null) {
         if (is_array($helper)) {
             array_walk($helper, array('self', __METHOD__));
             return;
@@ -704,7 +848,7 @@ class get {
         if (!in_array($helper, self::$config->helpers)) {
             self::$config->helpers[] = $helper;
         }
-        return self::_loadObject('helper', $helper);
+        return self::_loadObject('helper', $helper, $args);
     }
 
     /**
@@ -887,10 +1031,22 @@ class load {
      * This redirects via a browser command, this is not the same as changing controllers which is handled within MVC
      *
      * @param string $url Optional, if undefined this will refresh the page (mostly useful for dumping post values)
+     * @param boolean $exit Optional, defaults to true - if false then the instance will be allowed to continue after
      */
-    public static function redirect($url = null) {
+    public static function redirect($url = null, $exit = true) {
         self::$loadView = false;
-        header('Location: ' . ($url ? $url : get::url(null, false)));
+        header('Location: ' . ($url ? $url : get::url(array('get' => true))));
+        if ($exit) {
+            exit(0);
+        }
+    }
+
+    /**
+     * Loads the 404 Not Found error page
+     */
+    public static function error404() {
+        mvc::$controller = get::$config->errorHandler;
+        mvc::$action = 'notFound';
     }
 
     /**

@@ -4,28 +4,6 @@
  */
 class toolsHelper {
     /**
-     * Returns the URL of a Facebook profile
-     *
-     * @param int $id Facebook ID
-     * @return string
-     */
-    public function facebookProfileUrl($id) {
-        return 'http://www.facebook.com/profile.php?id=' . $id;
-    }
-
-    /**
-     * Returns the URL to a Facebook users photo
-     *
-     * @param int $id Facebook ID
-     * @param string $type Default: square (50px * 50px) Facebook Graph size identifiers; other valid options are
-     *                     small (50px wide, variable height) and large (about 200 pixels wide, variable height)
-     * @return string
-     */
-    public function facebookPhotoUrl($id, $type = 'square') {
-        return 'http://graph.facebook.com/' . $id . '/picture?type=' . $type;
-    }
-
-    /**
      * Creates an embedded YouTube video
      *
      * @param mixed $args
@@ -117,7 +95,7 @@ class toolsHelper {
      *
      * This has the same signature as $html->link() except that the 1st argument is your Tweet text instead of link URL.
      *
-     * Returns a tweet-link. After calling this method the Twitter Tweet URL can be accessed via: $tools->twitterLink
+     * Twitter Tweet URL can be accessed after utilizing this method via: $tools->twitterLink
      *
      * @param string $tweet
      * @param string $text
@@ -641,20 +619,6 @@ var googlemap' . $this->_mapCount . ' = function() {
         $range = range($min, $max);
         return array_combine($range,
                   array_map(create_function('$val', 'return "&#" . str_pad($val, 4, 0, STR_PAD_LEFT) . ";";'), $range));
-    }
-
-    /**
-     * Returns the IP address of the user; automatically bypasses local-IPs of load-balancers
-     * @return string
-     */
-    public function ip() {
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR']) {
-            $ips = explode(' ', $_SERVER['HTTP_X_FORWARDED_FOR']);
-            $ip = array_pop($ips);
-        } else if (isset($_SERVER['REMOTE_ADDR'])) {
-            $ip = $_SERVER['REMOTE_ADDR'];
-        }
-        return (isset($ip) ? $ip : null);
     }
 
     /**

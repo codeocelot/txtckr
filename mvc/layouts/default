@@ -1,5 +1,6 @@
 <?php
-$head['title'] = get::htmlentities(isset($title) ? $title : get::$config->SITE_NAME);
+$head['title'] = get::htmlentities(get::$title);
+$head['meta'] = get::$meta;
 $head['css'] = '/css/main.css?1';
 $head['favicon'] = '/favicon.ico';
 $head['animatedFavicon'] = '/favicon.gif';

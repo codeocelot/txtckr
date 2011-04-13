@@ -48,7 +48,7 @@ class mssql {
      */
     public function __construct($host, $username, $password, $dbname = null, $persistent = true, $newLink = null) {
         try {
-            $connect = 'mssql_ ' . ($persistent ? 'pconnect' : 'connect');
+            $connect = 'mssql_' . ($persistent ? 'pconnect' : 'connect');
             $this->resource = $connect($host, $username, $password, $dbname, $newLink);
             if (!$this->resource) {
                 throw new Exception('Cannot connect to MS SQL');

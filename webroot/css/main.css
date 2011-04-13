@@ -58,6 +58,7 @@ li {line-height: 1.5; margin-left: 15px;}
 .mediuminput {width: 300px;}
 .wideinput {width: 640px;}
 .fulltextarea {width: 970px; height: 500px;}
+.bigtextarea {height: 250px;}
 .htmlpreviewlabel {margin-top: 5px;}
 .htmlpreview {border: 1px outset #a4bcc6; padding-top: 5px; padding-bottom: 5px; padding-left: 1px; margin-top: 5px; margin-bottom: 5px;}
 

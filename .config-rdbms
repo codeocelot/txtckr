@@ -92,7 +92,7 @@ class db extends mysqlabstract {
      * @param mixed Optional one or more arguments for SQL substitution, can be scalar or an array of scalar values
      * @return object
      */
-    public function pquery($sql) {
+    public function pquery($sql /* polymorphic */) {
         $args = func_get_args();
         array_shift($args); //remove SQL string
         $replacementCount = substr_count($sql, '?');

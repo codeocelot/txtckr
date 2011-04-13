@@ -2,7 +2,7 @@
  * Simplifies working with cookies
  * @author Eric David Benari
  * @link http://www.Vork.us
-*/
+ */
 var cookie = function() {}
 
 /**

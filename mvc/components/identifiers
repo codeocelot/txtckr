@@ -1,0 +1,425 @@
+<?php
+
+class identifiersHelper {
+    
+# IDENTIFIER HANDLERS -- START
+	
+	function setIdentifier($co, $identifier){
+		switch (true) {
+			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
+				$handle = $identifiers->tidyHDL($identifier);
+				if ($handle !== null){
+					$contextObject->setProperty($co, 'handle', $handle);
+					$contextObject->setId($co, 'handle', $handle);
+					$handleLink = 'http://hdl.handle.net/'.$handle;
+					$contextObject->setProperty($co, 'handleLink', $handleLink);				// human-friendly url	
+				}
+				break;
+			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):	// OCLC number
+				$handle = $identifiers->tidyHDL($identifier)
+				if ($oclcnum !== null){
+					$contextObject->setProperty($co, 'oclcnum', $oclcnum);
+					$contextObject->setId($co, 'oclcnum', $oclcnum);
+					$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
+					$contextObject->setProperty($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+				}
+				break;
+			case (preg_match('/^isbn[=:\/]/', $identifier)):			// ISBN id.				
+				$isbn = $identifiers->tidyISBN($identifier);
+				if ($isbn !== null){
+					$contextObject->setProperty($co, 'isbn', $isbn); 			// it must be an isbn
+					$contextObject->setId($co, 'isbn', $isbn);
+				}
+				break;		
+			case (preg_match('/^issn[=:\/]/', $identifier)):			// ISSN id.
+				$issn = $identifiers->tidyISSN($identifier);
+				if ($issn !== null){		
+					$contextObject->setProperty($co, $issn_type, $issn);			// voila - it's an issn!
+					$contextObject->setId($co, $issn_type, $issn);
+				}
+				break;
+			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
+				$oai = $identifiers->tidyOAI($identifier);
+				if ($oai !== null){
+					$contextObject->setProperty($co, 'oai', $oai);
+					$contextObject->setId($co, 'oai', $oai);
+					$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
+					$contextObject->setProperty($co, 'oaiLink', $oaiLink);						// OAI search link
+				}
+				break;
+			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
+			case (preg_match('/^http:\/\/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
+				$pmid = $identifiers->tidyPMID($identifier);
+				if ($pmid !== null){
+					$contextObject->setProperty($co, 'pmid', $pmid);
+					$contextObject->setId($co, 'pmid', $pmid);
+					$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
+					$contextObject->setProperty($co, 'pmidLink', $pmidLink);				// link to PubMed record	
+					if ($co == 'rft'){
+						$this->rft['id_count']++;
+					}
+				}
+				break; 
+			case (preg_match('/^doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
+			case (preg_match ('/^http:\/\/dx.doi.org\/10.([0-9]+)/i', $identifier):
+				$doi = $identifiers->tidyDOI($identifier);
+				if ($doi !== null){
+					$contextObject->setProperty($co, 'doi', $doi);
+					$contextObject->setId($co, 'doi', $doi);
+					$doiLink = 'http://dx.doi.org/'.$doi;
+					$contextObject->setProperty($co, 'doiLink', $doiLink);		// human-friendly doi
+					if ($co == 'rft'){
+						$this->rft['id']['doi'] = $doi;
+						$this->rft['id'][0]++;
+					}
+				}
+				break; 				
+			case (preg_match('/^http:\/\//', $identifier)):				// http link?
+			case (preg_match('/^www./', $identifier)):					// web link?
+				$webid = $identifiers->tidyWEBID($identifier);
+				if ($webid !== null){
+					$webLink = 'http://'.$webid;
+					$contextObject->setProperty($co, 'webLink', $webLink);	
+				}	
+			default:
+				$contextObject->setProperty($co, 'id', $identifier);
+				break;
+		}
+	}
+
+# IDENTIFIER HANDLERS -- FINISH	
+
+# IDENTIFIER PARSERS -- START		
+	/**
+     * Checks a DOI, returns null if not valid
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyDOI : START
+	public function tidyDOI($doi){
+		$find[0] = 'http://dx.doi.org/';	$replace[0] = '';		// remove any hyphens or spaces
+		$find[1] = 'doi[=:/]';				$replace[1] = '';		// tidy up any gunge
+		$doi = str_replace($find, $replace, $doi);	
+		$trim = "'+', '.', '. ', ','";								// trim any gunge off the doi
+		$doi = rtrim($doi, $trim);
+		if(!preg_match('/^10.[0-9]*\/(.*)/i', $doi)){
+			return null;
+		} else{
+			return($doi);
+		}
+	}
+//-- tidyDOI : FINISH	
+
+
+    /**
+     * Tidies a Handle, returns null if doesn't match pattern modified from Rod Page's BioGuid "identifier.php"!
+	 * N.B. Handles can be verified using CURL via http://resolver.net.au/hdl/ but won't verify relationship exists
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyHDL : START
+	public function tidyHDL($hdl){
+		$find[0] = 'hdl[=:/]'; 							$replace[0]= '';
+		$find[1] = 'http://hdl.handle.net/'; 			$replace[1] = '';
+		$hdl = str_replace($find, $replace, $hdl);	
+		# could use CURL + HTTP:200 to verify that Handle works, but won't verify content is related to Handle!
+		# $handleLink = 'http://resolver.net.au/hdl/'.$hdl;
+		if (preg_match('/^([0-9][0-9]*(.[0-9]*)?)\/(.*)/i', $hdl)){
+			return ($hdl);
+		} else {
+			return null;
+		}	
+	}
+//-- tidyHDL : 	FINISH
+
+
+    /**
+     * Converts an ISBN, returns null if not 10 digits or more
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyISBN : START	 
+	public function tidyISBN($isbn){
+		$isbn = $this->tidySN(isbn);
+		if ((strlen($isbn) == 10) && (preg_match('/\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
+			return($isbn); 									// ISBN-10
+		} elseif ((strlen($isbn) == 13) && (preg_match('/978\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
+			return($isbn); 									// ISBN-13
+		} else {
+			return(null);
+		}		
+	}
+//-- tidyISBN : FINISH
+
+
+    /**
+     * Converts an ISSN, returns null if not 9 digits
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyISSN : START
+	public function tidyISSN($issn){
+		$issn = $this->tidySN($issn);
+		if ((strlen($issn) == 8) & (preg_match('/\d\d\d\d\d\d\d[\dX]/i', $issn))){
+			$arr = str_split($issn, 4);								// split into 2 segments of 4 characters
+			$issn = $arr[0]."-".$arr[1];							// put a hyphen in the middle (we don't want it to look numeric!)
+			return ($issn);
+		} else {
+			return (null);
+		}
+	}
+//-- tidyISSN : FINISH
+
+
+    /**
+     * Tidies a OAI ID, returns null if doesn't match pattern
+	 * example: oai:lcoa1.loc.gov:loc.music/musdi.002
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyOAI : START
+	public function tidyOAI($oai){
+		$oai = str_replace('oai[=:\/]', '', $oai);	
+		if (preg_match('/^([0-9][0-9]*(.[0-9]*)?)\/(.*)/i', $oai)){
+			return ($oai);
+		} else {
+			return null;
+		}	
+	}
+//-- tidyOAI : 	FINISH
+
+
+    /**
+     * Tidies a OCLC Number, returns null if doesn't match pattern modified from Rod Page's BioGuid "identifier.php"!
+	 * N.B. Handles can be verified using CURL via http://www.worldcat.org/ but won't verify relationship exists
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyOCLCNUM : START
+	public function tidyOCLCNUM($oclcnum){
+		$oclcnum = str_replace('oclcnum[=:\/]', '', $oclcnum);	
+		if (preg_match('/^([0-9][0-9]*)/i', $oclcnum)){
+			return ($oclcnum);
+		} else {
+			return null;
+		}	
+	}
+//-- tidyOCLCNUM : 	FINISH
+
+
+    /**
+     * Tidies a PMID, returns null if not more than 1!
+	 * N.B. First PMID was assigned 16 January 1976
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyPMID : START
+	public function tidyPMID($pmid){
+		$find[0] = 'pmid[=:\/]'; 							$replace[0]= '';
+		$find[1] = 'http://www.ncbi.nlm.nih.gov/pubmed/'; 	$replace[1] = '';
+		$find[2] = 'list_uids=([0-9]+)';					$replace[2] = '';
+		$pmid = str_replace($find, $replace, $pmid);
+		if (!($pmid + 1) > 1){ 
+			return null;
+		} else {
+			return ($pmid);
+		}
+		}
+//-- tidyPMID : FINISH
+
+
+    /**
+     * Tidies an Standard Number (ISBN or ISSN), removing any non digit or X
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyISBN : START	 
+	public function tidySN($sn){
+		$find[0] = '![^\dXx]+!';	$replace[0] = '';				// using regex from cletus http://stackoverflow.com/users/18393/cletus
+		$value = preg_replace($find, $replace, $sn);				// found at http://stackoverflow.com/questions/1255481/whitelist-in-php
+		return ($value)
+	}
+//-- tidyISBN : FINISH
+
+
+    /**
+     * Tidies a Generic Web ID, returns
+	 * N.B. Could be verified using CURL via http://+$webid but won't verify relationship exists
+     *
+     * @param string
+     * @return string
+     */
+//-- tidyWEBID : START
+	public function tidyWEBID($webid){
+		$webid = str_replace('http:\/\/', '', $webid);		
+		if ((strlen($webid) > 3) && (preg_match('/^([A-Z0-9]*.([A-Z0-9]*))/i', $webid))){
+			return($webid); 									// it must be an okay length
+		} else {
+			return(null);
+		}}	
+	}
+//-- tidyWEBID : 	FINISH
+
+    /**
+     * Calculates the checksum for the last digit of an ISBN/ISSN
+     *
+     * @param string
+     * @return string
+     */
+//-- checksumSN : START
+	function checksumSN($sn){
+		$protosn = $this->tidySN($sn);
+		$checkArr = null;
+		$lengthSN = strlen($protosn);
+		$thirteen = false;			// ISBN-13 is the one that's different from the rest
+		$modulus = 11;				// Most of the time, we'll divide by 11 (10 for ISBN-13)
+		$digit = 0;					// we don't use this for ISBN-13 but we'll set it here anyway
+		$pos = 2;					// ditto
+		$snArr = str_split($protosn, 1);
+		switch($lengthSN){
+			// with ISSNs reverse the array since you count from 2... 8 from right to left
+			case (7): // ISSN, no checkdigit
+			case (9): // ISBN-10, no checkdigit			
+			$checkArr = array_reverse($snArr);
+			break;
+			case (8): // ISSN, with checkdigit... need to remove the checkdigit
+			case (10): // ISBN-10, with checkdigit... need to remove the checkdigit			
+			$checkArr = array_reverse(array_pop($snArr));
+			break;
+			case (12): // ISBN-13, no checkdigit
+			$checkArr = $snArr;
+			$modulus = 10;		// Divide by 10 for ISBN-13
+			$thirteen = true;			
+			break;
+			case (13): // ISBN-13, with checkdigit... need to remove the checkdigit
+			$checkArr = array_pop($snArr);
+			$modulus = 10;		// Divide by 10 for ISBN-13
+			$thirteen = true;
+			break;			
+		}
+		if ($checkArr == null){
+			return (null);
+		}
+
+		$snSum = 0;
+		if ($thirteen == true){
+		// ISBN-13, using example from: http://en.wikipedia.org/wiki/Isbn#ISBN-13
+		// It alternates multiplying by 1 or 3... then dividing by 10
+		// Example: "Error-correction coding for digital communications", ISBN-13 9780306406157 (check digit is 7):
+		// (9 * 1) + (7 * 3) + (8 * 1) + (0 * 3) + (3 * 1) + (0 * 3) + (6 * 1) + (4 * 3) + (0 * 1) + (6 * 3) + (1 * 1) + (5 * 3)
+		// =  9 + 21 + 8 +  0 +  3 +  0 +  6 + 12 +  0 + 18 +  1 + 15
+		// = 93
+		// remainder (93 % 10) = 3
+		// 10 - 3 = 7
+		// checkdigit = 7
+		
+			$sn13Sum = @(($checkArr[0] + $checkArr[2] + $checkArr[4] + $checkArr[6] + $checkArr[8] + $checkArr[10] + $checkArr[12]) * 2);
+			$snSum = array_sum($checkArr) + $sn13Sum;
+			
+		} else {
+		
+		// ISSN, using example from: http://en.wikipedia.org/wiki/Issn#Code_format
+		// Example: "Hearing Research", ISSN 0378-5955 (check digit is 5):
+		// (0 * 8) + (3 * 7) + (7 * 6) + (8 * 5) + (5 * 4) + (9 * 3) + (5 * 2)
+		// = 0 + 21 + 42 + 40 + 20 + 27 + 10
+		// = 160
+		// remainder (160 % 11) = 6
+		// 11 - 6 = 5
+		// checkdigit = 5
+
+		// ISBN-10, using example from: http://en.wikipedia.org/wiki/Isbn#Alternative_calculation
+		// Example: "Error-correction coding for digital communications", ISBN-10 0306406152 (check digit is 2):
+		// (1 * 0) + (2 * 3) + (3 * 0) + (4 * 6) + (5 * 4) + (6 * 0) + (7 * 6) + (8 * 1) + (9 * 5)
+		// = 0 + 6 + 0 + 24 + 20 + 0 + 42 + 8 + 45
+		// = 145 
+		// remainder (145 % 11) = 9
+		// 11 - 9 = 2
+		// checkdigit = 2
+		
+			while ($lengthSN > $digit) {
+				$snSum = ($snSum + ((integer)$checkArr[$digit] * $pos)); // I'm not going to piss around with modulus operators!
+				$pos++;
+				$digit++;
+			}
+		}
+		$remainder = (integer)$snSum;
+		while ($remainder > $modulus){
+			$remainder = ($remainder - $modulus);
+		}
+		$newChecksum = $modulus - $remainder;
+		if ($newChecksum == 10){
+			return ('X');
+		} else {
+			return ($newChecksum);
+		}
+	}
+//-- checksumSN : 	FINISH
+
+
+    /**
+     * Verify SN checksum
+     *
+     * @param string
+     * @return boolean
+     */
+//-- verifySN : START
+	function verifySN($sn){
+	$sn = $this->tidySN($sn);
+		$checksum = $this->checksumSN($sn);
+		$snArr = str_split($protosn, 1);
+		$checkArr = array_reverse($snArr);
+		$echecksum = $checkArr[0];
+		if ($echecksum == "x"){
+			strtoupper($echecksum);
+		}
+		$lengthSN = strlen($sn);
+		$verify = false;
+		switch($lengthSN){
+			case (8): // ISSN, with checkdigit... need to remove the checkdigit
+			case (10): // ISBN-10, with checkdigit... need to remove the checkdigit
+			case (13): // ISBN-10, with checkdigit... need to remove the checkdigit		
+			$checkArr = array_reverse(array_pop($snArr));		
+			if ($checksum === $echecksum){
+				$verify = true;
+			}
+			break;
+		}
+		return ($verify);
+	}
+//-- convertISBN : FINISH
+
+
+    /**
+     * Convert ISBN-10 to/from ISBN-13
+     *
+     * @param string
+     * @return string
+     */
+//-- convertISBN : START
+	function convertISBN($isbn){
+	$isbn = $this->tidySN($isbn);
+	$snArr = str_split($isbn, 3);
+	$to = strlen($isbn)
+		if ((strlen($isbn) == 10) && (preg_match('/\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
+		 	$sn = 	"978".$snArr[0].$snArr[1].$snArr[2];// convert to ISBN-13
+			$newIsbn = $sn.checksumSN($sn);
+			return($newIsbn);
+		} elseif ((strlen($isbn) == 13) && (preg_match('/978\d\d\d\d\d\d\d\d\d[\dX]/i', $isbn))) {
+ 			$sn = $snArr[1].$snArr[2].$snArr[3];		// convert to ISBN-10
+			$newIsbn = $sn.checksumSN($sn);
+			return($newIsbn);
+		} else {
+			return(null);
+		}	
+	}
+//-- convertISBN : FINISH	
+
+# IDENTIFIER PARSERS -- FINISH

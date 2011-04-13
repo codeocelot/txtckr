@@ -1,6 +1,6 @@
 <?php
 if (!isset($loginAction)) {
-    $loginAction = get::url(true);
+    $loginAction = get::url(array('ssl' => true));
 }
 echo $form->open(array('action' => $loginAction, 'id' => 'loginform'));
 if (isset($_POST['errors']['login'])) {

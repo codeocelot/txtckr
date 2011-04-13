@@ -14,10 +14,10 @@ class vorkInstaller {
     const logFile = '../.install.log';
 
     /**
-     * Cache of the vorkInstall object contained in the install/upgrade package
-     * @var vorkInstall
+     * Cache of the vorkIni array contained in the install/upgrade package
+     * @var vorkIni
      */
-    public $vorkInstall;
+    public $vorkIni;
 
     /**
      * Copy instance-scope temp file into a regular persistant temp-file
@@ -33,32 +33,43 @@ class vorkInstaller {
      * Install/upgrade engine
      */
     protected function _install($file = null) {
+        $iniFilename = 'vork.ini';
         $za = new ZipArchive();
         $za->open(!$file ? $_FILES[self::fileId]['tmp_name'] : $file);
-        if (!($fileCount = $za->numFiles) || !($this->vorkInstall = $za->statName('vorkInstall'))) {
-            $_POST['errors'][self::fileId] = 'Not a valid Vork app or Vork upgrade file, re-download from www.Vork.us';
+        if (!($fileCount = $za->numFiles) || !$za->statName($iniFilename)) {
+            $_POST['errors'][self::fileId] = 'Not a valid Vork app or Vork upgrade file (missing the ' . $iniFilename
+                                           . ' file), try re-downloading from www.Vork.us';
             return;
         }
 
-        $fp = $za->getStream('vorkInstall');
-        fread($fp, 5); //skip PHP open tag
+        $fp = $za->getStream($iniFilename);
         while (!feof($fp)) {
             $contents[] = fread($fp, 8192);
         }
         fclose($fp);
         if (isset($contents)) {
-            eval(implode($contents));
+            $contents = implode($contents);
+            if (function_exists('parse_ini_string')) { //PHP 5.3+
+                $this->vorkIni = parse_ini_string($contents);
+            } else {
+                $tmpName = tempnam(sys_get_temp_dir(), 'ini_');
+                file_put_contents($tmpName, $contents);
+                $this->vorkIni = parse_ini_file($tmpName);
+                unlink($tmpName);
+            }
+            $this->vorkIni['ts'] = time();
         } else {
-            $_POST['errors'][self::fileId] = 'Not a valid Vork app or Vork upgrade file, re-download from www.Vork.us';
-            return;
+            $_POST['errors'][self::fileId] = 'The ' . $iniFilename . ' file in this Vork app is invalid';
+            return false;
         }
+
         if (!$file && $za->statName('.installer')) { //upgrade installer, then re-run using the newest installer
             $za->extractTo('..', '.installer');
             $file = $this->_makeUploadPersist();
             load::redirect('/vork?install=' . urlencode($file));
             return;
         }
-        $this->vorkInstall = new vorkInstall;
+
         for ($i = 0; $i < $fileCount; $i++) {
             $filepath = str_replace('\\', '/', $za->getNameIndex($i));
             $filepathParts = explode('/', $filepath);
@@ -71,7 +82,7 @@ class vorkInstaller {
                 }
                 $path .= '/';
             }
-            if ($fileName && $path . $fileName != 'vorkInstall' && $path . $fileName != '.installer') {
+            if ($fileName && $path . $fileName != $iniFilename && $path . $fileName != '.installer') {
                 $files[] = $path . $fileName; //directories are skipped since they have an empty string for $fileName
             }
         }
@@ -82,12 +93,7 @@ class vorkInstaller {
         if ($file) {
             unlink($file);
         }
-        if (!file_exists(self::logFile)) {
-            file_put_contents(self::logFile, '<?php' . PHP_EOL);
-        }
-        $this->vorkInstall->meta['ts'] = time();
-        $log = '$meta[] = ' . var_export($this->vorkInstall->meta, true) . ';' . PHP_EOL;
-        file_put_contents(self::logFile, $log, FILE_APPEND);
+        file_put_contents(self::logFile, json_encode($this->vorkIni) . PHP_EOL, FILE_APPEND);
     }
 
     /**
@@ -144,9 +150,9 @@ class vorkInstaller {
         } else if (isset($_GET['install'])) {
             $this->_install($_GET['install']);
         }
-        if (!isset($_POST['errors']) && $this->vorkInstall) {
-            $formArgs['alert'] = 'Install/upgrade of ' . $this->vorkInstall->meta['package'] . ' '
-                               . $this->vorkInstall->meta['version'] . ' completed';
+        if (!isset($_POST['errors']) && $this->vorkIni) {
+            $formArgs['alert'] = 'Install/upgrade of ' . $this->vorkIni['package'] . ' '
+                               . $this->vorkIni['version'] . ' completed';
         }
 
         echo $form->getFormOpen($formArgs);

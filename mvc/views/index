@@ -1,2 +1,3 @@
 <?php
+get::$title = 'Hello World!';
 echo $html->h1('Installation successful! Hello World!');

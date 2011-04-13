@@ -2,7 +2,7 @@
 if (isset($is404) && $is404) {
     header('HTTP/1.0 404 Not Found');
 }
-echo '<h1 class="errormessage">' . (isset($title) ? $title : 'Error'). '</h1>';
+echo '<h1 class="errormessage">' . get::$title . '</h1>';
 
 echo $html->h2('Please try and search for what you are looking for:');
 echo $html->cssInline('#goog-wm {}
