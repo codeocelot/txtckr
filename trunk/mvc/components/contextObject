@@ -114,7 +114,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 												res_ref
 */
 
-###################### TXTCKA FUNCTIONS : START ######################	
+###################### TXTCKR FUNCTIONS : START ######################	
 	function setProperty($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
 	if (($value !== null) && (!isset($this->ctx[$key]))){		// has this key already been set?
@@ -770,9 +770,10 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
          * @example     'au' >> 'author'
          * @note        translate_openurl sets individual properties for unparsed key
          */             
-        function translateRis($co, $key, $value){      
+        function translateRis($co, $key, $value){
+		$ris=get::$config->RIS;
                 $newkey = $co.'_';
-                if (isset($settings->ris['key'][$key])){
+                if (isset($ris['key'][$key])){
                         $newkey .= $settings->ris['key'][$key];
                 } else {
                         $newkey .= $this->normalise($key);
@@ -780,5 +781,5 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
                 $this->build($newkey, $value);
         }
 		
-###################### TXTCKA FUNCTIONS : FINISH ######################
+###################### TXTCKR FUNCTIONS : FINISH ######################
 }
