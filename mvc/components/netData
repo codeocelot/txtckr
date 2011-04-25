@@ -1,7 +1,7 @@
 <?php
 # code from http://www.navioo.com/php/docs/function.curl-multi-exec.php
 
-class netDataHelper {
+class netDataComponent {
 
     function __construct(){
         $this->error    			= "";
@@ -26,7 +26,9 @@ class netDataHelper {
             $this->{$netSource}['errorState']	= "";
 			$this->{$netSource}['errorCode']	= null;
             $conn[$netSource] = curl_init($netURL);
-            curl_setopt($conn[$netSource], CURLOPT_RETURNTRANSFER, 1);
+			foreach CURLOPTS as ($curlopt => $curlvalue){
+				curl_setopt($conn[$netSource], $curlopt, $curlvalue);
+			}
             curl_multi_add_handle ($mh,$conn[$netSource]);
         }
         // start performing the request
