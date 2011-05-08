@@ -1,6 +1,6 @@
 <?php
 
-class contextObjectHelper {
+class contextobjectComponent{
 
 	function __construct(){
 		$this->co['logid'] 			= date("YmdHis").rand(00,59);
@@ -32,8 +32,8 @@ class contextObjectHelper {
 		$this->post_last_name[0]	= 0; // e.g. 'III'		as in William Gates III
 		$this->full_name[0]			= 0;
 		$this->corp_name[0]			= 0;
-		$settings					= get::helper('settings');
-		$identifiers 				= get::helper('identifiers');
+		// $settings				= get::helper('settings'); // using config file now
+		$identifiers 				= get::component('identifiers');
 	}
 
 /* adapted from [http://q6.oclc.org/openurl/simple_openurl/]
@@ -114,15 +114,24 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 												res_ref
 */
 
-###################### TXTCKR FUNCTIONS : START ######################	
+###################### TXTCKR FUNCTIONS : START ######################
+	
 	function setProperty($co, $key, $value){
 	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
-	if (($value !== null) && (!isset($this->ctx[$key]))){		// has this key already been set?
+	if (($value !== null) && (!isset($this->{$co}[$key]))){		// has this key already been set?
 		$this->{$co}[$key] = $value;								// if not, then set it
-		$this->{$co}[0] = count(array_keys($this->$co));			// add to the field count as we go
+		$this->{$co}[0] = (count(array_keys($this->$co)) -1);			// add to the field count as we go
 		}
 	}
 
+	function setId($co, $key, $value){
+	// echo '<b>'.$co.'</b>:'.$key.'='.$value.'<br/>';
+	if (($value !== null) && (!isset($this->{$co}['id'][$key]))){			// has this key already been set?
+		$this->{$co}['id'][$key] = $value;									// if not, then set it
+		$this->{$co}['id'][0] = (count(array_keys($this->$co['id'])) -1);	// add to the field count as we go
+		}
+	}	
+	
 	function getNameRegistry(){
 		return array($this->name_registry);
 	}
@@ -151,6 +160,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	
 	function setName($co, $name_type, $value){
 			$entity_types['advisor'] 		= 'advisor';
+			$entity_types['assignee'] 		= 'assignee';
 			$entity_types['au'] 			= 'author';
 			$entity_types['aufull'] 		= 'author';
 			$entity_types['aucorp']			= 'author_corp';
@@ -160,17 +170,19 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			$entity_types['edfull']			= 'editor';
 			$entity_types['inv'] 			= 'inventor';
 			$entity_types['invfull'] 		= 'inventor';
-		$r = count(array_keys($this->name_registry));		// use name_registry to store last used number
-		$p = count(array_keys($this->name_partials));		// use name_partials to store last used number [0] is reserved for count
+		$r = count(array_keys($this->name_registry));				// use name_registry to store last used number
+		$p = count(array_keys($this->name_partials));				// use name_partials to store last used number [0] is reserved for count
 		switch(true){
-			case (isset($entity_types[$name_type])): 		// full names first!
-				$entity_type = $entity_types[$name_type];
-				$co_entity_r = $co.'_'.$entity_type.'_'.$r;	// using entity in this format as we can explode on '_' this later to get 3 values
-				$this->name_registry[$r] = $co_entity_r;	// add the entity as a value to the registry
-				$this->$co_entity = new named_entity;		// create a new object called (the value of entity)
-				$this->$co_entity->set_type($name_type);	// set a couple of values based on what we were given
-				$this->$co_entity->parse_name($value);		// parse the full name if we were given it
-				break;										// stop processing, move on...
+			case (isset($entity_types[$name_type])): 				// full names first!
+				$entitytype = $entity_types[$name_type];
+				$co_entity = $co.'_'.$entitytype;
+				$co_entity_r = $co.'_'.$entitytype.'_'.$r;			// using entity in this format as we can explode on '_' this later to get 3 values
+				$this->name_registry[$r] = $co_entity_r;			// add the entity as a value to the registry
+				$this->$co_entity = get::component('namedentity');	// create a new object called (the value of entity)
+				$this->$co_entity->setNameType($name_type);		// set a couple of values based on what we were given
+				$this->$co_entity->parseName($value);				// parse the full name if we were given it
+				$partial = $name_type;
+				break;												// stop processing, move on...
 			// then it gets slightly more complicated
 			// surnames next - should only be one of these per person!
 			case (preg_match('/last$/', $name_type)):
@@ -225,8 +237,8 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$partial										= $name_type;
 				break;
 			}
-			if (!isset($this->{$partial}[$entitytype][0])){
-			$this->{$partial}[$entitytype][0]				= 1;
+			if (!empty($partial) & (!isset($this->{$partial}[$entitytype][0]))){
+				$this->{$partial}[$entitytype][0]			= 1;
 			}
 			$name_count										= $this->{$partial}[$entitytype][0];
 			$this->{$partial}[$entitytype][$name_count]		= $value;
@@ -292,137 +304,206 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 	}
 
 # IDENTIFIER HANDLERS -- START	
+	
 	function setIdentifier($co, $identifier){
 		switch (true) {
-			case (preg_match('/^hdl[=:\/]/', $identifier)):				// Handle (hdl)
+			case (preg_match('/hdl[=:\/]/', $identifier)):				// Handle (hdl)
 				$handle = $identifiers->tidyHDL($identifier);
 				if ($handle !== null){
 					$this->setProperty($co, 'handle', $handle);
-					$handleLink = 'http://hdl.handle.net/'.$handle;
-					$this->setProperty($co, 'handleLink', $handleLink);				// human-friendly url
-					if ($co == 'rft'){
-						$this->rft['id']['hdl'] = $handle;
-						$this->rft['id'][0]++;
-					}	
+					$this->setId($co, 'handle', $handle);
 				}
-				break;
-			case (preg_match('/^oclcnum[=:\/]|(OCoLC)/', $identifier)):	// OCLC number
-				$handle = $identifiers->tidyHDL($identifier)
-				$this->setProperty($co, 'oclcnum', $oclcnum);
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match('/oclcnum[=:\/]|(OCoLC)/', $identifier)):	// OCLC number
+				$oclcnum = $identifiers->tidyOCLCNUM($identifier);
 				if ($oclcnum !== null){
-					$oclcnumLink = 'http://www.worldcat.org/oclc/'.$oclcnum;
-					$this->setProperty($co, 'oclcnumLink', $oclcnumLink);				// link to WorldCat
+					$this->setProperty($co, 'oclcnum', $oclcnum);
+					$this->setId($co, 'oclcnum', $oclcnum);
 				}
-				if ($co == 'rft'){
-					$this->rft['id']['oclcnum'] = $oclcnum;
-					$this->rft['id'][0]++;
-				}
-				break;
-			case (preg_match('/^isbn[=:\/]/', $identifier)):			// ISBN id.				
-				$isbn = $identifiers->tidyISBN($identifier);
-				if ($isbn !== null){
-					$this->setProperty($co, 'isbn', $isbn); 			// it must be an isbn
-					if ($co == 'rft'){
-						$this->rft['id']['isbn'] = $isbn;
-						$this->rft['id'][0]++;
-					}
-				}
-				break;		
-			case (preg_match('/^issn[=:\/]/', $identifier)):			// ISSN id.
-				$issn = $identifiers->tidyISSN($identifier);
-				if ($issn !== null){		
-					$this->setProperty($co, $issn_type, $issn);			// voila - it's an issn!
-					if ($co == 'rft'){
-						$this->rft['id']['.$issn_type.'] = $issn;
-						$this->rft['id'][0]++;
-					}
-				}
-				break;
-			case (preg_match('/^oai[=:\/]/', $identifier)):				// OAI id.
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match('/isbn[=:\/]/', $identifier)):			// ISBN id.				
+				$this->setIsbn($co, $identifier);
+				// break; to handle multiple ids, probably best we don't break		
+			case (preg_match('/issn[=:\/]/', $identifier)):			// ISSN id.
+				$issnType = "issn_(print)";
+				$this->setIssn($co, $identifier, $issnType);
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match('/oai[=:\/]/', $identifier)):				// OAI id.
 				$oai = $identifiers->tidyOAI($identifier);
-				$this->setProperty($co, 'oai', $oai);
 				if ($oai !== null){
-					$oaiLink = 'http://search.yahoo.com/search;_ylt=?p=%22'.$oai.'%22&y=Search&fr=sfp';
-					$this->setProperty($co, 'oaiLink', $oaiLink);						// OAI search link
+					$this->setProperty($co, 'oai', $oai);
+					$this->setId($co, 'oai', $oai);
 				}
-				if ($co == 'rft'){
-					$this->rft['id']['oai'] = $oai;
-					$this->rft['id'][0]++;
-				}
-				break;
-			case (preg_match('/^pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
-			case (preg_match('/^http:\/\/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match('/pmid[=:\/]/', $identifier)):			// PubMed ID (pmid)
+			case (preg_match('/www.ncbi.nlm.nih.gov\/pubmed\/([0-9]+)/', $identifier)):
 				$pmid = $identifiers->tidyPMID($identifier);
-				$this->setProperty($co, 'pmid', $pmid);
 				if ($pmid !== null){
-					$pmidLink = 'http://www.ncbi.nlm.nih.gov/pubmed/'.$pmid;
-					$this->setProperty($co, 'pmidLink', $pmidLink);				// link to PubMed record	
-					if ($co == 'rft'){
-						$this->rft['id_count']++;
-					}
+					$this->setProperty($co, 'pmid', $pmid);
+					$this->setId($co, 'pmid', $pmid);
 				}
-				break; 
-			case (preg_match('/^doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
-			case (preg_match ('/^http:\/\/dx.doi.org\/10.([0-9]+)/i', $identifier):
+				// break; to handle multiple ids, probably best we don't break 
+			case (preg_match('/doi[=:\/]/', $identifier)):				// Digital Object Identifier (doi)
+			case (preg_match ('/dx.doi.org\/10.([0-9]+)/i', $identifier)):
+			case (preg_match ('/http:\/\/dx.doi.org\/10.([0-9]+)/i', $identifier)):
 				$doi = $identifiers->tidyDOI($identifier);
 				if ($doi !== null){
 					$this->setProperty($co, 'doi', $doi);
-					$doiLink = 'http://dx.doi.org/'.$doi;
-					$this->setProperty($co, 'doiLink', $doiLink);		// human-friendly doi
-					if ($co == 'rft'){
-						$this->rft['id']['doi'] = $doi;
-						$this->rft['id'][0]++;
-					}
+					$this->setId($co, 'doi', $doi);
 				}
-				break; 				
+				// break; to handle multiple ids, probably best we don't break
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match('/linkinghub.elsevier.com\/retrieve\/pii\/(?<pii>S(.*))/', $identifier)):
+				$this->setId($co, 'pii', $identifier);
+				// break; to handle multiple ids, probably best we don't break
+			case (preg_match ('/(http:\/\/links.jstor.org\/sici\?sici=|info:sici\/|sici:)(.*)/i', $identifier)):
+				$this->setSici($co, $identifier);
+				// break; to handle multiple ids, probably best we don't break				
 			case (preg_match('/^http:\/\//', $identifier)):				// http link?
 			case (preg_match('/^www./', $identifier)):					// web link?
 				$webid = $identifiers->tidyWEBID($identifier);
-				$this->setProperty($co, 'web', $webid);
 				if ($webid !== null){
 					$webLink = 'http://'.$webid;
-					$this->setProperty($co, 'webLink', $webLink);	
-					if ($co == 'rft'){
-						$this->rft['id_count']++;
-					}
-				}	
+					$this->setProperty($co, 'web_link', $webLink);	
+				}
 			default:
 				$this->setProperty($co, 'id', $identifier);
-				break;
+		}
+	}
+	
+	function setIssn($co, $issnType, $issn){
+		$issn = $identifiers->tidyISSN($issn);
+		if ($issn !== null){		
+			$this->setProperty($co, $issnType, $issn);			// voila - it's an issn!
+			$this->setId($co, $issnType, $issn);
 		}
 	}
 
-# IDENTIFIER HANDLERS -- FINISH
+	function setIsbn($co, $isbn){	
+		$isbn = $identifiers->tidyISBN($identifier);
+		if ($isbn !== null){
+			$isbnType = 'isbn'.strlen($isbn);
+			$this->setProperty($co, $isbnType, $isbn); 			// it must be an isbn
+			$this->setId($co, $isbnType, $isbn);
+				// now create the other isbn (10 or 13)
+			$otherIsbn = $identifiers->convertISBN($isbn);
+			$otherIsbnType = 'isbn'.strlen($otherIsbn);
+			$this->setProperty($co, $otherIsbnType, $otherIsbn);
+			$this->setId($co, $otherIsbnType, $otherIsbn);
+		}
+	}
 	
-	function set_referer($value){
+		/**
+         * public static method
+         *
+         *      contextobject::setSici(params)
+         *
+         * @param       string
+         * @param       string
+         * @return      void
+         * @example     setSici($co, $pmid) sets individual properties from one value;
+         * @note        sourcecode from bioguid
+         */
+    function setSici($co, $sici){
+        //--------------------------------------------------------------------------------------------------
+        // code pinched from Roderic Page's bioguid project, and modified to suit:
+        // see:[http://code.google.com/p/bioguid/source/browse/trunk/www/jstor.php]
+        // Rod Page's notes follow:
+        // Decompose a SICI, based on regular expressions in Biblio Utils.pm
+        // I've edited the item regular expression to handle ISSNs that end in 'X'
+
+        $match = array();
+        if (preg_match('/^(.*)<(.*)>(.*)$/', $sici, $match)){
+				$this->setProperty($co, 'sici', $sici);
+				$this->setId($co, 'sici', $sici);
+                //print_r($match);
+                $this->setProperty($co, 'item', $match[1]);
+                $this->setProperty($co, 'contrib', $match[2]);
+                $this->setProperty($co, 'control', $match[3]);
+        }
+
+        if (isset($this->{$co}['item'])) {
+            //  if (preg_match('/^(\d{4}-\d{4})\((.+)\)(.+)/', $this->setProperty($co, 'item', $match))
+            if (preg_match('/^(\d{4}-\d{3}([0-9]|X))\((.+)\)(.+)/', $this->{$co}['item'], $match)){
+                //print_r($match);
+                $this->setIssn($co, 'issn', $match[1]);
+                $this->setProperty($co, 'chron', $match[3]);
+                $this->setProperty($co, 'enum', $match[4]);
+            }
+        }
+
+        if (isset($this->{$co}['chron'])){
+            if (preg_match('/^(\d{4})?(\d{2})?(\d{2})?(\/(\d{4})?(\d{2})?(\d{2})?)?/', $this->{$co}['chron'], $match)){
+                //print_r($match);
+                if (isset($match[1])) $this->setProperty($co, 'year', $match[1]);
+                if (isset($match[2])) $this->setProperty($co, 'month', $match[2]);
+                if (isset($match[3])) $this->setProperty($co, 'day', $match[3]);
+                if (isset($match[4])) $this->setProperty($co, 'seryear', $match[4]);
+                if (isset($match[5])) $this->setProperty($co, 'sermonth', $match[5]);
+                if (isset($match[6])) $this->setProperty($co, 'serday', $match[6]);
+            }
+        }
+
+        if (isset($this->{$co}['contrib'])){
+            list($site, $title, $locn) = split (":", $this->{$co}['contrib']);
+                        $this->setProperty($co, 'site', $site);
+                        $this->setProperty($co, 'title', $title);
+                        $this->setProperty($co, 'locn', $locn);
+        }
+
+        if (isset($this->{$co}['enum'])){
+            list($volume, $issue, $locn) = split (":", $this->{$co}['enum']);
+                        $this->setProperty($co, 'volume', $volume);
+                        $this->setProperty($co, 'issue', $issue);
+                        $this->setProperty($co, 'locn', $locn);
+        }
+
+
+        if (isset($this->{$co}['control'])){
+            if (preg_match('/^^(.+)\.(.+)\.(.+);(.+)-(.+)$/', $this->{$co}['control'], $match)){
+                //print_r($match);
+                if (isset($match[1])) $this->setProperty($co, 'csi', $match[1]);
+                if (isset($match[2])) $this->setProperty($co, 'dpi', $match[2]);
+                if (isset($match[3])) $this->setProperty($co, 'mfi', $match[3]);
+                if (isset($match[4])) $this->setProperty($co, 'version', $match[4]);
+                if (isset($match[5])) $this->setProperty($co, 'check', $match[5]);
+            }
+        }
+    }	
+
+# IDENTIFIER HANDLERS -- FINISH	
+	
+	function setReferer($value){
 		@list($referer_name, $referer) = explode(':', $value);
 		$this->setProperty('rfr', 'referer_name', $referer_name);
 		$this->setProperty('rfr', 'referer_type', $referer);
 	}
 
-	function set_contexttype($co, $type){ // not working!!!
-		$this->settings->define_contexttypes();
-		switch (true) {
-			case ($this->settings->types['key'][$type] != ''): // not sure about this - not tested, but more configurable!
-				$this->setProperty($co, 'reftype', $this->settings->types['reftype'][$type]);
-				$this->setProperty($co, 'reqtype', $this->settings->types['reqtype'][$type]);
-				$this->setProperty($co, 'sourcetype', $this->settings->types['sourcetype'][$type]);
-				$this->setProperty($co, 'notes', $this->settings->types['notes'][$type]);
-				break;
-			default:
+	function setContextType($co, $type){ // not working!!!
+		$refTypes = get::$config->refTypes;
+		if (isset($refTypes['reftype'][$type])){
+				$this->setProperty($co, 'reftype', $refTypes['reftype'][$type]);
+				$this->setProperty($co, 'reqtype', $refTypes['reqtype'][$type]);
+				$this->setProperty($co, 'sourcetype', $refTypes['sourcetype'][$type]);
+				$this->setProperty($co, 'notes', $refTypes['notes'][$type]);
+		} elseif (isset($risTypes[$type])){
+				$this->setProperty($co, 'reftype', $refTypes['reftype'][$risTypes[$type]]);
+				$this->setProperty($co, 'reqtype', $refTypes['reqtype'][$risTypes[$type]]);
+				$this->setProperty($co, 'sourcetype', $refTypes['sourcetype'][$risTypes[$type]]);
+				$this->setProperty($co, 'notes', $refTypes['notes'][$risTypes[$type]]);
+		} else {
 				$this->setProperty($co, 'reftype', 'GEN');
 				$this->setProperty($co, 'reqtype', 'Unknown');
 				$this->setProperty($co, 'sourcetype', 'Unknown');
 				$this->setProperty($co, 'notes', 'This was not identified as an known format in the OpenURL metadata. it was specified as '.$type);
-				break;
 		}
 	}
 	
 	function build($key, $value){
 	//echo $key.'='.$value.'<br/>';
-	$key = $this->unencode($key); 		// remove any spaces - there shouldn't be any in the key names!
-	$key = $this->normalise($key);		// then standardise the rest of the key name.
-	$value = $this->unencode($value);	// unencode any value, by urldecoding any rawurlencoded strings
+	$key = get::$config->unencode($key); 		// remove any spaces - there shouldn't be any in the key names!
+	$key = get::$config->normalise($key);		// then standardise the rest of the key name.
+	$value = get::$config->unencode($value);	// unencode any value, by urldecoding any rawurlencoded strings
 	$value = str_replace('info:', '', $value);
 		switch(true){
 			case (preg_match('/^ctx\./', $key)):
@@ -459,64 +540,50 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		
 		switch ($key) {
 			case "advisor": // not sure if this should be parsed as a name, or left as is!
-				$this->setProperty($co, 'thesis_advisor', $value);
-				$this->set_contexttype($co, 'dissertation');
+				$this->setName($co, $key, $value);
+				$this->setContextType($co, 'dissertation');
 				break;
 			case "applcc":
-				$this->setProperty($co, 'patent_application_country', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;
 			case "appldate":
-				$this->setProperty($co, 'patent_application_date', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;
 			case "applnumber":
-				$this->setProperty($co, 'patent_application_num', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;
 			case "applyear":
-				$this->setProperty($co, 'patent_application_year', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;
 			case "assignee":
-				$this->setProperty($co, 'patent_assignee', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setName($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;				
-			case "au":
-				$this->setName($co, 'au', $value);
-				break;
+			case "au": // don't forget these (are) people!
 			case "aufull":
-				$this->setName($co, 'au', $value);
-				break;
-			case "aucorp":
-				$this->setName($co, 'aucorp', $value);
-				break;				
+			case "aucorp":		
 			case "aufirst":
-				$this->setName($co, 'aufirst', $value);
-				break;
 			case "auinit":
-				$this->setName($co, 'auinit', $value);
-				break;
 			case "auinit1":
-				$this->setName($co, 'auinit1', $value);
-				break;
 			case "auinitm":
-				$this->setName($co, 'auinitm', $value);
-				break;
 			case "aulast":
-				$this->setName($co, 'aulast', $value);
+				$this->setName($co, $key, $value);
 				break;	
 			case "btitle":
 				$this->setProperty($co, 'title', $value);
-				$this->set_contexttype($co, 'book');
+				$this->setContextType($co, 'book');
 				break;
 			case "coden":
 				$this->setIdentifier($co, 'coden', $value);
 				break;
-			case "contributor":
+			case "contributor": // don't forget these (are) people!
 				$this->setName($co, 'contributor', $value);
 				break;
-			case "creator":
+			case "creator": // don't forget these (are) people!
 				$this->setName($co, 'creator', $value);
 				break;
 			case "ctx_ver":
@@ -531,98 +598,90 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->setDate($co, $value);
 				break;
 			case "degree":
-				$this->setProperty($co, 'thesis_type', $value);
-				$this->set_contexttype($co, 'dissertation');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'dissertation');
 				break;
-			case "ed":
-				$this->setName($co, 'ed', $value);
-				break;
-			case "edfirst":
-				$this->setName($co, 'edfirst', $value);
-				break;
+			case "ed": // don't forget these (are) people!
 			case "edfull":
-				$this->setName($co, 'ed', $value);
-				break;				
+			case "edfirst":
 			case "edinit":
-				$this->setName($co, 'edinit', $value);
-				break;
 			case "edlast":
-				$this->setName($co, 'edlast', $value);
+				$this->setName($co, $key, $value);
 				break;				
 			case "eissn":
-				$this->set_issn($co, 'eissn', $value);
+				$this->setIssn($co, 'eissn', $value);
 				break;
 			case "format":
-				$this->set_contexttype($co, $value);
+				$this->setContextType($co, $value);
 				break;
 			case "genre":
-				$this->setProperty($co, 'genre', $value);
-				$this->set_contexttype($co, $value);
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, $value);
 				break;
 			case "id":
+			case "ids":
+				// $idArr = explode (" ", $ids); // consider splitting into an array, and handling them then?
 				$newvalue = str_replace ('\s', '', $value);
 				$this->setIdentifier($co, $newvalue);
 				break;
-			case "inv":
-				$this->setName($co, 'inv', $value);
-				break;
+			case "inv": // don't forget these (are) people!
 			case "invfirst":
-				$this->setName($co, 'invfirst', $value);
-				break;
 			case "invinit":
-				$this->setName($co, 'invinit', $value);
-				break;
 			case "invlast":
-				$this->setName($co, 'invlast', $value);
+				$this->setName($co, $key, $value);
 				break;
 			case "isbn":
-				$this->setISBN($co, $value);
+				$this->setIsbn($co, $value);
 				break;
 			case "issn":
-				$this->set_issn($co, 'issn', $value);
+				$this->setIssn($co, 'issn', $value);
 				break;
 			case "jtitle":
 				$this->setProperty($co, 'title', $value);
-				$this->set_contexttype($co, 'article');
+				$this->setContextType($co, 'article');
 				break;
 			case "kind":
-				$this->setProperty($co, 'patent_kind', $value);
-				$this->set_contexttype($co, 'patent');
-				break;		
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
+				break;
+			case "misc":
+				$this->setProperty($co, $key, $value);
+				$this->setIdentifier($co, $value);
+				break;				
 			case "oclcnum":
 				$this->set_oclcnum($co, $value);
 				break;	
 			case "prioritydate":
-				$this->setProperty($co, 'patent_priority_date', $value);
-				$this->set_contexttype($co, 'patent');
+				$this->setProperty($co, $key, $value);
+				$this->setContextType($co, 'patent');
 				break;
 			case "rfr_id":
 				$newvalue = preg_replace('/sid[:][\/]/i', '', $value);
-				$this->set_referer($newvalue);
+				$this->setReferer($newvalue);
 				break;
 			case "rft_val_fmt":
 				$value = str_replace('info:', '', $value);
 				if (preg_match('/ofi\/fmt:xml:xsd/', $value)){
 						$type = str_replace('ofi/fmt:xml:xsd', '', $value);
-						$this->set_contexttype($co, $type);
+						$this->setContextType($co, $type);
 						$this->setProperty($co, 'format', $type);
 						$this->setProperty($co, 'metaformat', 'XML');
 				} else{
 						$type = str_replace('ofi/fmt:kev:mtx:', '', $value);
-						$this->set_contexttype($co, $type);
+						$this->setContextType($co, $type);
 						$this->setProperty($co, 'format', $type);
 						$this->setProperty($co, 'metaformat', 'KEV');
 				}
 				break;
 			case "sici":
-				$this->set_sici($co, $value);
+				$this->setSici($co, $value);
 				break;
 			case "sid":
-				$this->set_referer($value);
+				$this->setReferer($value);
 				break;
 			case "title":
 				$newvalue = trim($value, "\"");
-				$this->setProperty($co, 'title', $newvalue);
+				$this->setProperty($co, $key, $newvalue);
 				break;
 			case "url_ver":
 				$newvalue = strtoupper($value);
@@ -637,16 +696,16 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 				$this->setIdentifier($newvalue);
 				break;
 			default:
-				$this->translate_openurl($co, $key, $value);
+				$this->setProperty($co, $key, $value);
 				break;
 		}
 	}
 
-	function build_from_querystring() {
-		$this->build_from_string($this->request['http_get']);
+	function buildFromQuerystring() {
+		$this->buildFromString($this->request['http_get']);
 	}
 
-	function build_from_string($string) {
+	function buildFromString($string) {
 		$pairs = explode('&', $string);								// split on & into KV pairs
 		echo $pairs;
 		# loop through each pair
@@ -656,7 +715,6 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 			// $key = (str_replace('[%20][\s]', '', $key));
 			$this->build($key, $value);
 		}
-		$this->settings->undefine_contexttypes(); // free up some memory
 	}
 	
 	function check_rft_dates(){ 
@@ -683,25 +741,15 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
 		}
 	}
 	
-	function translate_openurl($co, $key, $value){
-		$this->settings->define_openurl_keys();		
-		if (isset($openurl['key'][$key])){
-			$newkey = $openurl['key'][$key];
-		} else {
-			$newkey = $this->normalise($key);
-		}
-		$this->setProperty($co, $newkey, $value);
-		$this->settings->undefine_openurl_keys(); // free up some resources
-	}
 	
 		/**
          * public static method
          *
-         *      contextobject::build_from_string(param)
+         *      contextobject::buildFromString(param)
          *
          * @param       string   
          * @return      void
-         * @example     build_from_string sets individual properties from one value;
+         * @example     buildFromString sets individual properties from one value;
          * @note        
          */             
         function buildFromRis($ris, $co='rft'){
@@ -712,11 +760,13 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
                 $key = $parts[0];
                 $value = trim($parts[1]); // clean up any leading and trailing spaces
             }
-                        switch ($key){
+            switch ($key){
                 case 'ER':
                     break;
                 case 'AU':
                 case 'A1': 
+				case 'A2':
+				case 'A3':
                     $value = trim($value);
                     // Trim trailing periods and other junk
                     $value = preg_replace("/\.$/", "", $value);
@@ -727,7 +777,7 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
                     $value = preg_replace("/\.([A-Z])/", ". $1", $value);
                     // Make nice
                     //echo __LINE__ . " $value\n";
-					$this->set_name($co, 'au', $value);
+					$this->setName($co, 'au', $value);
                     break;  
                 // Handle cases where both pages SP and EP are in this field
                 case 'SP':
@@ -749,13 +799,13 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
                     }
                     break;                                      
                 case 'TY':
-					$this->set_reftype($co, $value);
+					$this->setContextType($co, $value);
 					break;
                 default:
                     $this->translateRis($co, $key, $value);
                     break;
-                        }
                 }
+            }
         }
 
         /**
@@ -768,13 +818,12 @@ res				res_id      res_val_fmt        res_ref_fmt			res_dat
          * @param       string  
          * @return      void
          * @example     'au' >> 'author'
-         * @note        translate_openurl sets individual properties for unparsed key
          */             
         function translateRis($co, $key, $value){
-		$ris=get::$config->RIS;
+		$RIStags = get::$config->RIStags;
                 $newkey = $co.'_';
-                if (isset($ris['key'][$key])){
-                        $newkey .= $settings->ris['key'][$key];
+                if (isset($RIStags[$key])){
+                        $newkey .= $RIStags[$key];
                 } else {
                         $newkey .= $this->normalise($key);
                 }

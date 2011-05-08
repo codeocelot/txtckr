@@ -1,0 +1,1608 @@
+Coden	Title	Abbrev.		
+AAAMC6	Anti-Inflammatory & Anti-Allergy Agents in Medicinal	Anti-Inflammatory Anti-Allergy Agents Med. Chem.		
+AACDCN	Advances in Applied Ceramics	Adv. Appl. Ceram.		
+AACIE6	Amino Acids			
+AALADQ	"ATLA, Alternatives to Laboratory Animals"	"ATLA, Altern. Lab. Anim."		
+AAMCC2	Anti-Infective Agents in Medicinal Chemistry	Anti-Infect. Agents Med. Chem.		
+AAMCE4	Anti-Cancer Agents in Medicinal Chemistry	Anti-Cancer Agents Med. Chem.		
+AAMICK	ACS Applied Materials & Interfaces	ACS Appl. Mater. Interfaces		
+AAMPE9	"Advances in Atomic, Molecular, and Optical Physics"	"Adv. At., Mol., Opt. Phys."		
+AAPUC3	Autonomic & Autacoid Pharmacology	Auton. Autacoid Pharmacol.		
+ABBIA4	Archives of Biochemistry and Biophysics	Arch. Biochem. Biophys.		
+ABBSE4	Annual Review of Biophysics and Biomolecular Structure	Annu. Rev. Biophys. Biomol. Struct.		
+ABCNBP	Analytical and Bioanalytical Chemistry	Anal. Bioanal. Chem.		
+ABCRE6	"Acta Crystallographica, Section D: Biological"	"Acta Crystallogr., Sect. D: Biol. Crystallogr."		
+ABIBDL	Applied Biochemistry and Biotechnology	Appl. Biochem. Biotechnol.		
+ABPLAF	Acta Biochimica Polonica	Acta Biochim. Pol.		
+ACACAM	Analytica Chimica Acta	Anal. Chim. Acta		
+ACACEQ	"Acta Crystallographica, Section A: Foundations of"	"Acta Crystallogr., Sect. A: Found. Crystallogr."		
+ACAGE4	"Applied Catalysis, A: General"	"Appl. Catal., A"		
+ACBCCT	ACS Chemical Biology	ACS Chem. Biol.		
+ACBEE3	"Applied Catalysis, B: Environmental"	"Appl. Catal., B"		
+ACCHEH	Antiviral Chemistry & Chemotherapy	Antiviral Chem. Chemother.		
+ACGECQ	Aging Cell			
+ACHRE4	Accounts of Chemical Research	Acc. Chem. Res.		
+ACIEF5	"Angewandte Chemie, International Edition"	"Angew. Chem., Int. Ed."		
+ACISB9	Advances in Colloid and Interface Science	Adv. Colloid Interface Sci.		
+ACLSER	Applied Clay Science	Appl. Clay Sci.		
+ACMAFD	Acta Materialia	Acta Mater.		
+ACOMEO	Archivum Combustionis	Arch. Combust.		
+ACPCAT	"Preprints - American Chemical Society, Division of"	"Prepr. - Am. Chem. Soc., Div. Pet. Chem."		
+ACPCDW	"Annual Reports on the Progress of Chemistry, Section C:"	"Annu. Rep. Prog. Chem., Sect. C: Phys. Chem."		
+ACPHEE	"Acta Pharmaceutica (Zagreb, Croatia)"	"Acta Pharm. (Zagreb, Croatia)"		
+ACPPAY	"Polymer Preprints (American Chemical Society, Division of"	"Polym. Prepr. (Am. Chem. Soc., Div. Polym. Chem.)"		
+ACPTCE	Atmospheric Chemistry and Physics	Atmos. Chem. Phys.		
+ACSBA7	American Ceramic Society Bulletin	Am. Ceram. Soc. Bull.		
+ACSCEE	"Acta Crystallographica, Section C: Crystal Structure"	"Acta Crystallogr., Sect. C: Cryst. Struct. Commun."		
+ACSEBH	"Acta Crystallographica, Section E: Structure Reports Online"	"Acta Crystallogr., Sect. E: Struct. Rep. Online"		
+ACSFCL	"Acta Crystallographica, Section F: Structural Biology and"	"Acta Crystallogr., Sect. F: Struct. Biol. Cryst. Commun."		
+ACSLE7	Acta Chimica Slovenica	Acta Chim. Slov.		
+ACSMC8	ACS Symposium Series	ACS Symp. Ser.		
+ADCPAA	Advances in Chemical Physics	Adv. Chem. Phys.		
+ADCYA3	"Advances in Chromatography (Boca Raton, FL, United States)"	"Adv. Chromatogr. (Boca Raton, FL, U. S.)"		
+ADDREP	Advanced Drug Delivery Reviews	Adv. Drug Delivery Rev.		
+ADDTAR	Assay and Drug Development Technologies	Assay Drug Dev. Technol.		
+ADSOFO	Adsorption			
+ADVMEW	"Advanced Materials (Weinheim, Germany)"	"Adv. Mater. (Weinheim, Ger.)"		
+AECTCV	Archives of Environmental Contamination and Toxicology	Arch. Environ. Contam. Toxicol.		
+AEMIDF	Applied and Environmental Microbiology	Appl. Environ. Microbiol.		
+AENVEQ	Atmospheric Environment	Atmos. Environ.		
+AENYEZ	"Atomic Energy (New York, NY, United States)"	"At. Energy (N. Y., NY, U. S.)"		
+AESEEY	Advances in Electrochemical Science and Engineering	Adv. Electrochem. Sci. Eng.		
+AFINAE	Afinidad			
+AFMDC6	Advanced Functional Materials	Adv. Funct. Mater.		
+AGFUAR	"ARKIVOC (Gainesville, FL, United States)"	"ARKIVOC (Gainesville, FL, U. S.)"		
+AIBPEA	Archives of Insect Biochemistry and Physiology	Arch. Insect Biochem. Physiol.		
+AICEAC	AIChE Journal	AIChE J.		
+AICHEP	Advances in Inorganic Chemistry	Adv. Inorg. Chem.		
+AJCEBK	Asia-Pacific Journal of Chemical Engineering	Asia-Pac. J. Chem. Eng.		
+AJCHAS	Australian Journal of Chemistry	Aust. J. Chem.		
+AJCHEW	Asian Journal of Chemistry	Asian J. Chem.		
+AJCNAC	American Journal of Clinical Nutrition	Am. J. Clin. Nutr.		
+AJHGAG	American Journal of Human Genetics	Am. J. Hum. Genet.		
+AJPHAP	American Journal of Physiology	Am. J. Physiol.		
+AJRBEL	American Journal of Respiratory Cell and Molecular Biology	Am. J. Respir. Cell Mol. Biol.		
+AMACCQ	Antimicrobial Agents and Chemotherapy	Antimicrob. Agents Chemother.		
+AMBIDG	Applied Microbiology and Biotechnology	Appl. Microbiol. Biotechnol.		
+AMICCW	Archives of Microbiology	Arch. Microbiol.		
+AMMIAY	American Mineralogist	Am. Mineral.		
+ANALAO	"Analyst (Cambridge, United Kingdom)"	"Analyst (Cambridge, U. K.)"		
+ANALBP	Analytical Letters	Anal. Lett.		
+ANBCA2	Analytical Biochemistry	Anal. Biochem.		
+ANCAC3	ACS Nano			
+ANCHAM	"Analytical Chemistry (Washington, DC, United States)"	"Anal. Chem. (Washington, DC, U. S.)"		
+ANCPAC	"Annales de Chimie (Cachan, France)"	"Ann. Chim. (Cachan, Fr.)"		
+ANENDJ	Annals of Nuclear Energy	Ann. Nucl. Energy		
+ANKHEW	Antibiotiki i Khimioterapiya	Antibiot. Khimioter.		
+ANSCEN	Analytical Sciences	Anal. Sci.		
+ANTDEV	Anti-Cancer Drugs			
+ANUMDS	Annals of Nutrition & Metabolism	Ann. Nutr. Metab.		
+ANWEEF	Animal Welfare	Anim. Welfare		
+AOCHEX	Applied Organometallic Chemistry	Appl. Organomet. Chem.		
+APAMFC	Applied Physics A: Materials Science & Processing	Appl. Phys. A: Mater. Sci. Process.		
+APBIF5	Archives of Physiology and Biochemistry	Arch. Physiol. Biochem.		
+APBMAC	Applied Biochemistry and Microbiology	Appl. Biochem. Microbiol.		
+APBOEM	Applied Physics B: Lasers and Optics	Appl. Phys. B: Lasers Opt.		
+APCCDO	"Annual Reports on the Progress of Chemistry, Section A:"	"Annu. Rep. Prog. Chem., Sect. A: Inorg. Chem."		
+APCHC4	Acta Physiologica	Acta Physiol.		
+APCSD4	Annals of Plastic Surgery	Ann. Plast. Surg.		
+APEPC4	Applied Physics Express	Appl. Phys. Express		
+APFRAD	Annales Pharmaceutiques Francaises	Ann. Pharm. Fr.		
+APHRDQ	Archives of Pharmacal Research	Arch. Pharmacal Res.		
+APNYA6	"Annals of Physics (Amsterdam, Netherlands)"	"Ann. Phys. (Amsterdam, Neth.)"		
+APOBBB	"Acta Physica Polonica, B"	"Acta Phys. Pol., B"		
+APPBEJ	Acta Physica Polonica B Proceedings Supplement	Acta Phys. Pol. B Proc. Suppl.		
+APPGEY	Applied Geochemistry	Appl. Geochem.		
+APPLAB	Applied Physics Letters	Appl. Phys. Lett.		
+APPYAG	Annual Review of Phytopathology	Annu. Rev. Phytopathol.		
+APSCG5	Acta Pharmacologica Sinica	Acta Pharmacol. Sin.		
+APSIDK	Advances in Polymer Science	Adv. Polym. Sci.		
+APSPA4	Applied Spectroscopy	Appl. Spectrosc.		
+APTYD5	Advances in Polymer Technology	Adv. Polym. Technol.		
+AQCHA9	Advances in Quantum Chemistry	Adv. Quantum Chem.		
+AQTODG	Aquatic Toxicology	Aquat. Toxicol.		
+ARBEF7	Annual Review of Biomedical Engineering	Annu. Rev. Biomed. Eng.		
+ARBOAW	Annual Review of Biochemistry	Annu. Rev. Biochem.		
+ARCHCI	Archaea			
+ARDBF8	Annual Review of Cell and Developmental Biology	Annu. Rev. Cell Dev. Biol.		
+ARENAA	Annual Review of Entomology	Annu. Rev. Entomol.		
+AREPCI	Annual Review of Earth and Planetary Sciences	Annu. Rev. Earth Planet. Sci.		
+ARGHC4	Annual Review of Genomics and Human Genetics	Annu. Rev. Genomics Hum. Genet.		
+ARIMDU	Annual Review of Immunology	Annu. Rev. Immunol.		
+ARISEF	Applied Radiation and Isotopes	Appl. Radiat. Isot.		
+ARMCAH	Annual Review of Medicine	Annu. Rev. Med.		
+ARMCBI	Annual Reports in Medicinal Chemistry	Annu. Rep. Med. Chem.		
+ARMIAZ	Annual Review of Microbiology	Annu. Rev. Microbiol.		
+ARMRCU	Annual Review of Materials Research	Annu. Rev. Mater. Res.		
+ARNSD5	Annual Review of Neuroscience	Annu. Rev. Neurosci.		
+ARNTD8	Annual Review of Nutrition	Annu. Rev. Nutr.		
+ARPBDW	Annual Review of Plant Biology	Annu. Rev. Plant Biol.		
+ARPHAD	Annual Review of Physiology	Annu. Rev. Physiol.		
+ARPLAP	Annual Review of Physical Chemistry	Annu. Rev. Phys. Chem.		
+ARPMAS	"Archiv der Pharmazie (Weinheim, Germany)"	"Arch. Pharm. (Weinheim, Ger.)"		
+ARPMCU	Annual Review of Pathology: Mechanisms of Disease	Annu. Rev. Pathol.: Mech. Dis.		
+ARPSDF	Annual Review of Nuclear and Particle Science	Annu. Rev. Nucl. Part. Sci.		
+ARPTDI	Annual Review of Pharmacology and Toxicology	Annu. Rev. Pharmacol. Toxicol.		
+ARSIF2	Antioxidants & Redox Signaling	Antioxid. Redox Signaling		
+ARSRDR	Antiviral Research	Antiviral Res.		
+ARTODN	Archives of Toxicology	Arch. Toxicol.		
+ARVGB7	Annual Review of Genetics	Annu. Rev. Genet.		
+ARVIDF	Archives of Virology	Arch. Virol.		
+ARZNAD	Arzneimittel Forschung	Arzneim. Forsch.		
+ASBSDK	"Acta Crystallographica, Section B: Structural Science"	"Acta Crystallogr., Sect. B: Struct. Sci."		
+ASCAF7	Advanced Synthesis & Catalysis	Adv. Synth. Catal.		
+ASPND7	Atomic Spectroscopy	At. Spectrosc.		
+ASTEEZ	Adsorption Science & Technology	Adsorpt. Sci. Technol.		
+ASTYDQ	Aerosol Science and Technology	Aerosol Sci. Technol.		
+ASUSEE	Applied Surface Science	Appl. Surf. Sci.		
+ATHSBL	"Atherosclerosis (Amsterdam, Netherlands)"	"Atherosclerosis (Amsterdam, Neth.)"		
+ATPLB6	"Acta Physica Polonica, A"	"Acta Phys. Pol., A"		
+ATVBFA	"Arteriosclerosis, Thrombosis, and Vascular Biology"	"Arterioscler., Thromb., Vasc. Biol."		
+AWICAW	Animal Welfare Information Center Bulletin	Anim. Welfare Inf. Cent. Bull.		
+AXRAAA	Advances in X-Ray Analysis	Adv. X-Ray Anal.		
+AZKZAU	Azerbaidzhanskii Khimicheskii Zhurnal	Azerb. Khim. Zh.		
+BABIEC	Biotechnology and Applied Biochemistry	Biotechnol. Appl. Biochem.		
+BBACEU	"Biochimica et Biophysica Acta, Reviews on Cancer"	"Biochim. Biophys. Acta, Rev. Cancer"		
+BBADEX	"Biochimica et Biophysica Acta, Molecular Basis of Disease"	"Biochim. Biophys. Acta, Mol. Basis Dis."		
+BBAGC6	"Biochimica et Biophysica Acta, Gene Regulatory Mechanisms"	"Biochim. Biophys. Acta, Gene Regul. Mech."		
+BBAMCO	"Biochimica et Biophysica Acta, Molecular Cell Research"	"Biochim. Biophys. Acta, Mol. Cell Res."		
+BBAPBW	"Biochimica et Biophysica Acta, Proteins and Proteomics"	"Biochim. Biophys. Acta, Proteins Proteomics"		
+BBBEB4	"Biochimica et Biophysica Acta, Bioenergetics"	"Biochim. Biophys. Acta, Bioenerg."		
+BBBICH	"Biofuels, Bioproducts & Biorefining"	"Biofuels, Bioprod. Biorefin."		
+BBBIEJ	"Bioscience, Biotechnology, and Biochemistry"	"Biosci., Biotechnol., Biochem."		
+BBBMBS	"Biochimica et Biophysica Acta, Biomembranes"	"Biochim. Biophys. Acta, Biomembr."		
+BBEIAU	Biotechnology and Bioprocess Engineering	Biotechnol. Bioprocess Eng.		
+BBEIBV	Bioprocess and Biosystems Engineering	Bioprocess Biosyst. Eng.		
+BBGSB3	"Biochimica et Biophysica Acta, General Subjects"	"Biochim. Biophys. Acta, Gen. Subj."		
+BBIOE4	Biosensors & Bioelectronics	Biosens. Bioelectron.		
+BBMLFG	"Biochimica et Biophysica Acta, Molecular and Cell Biology"	"Biochim. Biophys. Acta, Mol. Cell Biol. Lipids"		
+BBRCA9	Biochemical and Biophysical Research Communications	Biochem. Biophys. Res. Commun.		
+BCAIAH	Bioinorganic Chemistry and Applications	Bioinorg. Chem. Appl.		
+BCBIEQ	Biochemistry and Cell Biology	Biochem. Cell Biol.		
+BCCHES	Bioconjugate Chemistry	Bioconjugate Chem.		
+BCHCE4	Bulgarian Chemical Communications	Bulg. Chem. Commun.		
+BCPCA6	Biochemical Pharmacology	Biochem. Pharmacol.		
+BCPTBO	Basic & Clinical Pharmacology & Toxicology	Basic Clin. Pharmacol. Toxicol.		
+BCSJA8	Bulletin of the Chemical Society of Japan	Bull. Chem. Soc. Jpn.		
+BCSTB5	Biochemical Society Transactions	Biochem. Soc. Trans.		
+BDDID8	Biopharmaceutics & Drug Disposition	Biopharm. Drug Dispos.		
+BDRPBT	"Birth Defects Research, Part A: Clinical and Molecular"	"Birth Defects Res., Part A"		
+BDRPCU	"Birth Defects Research, Part B: Developmental and"	"Birth Defects Res., Part B"		
+BDRPDV	"Birth Defects Research, Part C: Embryo Today--Reviews"	"Birth Defects Res., Part C"		
+BECTA6	Bulletin of Environmental Contamination and Toxicology	Bull. Environ. Contam. Toxicol.		
+BEINFN	Biological Engineering	Biol. Eng.		
+BIAME7	Biogenic Amines	Biog. Amines		
+BIBIAU	Biotechnology and Bioengineering	Biotechnol. Bioeng.		
+BICHAW	Biochemistry			
+BICHE2	Biomedical Chromatography	Biomed. Chromatogr.		
+BICHF3	Biological Chemistry	Biol. Chem.		
+BICIAZ	Biophysical Chemistry	Biophys. Chem.		
+BICMBE	Biochimie			
+BIFAEU	BioFactors			
+BIGEBA	Biochemical Genetics	Biochem. Genet.		
+BIJOAK	Biochemical Journal	Biochem. J.		
+BILED3	Biotechnology Letters	Biotechnol. Lett.		
+BIMADU	Biomaterials			
+BIMEE9	Biologicheskie Membrany	Biol. Membr.		
+BIOCCB	"BioChemistry (Rajkot, India)"			
+BIOEFK	Bioelectrochemistry			
+BIOFAI	Biofizika			
+BIOJAU	Biophysical Journal	Biophys. J.		
+BIOMFA	Biomarkers			
+BIORAK	Biochemistry (Moscow)			
+BIORCM	BioResources			
+BIPMAA	Biopolymers			
+BIPRET	Biotechnology Progress	Biotechnol. Prog.		
+BIREBV	Biology of Reproduction	Biol. Reprod.		
+BIRTEB	Bioresource Technology	Bioresour. Technol.		
+BJIOAM	Biotechnology Journal	Biotechnol. J.		
+BJNUAV	British Journal of Nutrition	Br. J. Nutr.		
+BJOCBH	Beilstein Journal of Organic Chemistry	Beilstein J. Org. Chem.		
+BJPCBM	British Journal of Pharmacology	Br. J. Pharmacol.		
+BKCSDE	Bulletin of the Korean Chemical Society	Bull. Korean Chem. Soc.		
+BKIHA8	Biomeditsinskaya Khimiya	Biomed. Khim.		
+BLOOAW	Blood			
+BMBECE	Biochemistry and Molecular Biology Education	Biochem. Mol. Biol. Educ.		
+BMBUCS	"Biomedical Materials (Bristol, United Kingdom)"	"Biomed. Mater. (Bristol, U. K.)"		
+BMCLE8	Bioorganic & Medicinal Chemistry Letters	Bioorg. Med. Chem. Lett.		
+BMECEP	Bioorganic & Medicinal Chemistry	Bioorg. Med. Chem.		
+BNAIBR	Biomolecular NMR Assignments	Biomol. NMR Assignments		
+BNSKAK	Bunseki Kagaku			
+BOBOEQ	Biocatalysis and Biotransformation	Biocatal. Biotransform.		
+BOCMBM	Bioorganic Chemistry	Bioorg. Chem.		
+BOINFP	Bioinformatics			
+BOMAF6	Biomacromolecules			
+BOMEEH	BioMetals			
+BOZAE2	Bopuxue Zazhi			
+BPBLEO	Biological & Pharmaceutical Bulletin	Biol. Pharm. Bull.		
+BRESD5	Biomedical Research	Biomed. Res.		
+BRIIAQ	"BioTechnology (Rajkot, India)"			
+BRMEC2	BMB Reports	BMB Rep.		
+BRPTDT	Bioscience Reports	Biosci. Rep.		
+BRREAP	Brain Research	Brain Res.		
+BSECBU	Biochemical Systematics and Ecology	Biochem. Syst. Ecol.		
+BTERDG	Biological Trace Element Research	Biol. Trace Elem. Res.		
+BTMNA7	Bitamin			
+BTNQDO	BioTechniques			
+BUELE6	Bulletin of Electrochemistry	Bull. Electrochem.		
+BUMSDW	Bulletin of Materials Science	Bull. Mater. Sci.		
+CAAJBI	Chemistry--An Asian Journal	Chem.--Asian J.		
+CACBB4	"Annual Reports on the Progress of Chemistry, Section B:"	"Annu. Rep. Prog. Chem., Sect. B: Org. Chem."		
+CACUBR	Current Analytical Chemistry	Curr. Anal. Chem.		
+CALEDQ	"Cancer Letters (Shannon, Ireland)"	"Cancer Lett. (Shannon, Irel.)"		
+CALEER	Catalysis Letters	Catal. Lett.		
+CAMIA6	Canadian Mineralogist	Can. Mineral.		
+CAMQAU	Canadian Metallurgical Quarterly	Can. Metall. Q.		
+CANWAJ	"Chemia Analityczna (Warsaw, Poland)"	"Chem. Anal. (Warsaw, Pol.)"		
+CAPOD8	Carbohydrate Polymers	Carbohydr. Polym.		
+CARUBY	Current Alzheimer Research	Curr. Alzheimer Res.		
+CATTEA	Catalysis Today	Catal. Today		
+CBBIFV	Cell Biochemistry and Biophysics	Cell Biochem. Biophys.		
+CBCHFX	ChemBioChem			
+CBCOCH	Computational Biology and Chemistry	Comput. Biol. Chem.		
+CBCUBY	Current Bioactive Compounds	Curr. Bioact. Compd.		
+CBDDAL	Chemical Biology & Drug Design	Chem. Biol. Drug Des.		
+CBEQEZ	Chemical and Biochemical Engineering Quarterly	Chem. Biochem. Eng. Q.		
+CBFMAO	Combustion and Flame	Combust. Flame		
+CBFUDH	Cell Biochemistry and Function	Cell Biochem. Funct.		
+CBHIAM	Chemistry & Biodiversity	Chem. Biodiversity		
+CBINA8	Chemico-Biological Interactions	Chem.-Biol. Interact.		
+CBOLE2	"Chemistry & Biology (Cambridge, MA, United States)"	"Chem. Biol. (Cambridge, MA, U. S.)"		
+CBPAB5	"Comparative Biochemistry and Physiology, Part A: Molecular"	"Comp. Biochem. Physiol., Part A: Mol. Integr. Physiol."		
+CBPBB8	"Comparative Biochemistry and Physiology, Part B:"	"Comp. Biochem. Physiol., Part B: Biochem. Mol. Biol."		
+CBPPBG	"Comparative Biochemistry and Physiology, Part D: Genomics &"	"Comp. Biochem. Physiol., Part D: Genomics Proteomics"		
+CBPPFK	"Comparative Biochemistry and Physiology, Part C: Toxicology"	"Comp. Biochem. Physiol., Part C: Toxicol. Pharmacol."		
+CBSTB9	Combustion Science and Technology	Combust. Sci. Technol.		
+CBUIBK	Current Bioinformatics	Curr. Bioinf.		
+CCACAA	Croatica Chemica Acta	Croat. Chem. Acta		
+CCACBB	Critical Reviews in Analytical Chemistry	Crit. Rev. Anal. Chem.		
+CCAECI	Cancer Cell			
+CCAOAC	Catalysis Communications	Catal. Commun.		
+CCATAR	Clinica Chimica Acta	Clin. Chim. Acta		
+CCBUB2	Current Chemical Biology	Curr. Chem. Biol.		
+CCCCAK	Collection of Czechoslovak Chemical Communications	Collect. Czech. Chem. Commun.		
+CCCTD6	CALPHAD: Computer Coupling of Phase Diagrams and	CALPHAD: Comput. Coupling Phase Diagrams Thermochem.		
+CCDDAS	Current Computer-Aided Drug Design	Curr. Comput.-Aided Drug Des.		
+CCDTB9	Current Cancer Drug Targets	Curr. Cancer Drug Targets		
+CCENDW	Computers & Chemical Engineering	Comput. Chem. Eng.		
+CCEYAS	Cell Cycle			
+CCHRAM	Coordination Chemistry Reviews	Coord. Chem. Rev.		
+CCHSFU	Combinatorial Chemistry & High Throughput Screening	Comb. Chem. High Throughput Screening		
+CCLEE7	Chinese Chemical Letters	Chin. Chem. Lett.		
+CCLMFW	Clinical Chemistry and Laboratory Medicine	Clin. Chem. Lab. Med.		
+CCNRAI	Cement and Concrete Research	Cem. Concr. Res.		
+CCOCEG	Cement & Concrete Composites	Cem. Concr. Compos.		
+CCRSDA	Critical Reviews in Solid State and Materials Sciences	Crit. Rev. Solid State Mater. Sci.		
+CDDTAF	Current Drug Discovery Technologies	Curr. Drug Discovery Technol.		
+CDDUBJ	Current Drug Delivery	Curr. Drug Delivery		
+CDMUBU	Current Drug Metabolism	Curr. Drug Metab.		
+CDTUAU	Current Drug Targets	Curr. Drug Targets		
+CECADV	Cell Calcium			
+CECHAF	Cereal Chemistry	Cereal Chem.		
+CECTAH	Cellulose Chemistry and Technology	Cellul. Chem. Technol.		
+CEGCAK	Chemical Engineering Communications	Chem. Eng. Commun.		
+CEIUAG	Current Enzyme Inhibition	Curr. Enzyme Inhib.		
+CELLB5	"Cell (Cambridge, MA, United States)"	"Cell (Cambridge, MA, U. S.)"		
+CELPDJ	Cellular Polymers	Cell. Polym.		
+CEMIF5	Cellular Microbiology	Cell. Microbiol.		
+CENPEU	Chemical Engineering and Processing	Chem. Eng. Process.		
+CEPBEW	Cellular Physiology and Biochemistry	Cell. Physiol. Biochem.		
+CEPRA8	Chemical Engineering Progress	Chem. Eng. Prog.		
+CERDAA	Chemie der Erde	Chem. Erde		
+CERDEE	Chemical Engineering Research and Design	Chem. Eng. Res. Des.		
+CERSEP	Ceramics-Silikaty	Ceram.-Silik.		
+CESCAC	Chemical Engineering Science	Chem. Eng. Sci.		
+CESTBU	"Corrosion Engineering, Science and Technology"	"Corros. Eng., Sci. Technol."		
+CETEER	Chemical Engineering & Technology	Chem. Eng. Technol.		
+CEUJED	Chemistry--A European Journal	Chem.--Eur. J.		
+CEXPB9	Clinical and Experimental Pharmacology and Physiology	Clin. Exp. Pharmacol. Physiol.		
+CFGOAT	Comparative and Functional Genomics	Comp. Funct. Genomics		
+CGDEFU	Crystal Growth & Design	Cryst. Growth Des.		
+CGFRFB	Cytokine & Growth Factor Reviews	Cytokine Growth Factor Rev.		
+CGPAC7	Cancer Genomics & Proteomics	Cancer Genomics Proteomics		
+CGTHEG	Cancer Gene Therapy	Cancer Gene Ther.		
+CGTUAH	Current Gene Therapy	Curr. Gene Ther.		
+CGUEA8	Current Genomics	Curr. Genomics		
+CHAAA5	Cardiovascular & Hematological Agents in Medicinal Chemistry	Cardiovasc. Hematol. Agents Med. Chem.		
+CHCCAL	"Chemistry of Heterocyclic Compounds (New York, NY, United"	"Chem. Heterocycl. Compd. (N. Y., NY, U. S.)"		
+CHCOFS	"Chemical Communications (Cambridge, United Kingdom)"	"Chem. Commun. (Cambridge, U. K.)"		
+CHDDBU	Cardiovascular & Hematological Disorders: Drug Targets	Cardiovasc. Hematol. Disord.: Drug Targets		
+CHEMCT	"Chemistry (Rajkot, India)"			
+CHEMFW	Chemtracts			
+CHEMGX	ChemMedChem			
+CHEMIZ	ChemSusChem			
+CHGEAD	Chemical Geology	Chem. Geol.		
+CHIMAD	Chimia			
+CHINAG	"Chemistry & Industry (London, United Kingdom)"	"Chem. Ind. (London, U. K.)"		
+CHLSAC	Chemicke Listy	Chem. Listy		
+CHMECB	Cell Host & Microbe	Cell Host Microbe		
+CHMJES	Chemija			
+CHNCA8	Chemistry of Natural Compounds	Chem. Nat. Compd.		
+CHPAEG	Chemical Papers	Chem. Pap.		
+CHPLBC	Chemical Physics Letters	Chem. Phys. Lett.		
+CHREAY	"Chemical Reviews (Washington, DC, United States)"	"Chem. Rev. (Washington, DC, U. S.)"		
+CHRGB7	Chromatographia			
+CHRLEP	Chirality			
+CHRUBF	Current HIV Research	Curr. HIV Res.		
+CHSBEY	Chemical Speciation and Bioavailability	Chem. Speciation Bioavailability		
+CHSPA4	Jinshu Xuebao			
+CHTHBK	"Chemotherapy (Basel, Switzerland)"	"Chemotherapy (Basel, Switz.)"		
+CILSEN	Chemometrics and Intelligent Laboratory Systems	Chemom. Intell. Lab. Syst.		
+CINMAB	"Chimica e l'Industria (Milan, Italy)"	"Chim. Ind. (Milan, Italy)"		
+CINNDH	Ceramics International	Ceram. Int.		
+CIRUAL	Circulation Research	Circ. Res.		
+CIRUBM	Current Immunology Reviews	Curr. Immunol. Rev.		
+CITEAH	Chemie Ingenieur Technik	Chem. Ing. Tech.		
+CJASFA	Canadian Journal of Analytical Sciences and Spectroscopy	Can. J. Anal. Sci. Spectrosc.		
+CJCDD7	Comunicaciones presentadas a las Jornadas del Comite	Comun. Jorn. Com. Esp. Deterg.		
+CJCEA7	Canadian Journal of Chemical Engineering	Can. J. Chem. Eng.		
+CJCEEB	Chinese Journal of Chemical Engineering	Chin. J. Chem. Eng.		
+CJCHAG	Canadian Journal of Chemistry	Can. J. Chem.		
+CJCPA6	Chinese Journal of Chemical Physics	Chin. J. Chem. Phys.		
+CJGEEV	Chinese Journal of Geochemistry	Chin. J. Geochem.		
+CJMIAZ	Canadian Journal of Microbiology	Can. J. Microbiol.		
+CJOCEV	Chinese Journal of Chemistry	Chin. J. Chem.		
+CJPEB5	Guocheng Gongcheng Xuebao			
+CJPHAD	Canadian Journal of Physics	Can. J. Phys.		
+CJPPA3	Canadian Journal of Physiology and Pharmacology	Can. J. Physiol. Pharmacol.		
+CJPSEG	Chinese Journal of Polymer Science	Chin. J. Polym. Sci.		
+CJRSEQ	Colloid Journal	Colloid J.		
+CLCHAU	"Clinical Chemistry (Washington, DC, United States)"	"Clin. Chem. (Washington, DC, U. S.)"		
+CLCMAB	Clays and Clay Minerals	Clays Clay Miner.		
+CLIIFY	"Clinical Immunology (Amsterdam, Netherlands)"	"Clin. Immunol. (Amsterdam, Neth.)"		
+CLIMB8	Cellular Immunology	Cell. Immunol.		
+CLMIAF	Clay Minerals	Clay Miner.		
+CMATEX	Chemistry of Materials	Chem. Mater.		
+CMBPBN	"Cellular and Molecular Biology (Sarreguemines, France,"	"Cell. Mol. Biol. (Sarreguemines, Fr., Online)"		
+CMCHE7	Current Medicinal Chemistry	Curr. Med. Chem.		
+CMEEB5	Cell Metabolism	Cell Metab.		
+CMEJAJ	"Chemical Engineering Journal (Amsterdam, Netherlands)"	"Chem. Eng. J. (Amsterdam, Neth.)"		
+CMLSFI	Cellular and Molecular Life Sciences	Cell. Mol. Life Sci.		
+CMLTAG	Chemistry Letters	Chem. Lett.		
+CMMICO	Contrast Media & Molecular Imaging	Contrast Media Mol. Imaging		
+CMMUBP	Current Molecular Medicine	Curr. Mol. Med.		
+CMPEAP	Contributions to Mineralogy and Petrology	Contrib. Mineral. Petrol.		
+CMPHC2	Chemical Physics	Chem. Phys.		
+CMPUB6	Current Molecular Pharmacology	Curr. Mol. Pharmacol.		
+CMSHAF	Chemosphere			
+CNDDA3	CNS & Neurological Disorders: Drug Targets	CNS Neurol. Disord.: Drug Targets		
+CNREA8	Cancer Research	Cancer Res.		
+CNSAC3	Central Nervous System Agents in Medicinal Chemistry	Cent. Nerv. Syst. Agents Med. Chem.		
+CNUEAN	Current Neuropharmacology	Curr. Neuropharmacol.		
+COCBE3	Current Opinion in Cell Biology	Curr. Opin. Cell Biol.		
+COCBF4	Current Opinion in Chemical Biology	Curr. Opin. Chem. Biol.		
+COCSFL	Current Opinion in Colloid & Interface Science	Curr. Opin. Colloid Interface Sci.		
+CODDFF	Current Opinion in Drug Discovery & Development	Curr. Opin. Drug Discovery Dev.		
+COGDET	Current Opinion in Genetics & Development	Curr. Opin. Genet. Dev.		
+COICDZ	Comments on Inorganic Chemistry	Comments Inorg. Chem.		
+COMEFT	Comparative Medicine	Comp. Med.		
+COPIEL	Current Opinion in Immunology	Curr. Opin. Immunol.		
+COPLEU	Current Opinion in Lipidology	Curr. Opin. Lipidol.		
+COPUBK	Current Opinion in Pharmacology	Curr. Opin. Pharmacol.		
+COPUEN	Current Opinion in Neurobiology	Curr. Opin. Neurobiol.		
+CORCFE	Current Organic Chemistry	Curr. Org. Chem.		
+CORRAK	"Corrosion (Houston, TX, United States)"	"Corrosion (Houston, TX, U. S.)"		
+CORVE2	Corrosion Reviews	Corros. Rev.		
+COSBEF	Current Opinion in Structural Biology	Curr. Opin. Struct. Biol.		
+COSUC2	Current Organic Synthesis	Curr. Org. Synth.		
+CPAUBK	Current Pharmaceutical Analysis	Curr. Pharm. Anal.		
+CPBTAL	Chemical & Pharmaceutical Bulletin	Chem. Pharm. Bull.		
+CPBUBP	Current Pharmaceutical Biotechnology	Curr. Pharm. Biotechnol.		
+CPCHCQ	Chinese Physics C	Chin. Phys. C		
+CPCHFT	ChemPhysChem			
+CPDEFP	Current Pharmaceutical Design	Curr. Pharm. Des.		
+CPEAEH	"Colloids and Surfaces, A: Physicochemical and Engineering"	"Colloids Surf., A"		
+CPHCBZ	Computer Physics Communications	Comput. Phys. Commun.		
+CPLIA4	Chemistry and Physics of Lipids	Chem. Phys. Lipids		
+CPLRCX	Clinical Proteomics	Clin. Proteomics		
+CPMSB6	Colloid and Polymer Science	Colloid Polym. Sci.		
+CPPMC4	Current Pharmacogenomics and Personalized Medicine	Curr. Pharmacogenomics Pers. Med.		
+CPPSCM	Current Protein and Peptide Science	Curr. Protein Pept. Sci.		
+CPURCA	Current Proteomics	Curr. Proteomics		
+CRBNAH	Carbon			
+CRBRAT	Carbohydrate Research	Carbohydr. Res.		
+CRCOCR	Comptes Rendus Chimie	C. R. Chim.		
+CRCUED	Chemical Research in Chinese Universities	Chem. Res. Chin. Univ.		
+CRECF4	CrystEngComm			
+CRHEAK	Chemical Record	Chem. Rec.		
+CRNGDP	Carcinogenesis			
+CRPOBN	Comptes Rendus Physique	C. R. Phys.		
+CRRSAA	Corrosion Science	Corros. Sci.		
+CRRSEE	Chromosome Research	Chromosome Res.		
+CRSEC9	Catalysis Reviews - Science and Engineering	Catal. Rev. - Sci. Eng.		
+CRTEDF	Crystal Research and Technology	Cryst. Res. Technol.		
+CRTOEC	Chemical Research in Toxicology	Chem. Res. Toxicol.		
+CRUAC7	Current Radiopharmaceuticals	Curr. Radiopharm.		
+CRXAAK	Cailiao Rechuli Xuebao			
+CRYOAX	Cryogenics			
+CSACCM	Cancer Science	Cancer Sci.		
+CSAWAC	"Clean: Soil, Air, Water"			
+CSBBEQ	"Colloids and Surfaces, B: Biointerfaces"	"Colloids Surf., B"		
+CSCEC4	Cell Stem Cell			
+CSCLBO	Cloning and Stem Cells	Cloning Stem Cells		
+CSCRC9	Current Stem Cell Research & Therapy	Curr. Stem Cell Res. Ther.		
+CSLFEK	Ceska a Slovenska Farmacie	Ceska Slov. Farm.		
+CSOSA2	Communications in Soil Science and Plant Analysis	Commun. Soil Sci. Plant Anal.		
+CSRVBR	Chemical Society Reviews	Chem. Soc. Rev.		
+CSTTBV	Current Signal Transduction Therapy	Curr. Signal Transduction Ther.		
+CTFOAK	Chemistry and Technology of Fuels and Oils	Chem. Technol. Fuels Oils		
+CTHEBZ	"Chemine Technologija (Kaunas, Lithuania)"	"Chem. Technol. (Kaunas, Lith.)"		
+CTINDZ	Calcified Tissue International	Calcif. Tissue Int.		
+CTMCCL	"Current Topics in Medicinal Chemistry (Sharjah, United Arab"	"Curr. Top. Med. Chem. (Sharjah, United Arab Emirates)"		
+CTOEAZ	Coloration Technology	Color. Technol.		
+CUBLE2	Current Biology	Curr. Biol.		
+CUGED5	Current Genetics	Curr. Genet.		
+CUMIDD	Current Microbiology	Curr. Microbiol.		
+CUOBE3	Current Opinion in Biotechnology	Curr. Opin. Biotechnol.		
+CVDEFX	Chemical Vapor Deposition	Chem. Vap. Deposition		
+CVILA6	Clinical and Vaccine Immunology	Clin. Vaccine Immunol.		
+CVPUAY	Current Vascular Pharmacology	Curr. Vasc. Pharmacol.		
+CVREAU	Cardiovascular Research	Cardiovasc. Res.		
+CYSTE3	Crystallography Reports	Crystallogr. Rep.		
+CYTIE9	Cytokine+			
+DARSE8	DNA Research	DNA Res.		
+DBBOAL	Doklady Biochemistry and Biophysics	Dokl. Biochem. Biophys.		
+DBEIAI	"Developments in Biologicals (Basel, Switzerland)"	"Dev. Biol. (Basel, Switz.)"		
+DCEBE8	DNA and Cell Biology	DNA Cell Biol.		
+DCEEBE	Developmental Cell	Dev. Cell		
+DCTODJ	Drug and Chemical Toxicology (1977)	Drug Chem. Toxicol. (1977)		
+DDAFE7	"Diffusion and Defect Data--Solid State Data, Pt. A: Defect"	"Diffus. Defect Data, Pt. A"		
+DDBPE8	"Diffusion and Defect Data--Solid State Data, Pt. B: Solid"	"Diffus. Defect Data, Pt. B"		
+DDELEB	Drug Delivery			
+DDIPD8	Drug Development and Industrial Pharmacy	Drug Dev. Ind. Pharm.		
+DDREDK	Drug Development Research	Drug Dev. Res.		
+DEBIAO	"Developmental Biology (Amsterdam, Netherlands)"	"Dev. Biol. (Amsterdam, Neth.)"		
+DENED7	"Developmental Neuroscience (Basel, Switzerland)"	"Dev. Neurosci. (Basel, Switz.)"		
+DESOAP	Doklady Earth Sciences	Dokl. Earth Sci.		
+DESUFE	Dermatologic Surgery	Dermatol. Surg.		
+DEVPED	"Development (Cambridge, United Kingdom)"	"Development (Cambridge, U. K.)"		
+DFFNAW	"Differentiation (Oxford, United Kingdom)"	"Differentiation (Oxford, U. K.)"		
+DIAEAZ	Diabetes			
+DIANFX	Dianhuaxue			
+DKCHAY	Doklady Chemistry	Dokl. Chem.		
+DKPCAG	Doklady Physical Chemistry	Dokl. Phys. Chem.		
+DMDIEQ	Drug Metabolism and Drug Interactions	Drug Metab. Drug Interact.		
+DMDSAI	Drug Metabolism and Disposition	Drug Metab. Dispos.		
+DMLRBM	Drug Metabolism Letters	Drug Metab. Lett.		
+DMPOF3	Designed Monomers and Polymers	Des. Monomers Polym.		
+DMPRB8	Drug Metabolism and Pharmacokinetics	Drug Metab. Pharmacokinet.		
+DNAUFL	Dopovidi Natsional'noi Akademii Nauk Ukraini	Dopov. Nats. Akad. Nauk Ukr.		
+DOPHFU	Doklady Physics	Dokl. Phys.		
+DRMCDJ	Dermatologic Clinics	Dermatol. Clin.		
+DRMTE3	Diamond and Related Materials	Diamond Relat. Mater.		
+DRNEAR	DNA Repair			
+DSLNAH	Desalination			
+DTARAF	Dalton Transactions	Dalton Trans.		
+DTARBG	Drug Testing and Analysis	Drug Test. Anal.		
+DYPIDX	Dyes and Pigments	Dyes Pigm.		
+EBMMBE	"Experimental Biology and Medicine (Maywood, NJ, United"	"Exp. Biol. Med. (Maywood, NJ, U. S.)"		
+ECCMF9	Electrochemistry Communications	Electrochem. Commun.		
+ECEDFQ	Experimental and Clinical Endocrinology & Diabetes	Exp. Clin. Endocrinol. Diabetes		
+ECLNBJ	Environmental Chemistry Letters	Environ. Chem. Lett.		
+ECNHAA	Environmental Chemistry	Environ. Chem.		
+ECOTEL	Ecotoxicology			
+ECREAL	Experimental Cell Research	Exp. Cell Res.		
+ECSTF8	ECS Transactions	ECS Trans.		
+ECUEA2	Eukaryotic Cell			
+ECYNEJ	European Cytokine Network	Eur. Cytokine Network		
+EECTFA	"Electrochemistry (Tokyo, Japan)"	"Electrochemistry (Tokyo, Jpn.)"		
+EEKOEY	"Erdoel, Erdgas, Kohle"			
+EESADV	Ecotoxicology and Environmental Safety	Ecotoxicol. Environ. Saf.		
+EESCF5	Environmental Engineering Science	Environ. Eng. Sci.		
+EFRTFO	European Food Research and Technology	Eur. Food Res. Technol.		
+EGCEA8	Economic Geology	Econ. Geol.		
+EGHEE3	Environmental Geochemistry and Health	Environ. Geochem. Health		
+EJCBDN	European Journal of Cell Biology	Eur. J. Cell Biol.		
+EJDPD2	European Journal of Drug Metabolism and Pharmacokinetics	Eur. J. Drug Metab. Pharmacokinet.		
+EJICFO	European Journal of Inorganic Chemistry	Eur. J. Inorg. Chem.		
+EJIMAF	European Journal of Immunology	Eur. J. Immunol.		
+EJLTFM	European Journal of Lipid Science and Technology	Eur. J. Lipid Sci. Technol.		
+EJMCA5	European Journal of Medicinal Chemistry	Eur. J. Med. Chem.		
+EJMIER	European Journal of Mineralogy	Eur. J. Mineral.		
+EJMSCL	European Journal of Mass Spectrometry	Eur. J. Mass Spectrom.		
+EJOCFK	European Journal of Organic Chemistry	Eur. J. Org. Chem.		
+EJOEEP	European Journal of Endocrinology	Eur. J. Endocrinol.		
+EJPHAZ	European Journal of Pharmacology	Eur. J. Pharmacol.		
+EKFAE9	Eksperimental'naya i Klinicheskaya Farmakologiya	Eksp. Klin. Farmakol.		
+ELANEU	Electroanalysis			
+ELCAAV	Electrochimica Acta	Electrochim. Acta		
+ELCTDN	Electrophoresis			
+ELSIE3	Electrochemical Society Interface	Electrochem. Soc. Interface		
+ELSNAE	Engineering in Life Sciences	Eng. Life Sci.		
+EMIDA9	"Endocrine, Metabolic & Immune Disorders: Drug Targets"	"Endocr., Metab. Immune Disord.: Drug Targets"		
+EMJODG	EMBO Journal	EMBO J.		
+EMLLAE	Electronic Materials Letters	Electron. Mater. Lett.		
+EMMEF3	Experimental and Molecular Medicine	Exp. Mol. Med.		
+EMMMAM	EMBO Molecular Medicine	EMBO Mol. Med.		
+EMMUEG	Environmental and Molecular Mutagenesis	Environ. Mol. Mutagen.		
+EMTED2	Enzyme and Microbial Technology	Enzyme Microb. Technol.		
+ENDOAO	Endocrinology			
+ENFUEM	Energy & Fuels	Energy Fuels		
+ENPOEK	"Environmental Pollution (Oxford, United Kingdom)"	"Environ. Pollut. (Oxford, U. K.)"		
+ENVRAL	Environmental Research	Environ. Res.		
+ENVTEV	Environmental Technology	Environ. Technol.		
+EOCRE5	Endocrine			
+EOIDER	Expert Opinion on Investigational Drugs	Expert Opin. Invest. Drugs		
+EOTPEG	Expert Opinion on Therapeutic Patents	Expert Opin. Ther. Pat.		
+EPCFFB	European Physical Journal C: Particles and Fields	Eur. Phys. J. C		
+EPEND9	Environment Protection Engineering	Environ. Prot. Eng.		
+EPJAFV	European Physical Journal A: Hadrons and Nuclei	Eur. Phys. J. A		
+EPJBFY	European Physical Journal B: Condensed Matter and Complex	Eur. Phys. J. B		
+EPJDF6	"European Physical Journal D: Atomic, Molecular, Optical and"	Eur. Phys. J. D		
+EPJSFH	European Physical Journal E: Soft Matter and Biological	Eur. Phys. J. E: Soft Matter Biol. Phys.		
+EPLAC4	EPL			
+EPSCED	European Journal of Pharmaceutical Sciences	Eur. J. Pharm. Sci.		
+EPSECH	Environmental Progress & Sustainable Energy	Environ. Prog. Sustainable Energy		
+EPSLA2	Earth and Planetary Science Letters	Earth Planet. Sci. Lett.		
+ERMEAX	EMBO Reports	EMBO Rep.		
+ERNEB5	Energotekhnologii i Resursosberezhenie	Energotekhnol. Resursosberezhenie		
+ESLEF6	Electrochemical and Solid-State Letters	Electrochem. Solid-State Lett.		
+ESTHAG	Environmental Science & Technology	Environ. Sci. Technol.		
+ETOCDK	Environmental Toxicology and Chemistry	Environ. Toxicol. Chem.		
+ETOPFR	Environmental Toxicology and Pharmacology	Environ. Toxicol. Pharmacol.		
+ETOXFH	Environmental Toxicology	Environ. Toxicol.		
+EUPJAG	European Polymer Journal	Eur. Polym. J.		
+EURNE8	European Neuropsychopharmacology	Eur. Neuropsychopharmacol.		
+EXERA6	Experimental Eye Research	Exp. Eye Res.		
+EXMPA6	Experimental and Molecular Pathology	Exp. Mol. Pathol.		
+FACPAA	"Food Additives & Contaminants, Part A: Chemistry, Analysis,"	"Food Addit. Contam., Part A"		
+FACPBB	"Food Additives & Contaminants, Part B: Surveillance"	"Food Addit. Contam., Part B"		
+FAJOEC	FASEB Journal	FASEB J.		
+FCPHEZ	Fundamental & Clinical Pharmacology	Fundam. Clin. Pharmacol.		
+FCTOD7	Food and Chemical Toxicology	Food Chem. Toxicol.		
+FDISE6	Faraday Discussions	Faraday Discuss.		
+FEBLAL	FEBS Letters	FEBS Lett.		
+FECUEN	Fenzi Cuihua			
+FEDEEE	Fusion Engineering and Design	Fusion Eng. Des.		
+FELEDJ	"Ferroelectrics, Letters Section"	"Ferroelectr., Lett. Sect."		
+FENBEL	Fresenius Environmental Bulletin	Fresenius Environ. Bull.		
+FEROA8	Ferroelectrics			
+FGVZA7	Fizika Goreniya i Vzryva	Fiz. Goreniya Vzryva		
+FHHHDT	Fenxi Huaxue			
+FICYAP	Fibre Chemistry	Fibre Chem.		
+FIGUBY	Functional & Integrative Genomics	Funct. Integr. Genomics		
+FIMIEV	FEMS Immunology and Medical Microbiology	FEMS Immunol. Med. Microbiol.		
+FJEOAC	FEBS Journal	FEBS J.		
+FKOMAT	Fizika i Khimiya Obrabotki Materialov	Fiz. Khim. Obrab. Mater.		
+FMATDV	Fire and Materials	Fire Mater.		
+FMECEZ	FEMS Microbiology Ecology	FEMS Microbiol. Ecol.		
+FMLED7	FEMS Microbiology Letters	FEMS Microbiol. Lett.		
+FMMTAK	Fizika Metallov i Metallovedenie	Fiz. Met. Metalloved.		
+FMREE4	FEMS Microbiology Reviews	FEMS Microbiol. Rev.		
+FNCNAR	"Fullerenes, Nanotubes, and Carbon Nanostructures"	"Fullerenes, Nanotubes, Carbon Nanostruct."		
+FOCHDJ	Food Chemistry	Food Chem.		
+FOFUA2	Funtai oyobi Funmatsu Yakin			
+FOHYES	Food Hydrocolloids			
+FOMIAZ	"Folia Microbiologica (Prague, Czech Republic)"	"Folia Microbiol. (Prague, Czech Repub.)"		
+FPBIEP	Fish Physiology and Biochemistry	Fish Physiol. Biochem.		
+FPEQDT	Fluid Phase Equilibria	Fluid Phase Equilib.		
+FPSUEA	Facial Plastic Surgery	Facial Plast. Surg.		
+FPTEDY	Fuel Processing Technology	Fuel Process. Technol.		
+FRARER	Free Radical Research	Free Radical Res.		
+FRBMEH	Free Radical Biology & Medicine	Free Radical Biol. Med.		
+FSCIEH	"Fisheries Science (Tokyo, Japan)"	"Fish. Sci. (Tokyo, Jpn.)"		
+FSTUCY	Fusion Science and Technology	Fusion Sci. Technol.		
+FUCEFK	"Fuel Cells (Weinheim, Germany)"	"Fuel Cells (Weinheim, Ger.)"		
+FUELAC	Fuel			
+FYREAG	FEMS Yeast Research	FEMS Yeast Res.		
+GAXUE9	Gaofenzi Xuebao			
+GBCYEP	Global Biogeochemical Cycles	Global Biogeochem. Cycles		
+GCACAK	Geochimica et Cosmochimica Acta	Geochim. Cosmochim. Acta		
+GCCAES	"Genes, Chromosomes & Cancer"	"Genes, Chromosomes Cancer"		
+GCENA5	General and Comparative Endocrinology	Gen. Comp. Endocrinol.		
+GCKGEI	Gaofenzi Cailiao Kexue Yu Gongcheng			
+GCLRAI	Green Chemistry Letters and Reviews	Green Chem. Lett. Rev.		
+GECEFL	Genes to Cells	Genes Cells		
+GEDEEP	Genes & Development	Genes Dev.		
+GEJOBE	Geochemical Journal	Geochem. J.		
+GENED6	Gene			
+GEOKAQ	Geokhimiya			
+GEPEAD	Gene Expression Patterns			
+GEREFS	Genome Research	Genome Res.		
+GETHEC	Gene Therapy	Gene Ther.		
+GETRF9	Geochemical Transactions	Geochem. Trans.		
+GGXUEH	Gongneng Gaofenzi Xuebao			
+GHGXEG	Gaoxiao Huaxue Gongcheng Xuebao			
+GLJOEW	Glycoconjugate Journal	Glycoconjugate J.		
+GLYCE3	Glycobiology			
+GNMCEP	Genomics			
+GPHCEE	Glass Physics and Chemistry	Glass Phys. Chem.		
+GRCHFJ	Green Chemistry	Green Chem.		
+GRESER	GlassResearcher			
+GRFAEC	Growth Factors			
+GRWAAP	Ground Water			
+GTEJBB	Glass Technology: European Journal of Glass Science and	"Glass Technol.: Eur. J. Glass Sci. Technol., Part A"		
+GTREBR	Gene Therapy and Regulation	Gene Ther. Regul.		
+GUIJE7	Guijinshu			
+GYGFED	Guangpuxue Yu Guangpu Fenxi			
+HCACAV	Helvetica Chimica Acta	Helv. Chim. Acta		
+HCBIFP	Histochemistry and Cell Biology	Histochem. Cell Biol.		
+HCOMEX	Heterocyclic Communications	Heterocycl. Commun.		
+HEMOD8	Hemoglobin			
+HERAFR	Human and Ecological Risk Assessment	Hum. Ecol. Risk Assess.		
+HETCE8	Heteroatom Chemistry	Heteroat. Chem.		
+HFGGEU	Huaxue Fanying Gongcheng Yu Gongyi			
+HGTHE3	Human Gene Therapy	Hum. Gene Ther.		
+HHHPA4	Huaxue Xuebao			
+HHKHAT	Hwahak Konghak			
+HHTPAU	Huaxue Tongbao			
+HIECAP	High Energy Chemistry	High Energy Chem.		
+HITEA4	High Temperature	High Temp.		
+HJICAI	Hungarian Journal of Industrial Chemistry	Hung. J. Ind. Chem.		
+HKXUDL	Huanjing Kexue Xuebao			
+HLIXEV	"Huadong Ligong Daxue Xuebao, Ziran Kexueban"			
+HLTPAO	Health Physics	Health Phys.		
+HMGEE5	Human Molecular Genetics	Hum. Mol. Genet.		
+HMMRA2	Hormone and Metabolic Research	Horm. Metab. Res.		
+HOLZAZ	Holzforschung			
+HPPOEX	High Performance Polymers	High Perform. Polym.		
+HPRTDN	Hypertension			
+HRMRA3	Hormone Research	Horm. Res.		
+HTCYAM	Heterocycles			
+HTEND2	Heat Transfer Engineering	Heat Transfer Eng.		
+HTHPAK	High Temperatures - High Pressures	High Temp. - High Pressures		
+HTMPEF	"High Temperature Materials and Processes (Tel Aviv, Israel)"	"High Temp. Mater. Processes (Tel Aviv, Israel)"		
+HUHSA2	Huaxue			
+HUHUDB	Huanjing Huaxue			
+HUKHAI	Huagong Xuebao (Chinese Edition)	Huagong Xuebao (Chin. Ed.)		
+HUSHDR	Huaxue Shiji			
+HXGOEA	Hecheng Xiangjiao Gongye			
+HYDRDA	Hydrometallurgy			
+HYINDN	Hyperfine Interactions	Hyperfine Interact.		
+IAAGEA	International Journal of Antimicrobial Agents	Int. J. Antimicrob. Agents		
+IADTAQ	Inflammation & Allergy: Drug Targets	Inflammation Allergy: Drug Targets		
+IBMBES	Insect Biochemistry and Molecular Biology	Insect Biochem. Mol. Biol.		
+ICACEC	Anal. Chem.	"Indian J. Chem., Sect. A: Inorg., Bio-inorg., Phys., Theor."	"Bio-inorganic, Physical, Theoretical & Analytical"	Chemistry
+ICCOFP	Inorganic Chemistry Communications	Inorg. Chem. Commun.		
+ICENFW	Indian Chemical Engineer	Indian Chem. Eng.		
+ICHAA3	Inorganica Chimica Acta	Inorg. Chim. Acta		
+ICHTEU	Indian Journal of Chemical Technology	Indian J. Chem. Technol.		
+IDDTAD	Infectious Disorders: Drug Targets	Infect. Disord.: Drug Targets		
+IECRED	Industrial & Engineering Chemistry Research	Ind. Eng. Chem. Res.		
+IEHSF8	Isotopes in Environmental and Health Studies	Isot. Environ. Health Stud.		
+IEJQA7	IEEE Journal of Quantum Electronics	IEEE J. Quantum Electron.		
+IEMACA	"Immunology, Endocrine & Metabolic Agents in Medicinal"	"Immunol., Endocr. Metab. Agents Med. Chem."		
+IERME5	Intermetallics			
+IINMBA	International Immunopharmacology	Int. Immunopharmacol.		
+IINMCB	Innate Immunity	Innate Immun.		
+IINTEY	ISIJ International	ISIJ Int.		
+IJAADK	International Journal of Adhesion and Adhesives	Int. J. Adhes. Adhes.		
+IJACCP	International Journal of Applied Ceramic Technology	Int. J. Appl. Ceram. Technol.		
+IJBBBQ	Indian Journal of Biochemistry & Biophysics	Indian J. Biochem. Biophys.		
+IJBBFU	International Journal of Biochemistry & Cell Biology	Int. J. Biochem. Cell Biol.		
+IJBIAC	Italian Journal of Biochemistry	Ital. J. Biochem.		
+IJBMDR	International Journal of Biological Macromolecules	Int. J. Biol. Macromol.		
+IJCGDE	International Journal of Coal Geology	Int. J. Coal Geol.		
+IJCHEI	Indian Journal of Heterocyclic Chemistry	Indian J. Heterocycl. Chem.		
+IJCKBO	International Journal of Chemical Kinetics	Int. J. Chem. Kinet.		
+IJCNAW	International Journal of Cancer	Int. J. Cancer		
+IJCPGA	International Journal of Coal Preparation and Utilization	Int. J. Coal Prep. Util.		
+IJEAA3	International Journal of Environmental Analytical Chemistry	Int. J. Environ. Anal. Chem.		
+IJESIV	International Journal of Electrochemical Science	Int. J. Electrochem. Sci.		
+IJFRET	Indian Journal of Fibre & Textile Research	Indian J. Fibre Text. Res.		
+IJFTEZ	International Journal of Food Science and Technology	Int. J. Food Sci. Technol.		
+IJHEDX	International Journal of Hydrogen Energy	Int. J. Hydrogen Energy		
+IJINCU	International Journal of Immunogenetics	Int. J. Immunogenet.		
+IJLOAC	ILAR Journal	ILAR J.		
+IJMFBP	International Journal of Multiphase Flow	Int. J. Multiphase Flow		
+IJMPBL	International Journal of Mineral Processing	Int. J. Miner. Process.		
+IJMRFV	International Journal of Materials Research	Int. J. Mater. Res.		
+IJNNAJ	International Journal of Nanoscience	Int. J. Nanosci.		
+IJNPFU	International Journal of Non-Equilibrium Processing	Int. J. Non-Equilib. Process.		
+IJOPAU	Indian Journal of Pure and Applied Physics	Indian J. Pure Appl. Phys.		
+IJPHDE	International Journal of Pharmaceutics	Int. J. Pharm.		
+IJPMCS	International Journal of Polymeric Materials	Int. J. Polym. Mater.		
+IJPNCV	Indian Journal of Physics	Indian J. Phys.		
+IJPRFC	International Journal of Peptide Research and Therapeutics	Int. J. Pept. Res. Ther.		
+IJPXET	International Journal of PIXE	Int. J. PIXE		
+IJQCB2	International Journal of Quantum Chemistry	Int. J. Quantum Chem.		
+IJRBE7	International Journal of Radiation Biology	Int. J. Radiat. Biol.		
+IJSBDB	"Indian Journal of Chemistry, Section B: Organic Chemistry"	"Indian J. Chem., Sect. B: Org. Chem. Incl. Med. Chem."		
+IJSQEN	IEEE Journal of Selected Topics in Quantum Electronics	IEEE J. Sel. Top. Quantum Electron.		
+IJTHDY	International Journal of Thermophysics	Int. J. Thermophys.		
+IJVLEN	International Journal of Environment and Pollution	Int. J. Environ. Pollut.		
+IJVNAP	International Journal for Vitamin and Nutrition Research	Int. J. Vitam. Nutr. Res.		
+IMBIE3	Insect Molecular Biology	Insect Mol. Biol.		
+IMKSB7	Ironmaking & Steelmaking	Ironmaking Steelmaking		
+IMLED6	Immunology Letters	Immunol. Lett.		
+IMMND4	Immunobiology			
+IMMUAM	Immunology			
+IMSPF8	International Journal of Mass Spectrometry	Int. J. Mass Spectrom.		
+INANDJ	Izvestiya Natsional'noi Akademii Nauk Respubliki	"Izv. Nats. Akad. Nauk Resp. Kaz., Ser. Khim."		
+INFIBR	Infection and Immunity	Infect. Immun.		
+INHTE5	Inhalation Toxicology	Inhalation Toxicol.		
+INIMEN	International Immunology	Int. Immunol.		
+INJCEW	International Journal of Chemistry	Int. J. Chem.		
+INMREO	International Materials Reviews	Int. Mater. Rev.		
+INOCAJ	"Inorganic Chemistry (Washington, DC, United States)"	"Inorg. Chem. (Washington, DC, U. S.)"		
+INOMAF	Inorganic Materials	Inorg. Mater.		
+INREFB	Inflammation Research	Inflammation Res.		
+IONIFA	Ionics			
+IPACEZ	International Journal of Polymer Analysis and	Int. J. Polym. Anal. Charact.		
+IPMTEA	"International Journal of Powder Metallurgy (Princeton, New"	"Int. J. Powder Metall. (Princeton, N. J.)"		
+IPPREJ	International Polymer Processing	Int. Polym. Process.		
+IRAFEO	"Izvestiya Rossiiskoi Akademii Nauk, Seriya Fizicheskaya"	"Izv. Ross. Akad. Nauk, Ser. Fiz."		
+IRMEFE	"Inorganic Reaction Mechanisms (Philadelphia, PA, United"	"Inorg. React. Mech. (Philadelphia, PA, U. S.)"		
+IRMME3	International Journal of Refractory Metals & Hard Materials	Int. J. Refract. Met. Hard Mater.		
+IRPCDL	International Reviews in Physical Chemistry	Int. Rev. Phys. Chem.		
+ISCTEF	Instrumentation Science & Technology	Instrum. Sci. Technol.		
+ISJCAT	Israel Journal of Chemistry	Isr. J. Chem.		
+IULIF8	IUBMB Life			
+IUNIEH	Immunity			
+IVUKAR	"Izvestiya Vysshikh Uchebnykh Zavedenii, Khimiya i"	"Izv. Vyssh. Uchebn. Zaved., Khim. Khim. Tekhnol."		
+IVUTAK	"Izvestiya Vysshikh Uchebnykh Zavedenii, Tsvetnaya"	"Izv. Vyssh. Uchebn. Zaved., Tsvetn. Metall."		
+JAALCY	Journal of the American Association for Laboratory Animal	J. Am. Assoc. Lab. Anim. Sci.		
+JAAPDD	Journal of Analytical and Applied Pyrolysis	J. Anal. Appl. Pyrolysis		
+JAAWAV	Journal of Applied Animal Welfare Science	J. Appl. Anim. Welfare Sci.		
+JACGAR	Journal of Applied Crystallography	J. Appl. Crystallogr.		
+JACHDX	Journal of Antimicrobial Chemotherapy	J. Antimicrob. Chemother.		
+JACSAT	Journal of the American Chemical Society	J. Am. Chem. Soc.		
+JACSFY	Journal of the Argentine Chemical Society	J. Argent. Chem. Soc.		
+JACTAW	Journal of the American Ceramic Society	J. Am. Ceram. Soc.		
+JACTE2	Journal of Analytical Chemistry	J. Anal. Chem.		
+JADNAJ	Journal of Adhesion	J. Adhes.		
+JAELBJ	Journal of Applied Electrochemistry	J. Appl. Electrochem.		
+JAFCAU	Journal of Agricultural and Food Chemistry	J. Agric. Food Chem.		
+JAINEE	Journal of AOAC International	J. AOAC Int.		
+JALCEU	Journal of Alloys and Compounds	J. Alloys Compd.		
+JALSB7	Journal of Aerosol Science	J. Aerosol Sci.		
+JAMAAP	"JAMA, the Journal of the American Medical Association"	"JAMA, J. Am. Med. Assoc."		
+JAMCF2	Journal of Automated Methods & Management in Chemistry	J. Autom. Methods Manage. Chem.		
+JAMSEF	Journal of the American Society for Mass Spectrometry	J. Am. Soc. Mass Spectrom.		
+JANSAG	"Journal of Animal Science (Champaign, IL, United States)"	"J. Anim. Sci. (Champaign, IL, U. S.)"		
+JANTAJ	Journal of Antibiotics	J. Antibiot.		
+JAOCA7	Journal of the American Oil Chemists' Society	J. Am. Oil Chem. Soc.		
+JAPIAU	Journal of Applied Physics	J. Appl. Phys.		
+JAPNAB	Journal of Applied Polymer Science	J. Appl. Polym. Sci.		
+JASPE2	Journal of Analytical Atomic Spectrometry	J. Anal. At. Spectrom.		
+JASYAP	Journal of Applied Spectroscopy	J. Appl. Spectrosc.		
+JATCE2	Journal of Atmospheric Chemistry	J. Atmos. Chem.		
+JATEE8	Journal of Adhesion Science and Technology	J. Adhes. Sci. Technol.		
+JATEF9	Environ. Eng.	"J. Environ. Sci. Health, Part A: Toxic/Hazard. Subst."	Toxic/Hazardous Substances & Environmental Engineering	
+JATOD3	Journal of Analytical Toxicology	J. Anal. Toxicol.		
+JAWWA5	Journal - American Water Works Association	J. - Am. Water Works Assoc.		
+JBBID4	Journal of Bioenergetics and Biomembranes	J. Bioenerg. Biomembr.		
+JBBIF6	Journal of Bioscience and Bioengineering	J. Biosci. Bioeng.		
+JBCHA3	Journal of Biological Chemistry	J. Biol. Chem.		
+JBITD4	Journal of Biotechnology	J. Biotechnol.		
+JBMBAZ	Journal of Biobased Materials and Bioenergy	J. Biobased Mater. Bioenergy		
+JBMRCH	"Journal of Biomedical Materials Research, Part A"	"J. Biomed. Mater. Res., Part A"		
+JBMRGL	"Journal of Biomedical Materials Research, Part B: Applied"	"J. Biomed. Mater. Res., Part B"		
+JBMTFQ	Journal of Biochemical and Molecular Toxicology	J. Biochem. Mol. Toxicol.		
+JBNME9	Journal of Biomolecular NMR	J. Biomol. NMR		
+JBNOAB	Journal of Biomedical Nanotechnology	J. Biomed. Nanotechnol.		
+JBSDD6	Journal of Biomolecular Structure and Dynamics	J. Biomol. Struct. Dyn.		
+JBSEEA	"Journal of Biomaterials Science, Polymer Edition"	"J. Biomater. Sci., Polym. Ed."		
+JCACDM	Journal of Carbohydrate Chemistry	J. Carbohydr. Chem.		
+JCADEQ	Journal of Computer-Aided Molecular Design	J. Comput.-Aided Mol. Des.		
+JCBAAI	"Journal of Chromatography, B: Analytical Technologies in"	"J. Chromatogr., B: Anal. Technol. Biomed. Life Sci."		
+JCCHDD	Journal of Computational Chemistry	J. Comput. Chem.		
+JCCHFF	Journal of Combinatorial Chemistry	J. Comb. Chem.		
+JCCJAG	"Journal of Computer Chemistry, Japan"	"J. Comput. Chem., Jpn."		
+JCCMBQ	Journal of Coordination Chemistry	J. Coord. Chem.		
+JCCSCB	Journal of the Chilean Chemical Society	J. Chil. Chem. Soc.		
+JCCTAC	"Journal of the Chinese Chemical Society (Taipei, Taiwan)"	"J. Chin. Chem. Soc. (Taipei, Taiwan)"		
+JCCYEV	Journal of Chemical Crystallography	J. Chem. Crystallogr.		
+JCEAAX	Journal of Chemical & Engineering Data	J. Chem. Eng. Data		
+JCEBD5	Journal of Cellular Biochemistry	J. Cell. Biochem.		
+JCECD8	Journal of Chemical Ecology	J. Chem. Ecol.		
+JCEDA8	Journal of Chemical Education	J. Chem. Educ.		
+JCEJAQ	Journal of Chemical Engineering of Japan	J. Chem. Eng. Jpn.		
+JCEMAZ	Journal of Clinical Endocrinology and Metabolism	J. Clin. Endocrinol. Metab.		
+JCHSBZ	Journal of Chromatographic Science	J. Chromatogr. Sci.		
+JCINAO	Journal of Clinical Investigation	J. Clin. Invest.		
+JCISA5	Journal of Colloid and Interface Science	J. Colloid Interface Sci.		
+JCISD8	Journal of Chemical Information and Modeling	J. Chem. Inf. Model.		
+JCLBA3	Journal of Cell Biology	J. Cell Biol.		
+JCLLAX	Journal of Cellular Physiology	J. Cell. Physiol.		
+JCMOCF	Journal of Cancer Molecules	J. Cancer Mol.		
+JCOBEM	Journal of Computational Biology	J. Comput. Biol.		
+JCOHE6	Journal of Contaminant Hydrology	J. Contam. Hydrol.		
+JCOMEL	Journal of Physics: Condensed Matter	J. Phys.: Condens. Matter		
+JCPCDT	Journal of Cardiovascular Pharmacology	J. Cardiovasc. Pharmacol.		
+JCPSA6	Journal of Chemical Physics	J. Chem. Phys.		
+JCRAEY	"Journal of Chromatography, A"	"J. Chromatogr., A"		
+JCREEC	Journal of Controlled Release	J. Controlled Release		
+JCRGAE	Journal of Crystal Growth	J. Cryst. Growth		
+JCROA4	Journal of Chemical Research	J. Chem. Res.		
+JCSBB5	"Journal of Chemical Sciences (Bangalore, India)"	"J. Chem. Sci. (Bangalore, India)"		
+JCSCEB	Journal of Cluster Science	J. Cluster Sci.		
+JCSJEW	Journal of the Ceramic Society of Japan	J. Ceram. Soc. Jpn.		
+JCSPDF	Journal of the Chemical Society of Pakistan	J. Chem. Soc. Pak.		
+JCTBED	Journal of Chemical Technology and Biotechnology	J. Chem. Technol. Biotechnol.		
+JCTCCE	Journal of Chemical Theory and Computation	J. Chem. Theory Comput.		
+JCTDAF	Journal of Chemical Thermodynamics	J. Chem. Thermodyn.		
+JCTLA5	Journal of Catalysis	J. Catal.		
+JCTNAB	Journal of Computational and Theoretical Nanoscience	J. Comput. Theor. Nanosci.		
+JCTRCP	Journal of Coatings Technology and Research	J. Coat. Technol. Res.		
+JDRSAN	Journal of Dairy Research	J. Dairy Res.		
+JDSCAE	Journal of Dairy Science	J. Dairy Sci.		
+JDTAEH	Journal of Drug Targeting	J. Drug Targeting		
+JDTEDS	Journal of Dispersion Science and Technology	J. Dispersion Sci. Technol.		
+JEBOA6	Journal of Experimental Botany	J. Exp. Bot.		
+JECHES	Journal of Electroanalytical Chemistry	J. Electroanal. Chem.		
+JECMA5	Journal of Electronic Materials	J. Electron. Mater.		
+JECSER	Journal of the European Ceramic Society	J. Eur. Ceram. Soc.		
+JEIMAZ	Journal of Enzyme Inhibition and Medicinal Chemistry	J. Enzyme Inhib. Med. Chem.		
+JEIOB8	Journal of the Energy Institute	J. Energy Inst.		
+JEMEAV	Journal of Experimental Medicine	J. Exp. Med.		
+JEMOFW	Journal of Environmental Monitoring	J. Environ. Monit.		
+JENOBX	Journal of Experimental Nanoscience	J. Exp. Nanosci.		
+JERAEE	Journal of Environmental Radioactivity	J. Environ. Radioact.		
+JESEAR	Journal of Environmental Science & Engineering	J. Environ. Sci. Eng.		
+JESIA5	Journal of the Electrochemical Society of India	J. Electrochem. Soc. India		
+JESOAN	Journal of the Electrochemical Society	J. Electrochem. Soc.		
+JESRAW	Journal of Electron Spectroscopy and Related Phenomena	J. Electron Spectrosc. Relat. Phenom.		
+JEVQAA	Journal of Environmental Quality	J. Environ. Qual.		
+JFDSAZ	Journal of Food Science	J. Food Sci.		
+JFENDS	Journal of Fusion Energy	J. Fusion Energy		
+JFLCAR	Journal of Fluorine Chemistry	J. Fluorine Chem.		
+JGAMA9	Journal of General and Applied Microbiology	J. Gen. Appl. Microbiol.		
+JGCEAT	Journal of Geochemical Exploration	J. Geochem. Explor.		
+JGCHE8	Journal of Natural Gas Chemistry	J. Nat. Gas Chem.		
+JGVIAY	Journal of General Virology	J. Gen. Virol.		
+JHCYAS	Journal of Histochemistry and Cytochemistry	J. Histochem. Cytochem.		
+JHMAD9	Journal of Hazardous Materials	J. Hazard. Mater.		
+JHTCAD	Journal of Heterocyclic Chemistry	J. Heterocycl. Chem.		
+JHUADF	Jiegou Huaxue			
+JIBIDJ	Journal of Inorganic Biochemistry	J. Inorg. Biochem.		
+JICRFJ	Journal of Interferon & Cytokine Research	J. Interferon Cytokine Res.		
+JICSAH	Journal of the Indian Chemical Society	J. Indian Chem. Soc.		
+JIDEAE	Journal of Investigative Dermatology	J. Invest. Dermatol.		
+JIDOAA	Experimental Animals	Exp. Anim.		
+JIECFI	"Journal of Industrial and Engineering Chemistry (Amsterdam,"	"J. Ind. Eng. Chem. (Amsterdam, Neth.)"		
+JIIOAZ	Journal of Immunoassay & Immunochemistry	J. Immunoassay Immunochem.		
+JIMBFL	Journal of Industrial Microbiology & Biotechnology	J. Ind. Microbiol. Biotechnol.		
+JIMMBG	Journal of Immunological Methods	J. Immunol. Methods		
+JIMTE6	Journal of Imaging Science and Technology	J. Imaging Sci. Technol.		
+JIOPAY	Journal of Inorganic and Organometallic Polymers and	J. Inorg. Organomet. Polym. Mater.		
+JIPCF5	Journal of Inclusion Phenomena and Macrocyclic Chemistry	J. Inclusion Phenom. Macrocyclic Chem.		
+JIPHAF	Journal of Insect Physiology	J. Insect Physiol.		
+JJAPB6	Japanese Journal of Applied Physics	Jpn. J. Appl. Phys.		
+JJATDK	Journal of Applied Toxicology	J. Appl. Toxicol.		
+JJBCFA	"JBIC, Journal of Biological Inorganic Chemistry"	"JBIC, J. Biol. Inorg. Chem."		
+JJPIAP	Journal of the Japan Petroleum Institute	J. Jpn. Pet. Inst.		
+JKCSBW	Journal of the Korean Ceramic Society	J. Korean Ceram. Soc.		
+JKCSEZ	Journal of the Korean Chemical Society	J. Korean Chem. Soc.		
+JLBIE7	Journal of Leukocyte Biology	J. Leukocyte Biol.		
+JLCRD4	Journal of Labelled Compounds and Radiopharmaceuticals	J. Labelled Compd. Radiopharm.		
+JLCTFC	Journal of Liquid Chromatography & Related Technologies	J. Liq. Chromatogr. Relat. Technol.		
+JLMOA8	Journal of Laser Micro/Nanoengineering	J. Laser Micro/Nanoeng.		
+JLPRAW	Journal of Lipid Research	J. Lipid Res.		
+JLSTAJ	Journal of Lipid Science and Technology	J. Lipid Sci. Technol.		
+JLTPAC	Journal of Low Temperature Physics	J. Low Temp. Phys.		
+JLUMA8	Journal of Luminescence	J. Lumin.		
+JMACEP	Journal of Materials Chemistry	J. Mater. Chem.		
+JMAPBR	"Journal of Macromolecular Science, Part B: Physics"	"J. Macromol. Sci., Part B: Phys."		
+JMARF3	Journal of Magnetic Resonance	J. Magn. Reson.		
+JMBBBO	Journal of Membrane Biology	J. Membr. Biol.		
+JMCCF2	Journal of Molecular Catalysis A: Chemical	J. Mol. Catal. A: Chem.		
+JMCDAY	Journal of Molecular and Cellular Cardiology	J. Mol. Cell. Cardiol.		
+JMCEF8	Journal of Molecular Catalysis B: Enzymatic	J. Mol. Catal. B: Enzym.		
+JMCHEG	Journal of Mathematical Chemistry	J. Math. Chem.		
+JMCMAR	Journal of Medicinal Chemistry	J. Med. Chem.		
+JMEPEG	Journal of Materials Engineering and Performance	J. Mater. Eng. Perform.		
+JMESDO	Journal of Membrane Science	J. Membr. Sci.		
+JMEVAU	Journal of Molecular Evolution	J. Mol. Evol.		
+JMGMFI	Journal of Molecular Graphics & Modelling	J. Mol. Graphics Modell.		
+JMLEEI	Journal of Molecular Endocrinology	J. Mol. Endocrinol.		
+JMLIDT	Journal of Molecular Liquids	J. Mol. Liq.		
+JMMBFF	Journal of Molecular Microbiology and Biotechnology	J. Mol. Microbiol. Biotechnol.		
+JMMMDC	Journal of Magnetism and Magnetic Materials	J. Magn. Magn. Mater.		
+JMNEES	Journal of Molecular Neuroscience	J. Mol. Neurosci.		
+JMOBAK	Journal of Molecular Biology	J. Mol. Biol.		
+JMORE4	Journal of Molecular Recognition	J. Mol. Recognit.		
+JMOSA3	Journal of Molecular Spectroscopy	J. Mol. Spectrosc.		
+JMOSB4	Journal of Molecular Structure	J. Mol. Struct.		
+JMREEE	Journal of Materials Research	J. Mater. Res.		
+JMSPFJ	Journal of Mass Spectrometry	J. Mass Spectrom.		
+JMTSAS	Journal of Materials Science	J. Mater. Sci.		
+JNBIEL	Journal of Nutritional Biochemistry	J. Nutr. Biochem.		
+JNCSAI	Journal of Cell Science	J. Cell Sci.		
+JNCSBJ	Journal of Non-Crystalline Solids	J. Non-Cryst. Solids		
+JNFMDI	Journal of Non-Newtonian Fluid Mechanics	J. Non-Newtonian Fluid Mech.		
+JNISEI	Journal of Near Infrared Spectroscopy	J. Near Infrared Spectrosc.		
+JNNOAR	Journal of Nanoscience and Nanotechnology	J. Nanosci. Nanotechnol.		
+JNPRDF	Journal of Natural Products	J. Nat. Prod.		
+JNREDK	Journal of Neuroscience Research	J. Neurosci. Res.		
+JNRIDW	Journal of Neuroimmunology	J. Neuroimmunol.		
+JNRSDS	Journal of Neuroscience	J. Neurosci.		
+JNSSFZ	Journal of Plant Nutrition and Soil Science	J. Plant Nutr. Soil Sci.		
+JNSTAX	"Journal of Nuclear Science and Technology (Tokyo, Japan)"	"J. Nucl. Sci. Technol. (Tokyo, Jpn.)"		
+JNSVA5	Journal of Nutritional Science and Vitaminology	J. Nutr. Sci. Vitaminol.		
+JNUMAM	Journal of Nuclear Materials	J. Nucl. Mater.		
+JOBAAY	Journal of Bacteriology	J. Bacteriol.		
+JOBIAO	Journal of Biochemistry	J. Biochem.		
+JOBPDE	Journal of the Optical Society of America B: Optical Physics	J. Opt. Soc. Am. B		
+JOCEAH	Journal of Organic Chemistry	J. Org. Chem.		
+JOCHEU	Journal of Chemometrics	J. Chemom.		
+JOCSET	Journal of the Brazilian Chemical Society	J. Braz. Chem. Soc.		
+JOEEDU	"Journal of Environmental Engineering (Reston, VA, United"	"J. Environ. Eng. (Reston, VA, U. S.)"		
+JOEMDK	Journal of Energetic Materials	J. Energ. Mater.		
+JOENAK	Journal of Endocrinology	J. Endocrinol.		
+JOHYD3	Journal of Hypertension	J. Hypertens.		
+JOICA7	Journal of the Institution of Chemists (India)	J. Inst. Chem. (India)		
+JOIMA3	Journal of Immunology	J. Immunol.		
+JOMIEF	Journal of Microencapsulation	J. Microencapsulation		
+JONRA9	Journal of Neurochemistry	J. Neurochem.		
+JONUAI	Journal of Nutrition	J. Nutr.		
+JOPME8	Journal of Polymer Materials	J. Polym. Mater.		
+JOPTFU	Journal of Ocular Pharmacology and Therapeutics	J. Ocul. Pharmacol. Ther.		
+JORCAI	Journal of Organometallic Chemistry	J. Organomet. Chem.		
+JORHD2	"Journal of Rheology (Melville, NY, United States)"	"J. Rheol. (Melville, NY, U. S.)"		
+JOSOAP	Journal of Oleo Science	J. Oleo Sci.		
+JOUNE2	Journal of Neuroendocrinology	J. Neuroendocrinol.		
+JOVIAM	Journal of Virology	J. Virol.		
+JPACEC	"Journal of Polymer Science, Part A: Polymer Chemistry"	"J. Polym. Sci., Part A: Polym. Chem."		
+JPAPBE	Journal of Physics D: Applied Physics	J. Phys. D: Appl. Phys.		
+JPAPEH	"Journal of Physics B: Atomic, Molecular and Optical Physics"	"J. Phys. B: At., Mol. Opt. Phys."		
+JPBADA	Journal of Pharmaceutical and Biomedical Analysis	J. Pharm. Biomed. Anal.		
+JPBEAJ	Journal de Pharmacie de Belgique	J. Pharm. Belg.		
+JPBPEM	"Journal of Polymer Science, Part B: Polymer Physics"	"J. Polym. Sci., Part B: Polym. Phys."		
+JPCAFH	Journal of Physical Chemistry A	J. Phys. Chem. A		
+JPCBFK	Journal of Physical Chemistry B	J. Phys. Chem. B		
+JPCCCK	Journal of Physical Chemistry C	J. Phys. Chem. C		
+JPCOCM	Journal of Pharmacy and Chemistry	J. Pharm. Chem.		
+JPCOEO	Journal of Process Control	J. Process Control		
+JPCRBU	Journal of Physical and Chemical Reference Data	J. Phys. Chem. Ref. Data		
+JPCSAW	Journal of Physics and Chemistry of Solids	J. Phys. Chem. Solids		
+JPCTE5	Journal of Planar Chromatography--Modern TLC	J. Planar Chromatogr.--Mod. TLC		
+JPEDAV	Journal of Phase Equilibria and Diffusion	J. Phase Equilib. Diffus.		
+JPENFW	Journal of Polymers and the Environment	J. Polym. Environ.		
+JPETAB	Journal of Pharmacology and Experimental Therapeutics	J. Pharmacol. Exp. Ther.		
+JPFCD2	"Journal of Environmental Science and Health, Part B:"	"J. Environ. Sci. Health, Part B"		
+JPGPED	Journal of Physics G: Nuclear and Particle Physics	J. Phys. G: Nucl. Part. Phys.		
+JPGRDI	Journal of Plant Growth Regulation	J. Plant Growth Regul.		
+JPHYA7	"Journal of Physiology (Oxford, United Kingdom)"	"J. Physiol. (Oxford, U. K.)"		
+JPMSAE	Journal of Pharmaceutical Sciences	J. Pharm. Sci.		
+JPNUDS	Journal of Plant Nutrition	J. Plant Nutr.		
+JPOCEE	Journal of Physical Organic Chemistry	J. Phys. Org. Chem.		
+JPOREP	Journal of Polymer Research	J. Polym. Res.		
+JPORFQ	Journal of Proteomics	J. Proteomics		
+JPPBEG	"Journal of Photochemistry and Photobiology, B: Biology"	"J. Photochem. Photobiol., B"		
+JPPCAF	"Journal of Photochemistry and Photobiology, C:"	"J. Photochem. Photobiol., C"		
+JPPCEJ	"Journal of Photochemistry and Photobiology, A: Chemistry"	"J. Photochem. Photobiol., A"		
+JPPHEY	Journal of Plant Physiology	J. Plant Physiol.		
+JPPHFZ	Journal of Porphyrins and Phthalocyanines	J. Porphyrins Phthalocyanines		
+JPPMAB	Journal of Pharmacy and Pharmacology	J. Pharm. Pharmacol.		
+JPROBS	Journal of Proteome Research	J. Proteome Res.		
+JPRSE9	Journal of Pineal Research	J. Pineal Res.		
+JPSEE6	Journal of Petroleum Science & Engineering	J. Pet. Sci. Eng.		
+JPSIEI	Journal of Peptide Science	J. Pept. Sci.		
+JPSODZ	Journal of Power Sources	J. Power Sources		
+JPSTGJ	"Journal of Pharmacological Sciences (Tokyo, Japan)"	"J. Pharmacol. Sci. (Tokyo, Jpn.)"		
+JPTGAD	Journal of Petrology	J. Petrol.		
+JPTMEZ	Journal of Pharmacological and Toxicological Methods	J. Pharmacol. Toxicol. Methods		
+JPUSDN	Journal of Pulp and Paper Science	J. Pulp Pap. Sci.		
+JQSRAE	Journal of Quantitative Spectroscopy & Radiative Transfer	J. Quant. Spectrosc. Radiat. Transfer		
+JRNCDM	Journal of Radioanalytical and Nuclear Chemistry	J. Radioanal. Nucl. Chem.		
+JRPCDW	Journal of Reinforced Plastics and Composites	J. Reinf. Plast. Compos.		
+JRSPAF	Journal of Raman Spectroscopy	J. Raman Spectrosc.		
+JRSTCT	Journal of Receptors and Signal Transduction	J. Recept. Signal Transduction		
+JSBBEZ	Journal of Steroid Biochemistry and Molecular Biology	J. Steroid Biochem. Mol. Biol.		
+JSBCD3	Journal of the American Society of Brewing Chemists	J. Am. Soc. Brew. Chem.		
+JSCOFC	Journal of Sulfur Chemistry	J. Sulfur Chem.		
+JSCSEN	Journal of the Serbian Chemical Society	J. Serb. Chem. Soc.		
+JSDEFL	Journal of Surfactants and Detergents	J. Surfactants Deterg.		
+JSFAAE	Journal of the Science of Food and Agriculture	J. Sci. Food Agric.		
+JSFGAW	Journal of Structural and Functional Genomics	J. Struct. Funct. Genomics		
+JSFLEH	Journal of Supercritical Fluids	J. Supercrit. Fluids		
+JSGTEC	Journal of Sol-Gel Science and Technology	J. Sol-Gel Sci. Technol.		
+JSIJFR	"Journal of the Society of Inorganic Materials, Japan"	"J. Soc. Inorg. Mater., Jpn."		
+JSLCAG	Journal of Solution Chemistry	J. Solution Chem.		
+JSMEEV	Journal of Materials Science: Materials in Electronics	J. Mater. Sci.: Mater. Electron.		
+JSMMEL	Journal of Materials Science: Materials in Medicine	J. Mater. Sci.: Mater. Med.		
+JSNMBN	Journal of Superconductivity and Novel Magnetism	J. Supercond. Novel Magn.		
+JSPCE6	"Journal of Macromolecular Science, Part A: Pure and Applied"	"J. Macromol. Sci., Part A: Pure Appl. Chem."		
+JSSCBI	Journal of Solid State Chemistry	J. Solid State Chem.		
+JSSCCJ	Journal of Separation Science	J. Sep. Sci.		
+JSSEFS	Journal of Solid State Electrochemistry	J. Solid State Electrochem.		
+JSTCAM	Journal of Structural Chemistry	J. Struct. Chem.		
+JSTEEW	Journal of Photopolymer Science and Technology	J. Photopolym. Sci. Technol.		
+JSTNAL	Journal of the American Statistical Association	J. Am. Stat. Assoc.		
+JTACF7	Journal of Thermal Analysis and Calorimetry	J. Therm. Anal. Calorim.		
+JTCCAC	Journal of Theoretical & Computational Chemistry	J. Theor. Comput. Chem.		
+JTECFR	"Journal of Toxicology and Environmental Health, Part B:"	"J. Toxicol. Environ. Health, Part B"		
+JTEHF8	"Journal of Toxicology and Environmental Health, Part A:"	"J. Toxicol. Environ. Health, Part A"		
+JTHTEO	Journal of Thermophysics and Heat Transfer	J. Thermophys. Heat Transfer		
+JTICA8	Journal of the Taiwan Institute of Chemical Engineers	J. Taiwan Inst. Chem. Eng.		
+JTPHES	Journal of Experimental and Theoretical Physics	J. Exp. Theor. Phys.		
+JTPLA2	JETP Letters	JETP Lett.		
+JUPSAU	Journal of the Physical Society of Japan	J. Phys. Soc. Jpn.		
+JVATF4	Journal of Vinyl & Additive Technology	J. Vinyl Addit. Technol.		
+JVGRDQ	Journal of Volcanology and Geothermal Research	J. Volcanol. Geotherm. Res.		
+JVMEDH	Journal of Virological Methods	J. Virol. Methods		
+JVSTBM	"Struct.--Process., Meas., Phenom."	"J. Vac. Sci. Technol., B: Microelectron. Nanometer"	"and Nanometer Structures--Processing, Measurement, and"	Phenomena
+JVTAD6	"Journal of Vacuum Science & Technology, A: Vacuum,"	"J. Vac. Sci. Technol., A"		
+JWCTDJ	Journal of Wood Chemistry and Technology	J. Wood Chem. Technol.		
+JYYHE6	Jisuanji Yu Yingyong Huaxue			
+KBRBA3	Kobunshi Ronbunshu			
+KHFID9	Khimicheskaya Fizika	Khim. Fiz.		
+KICAA8	Kinetics and Catalysis	Kinet. Catal.		
+KIURFI	Khimiya v Interesakh Ustoichivogo Razvitiya	Khim. Interesakh Ustoich. Razvit.		
+KJCHE6	Korean Journal of Chemical Engineering	Korean J. Chem. Eng.		
+KJUIAR	Kemija u Industriji	Kem. Ind.		
+KKGKA4	Kagaku Kogaku			
+KKGKB5	"KGK, Kautschuk Gummi Kunststoffe"	"KGK, Kautsch. Gummi Kunstst."		
+KKRBAW	Kagaku Kogaku Ronbunshu			
+KOKKAI	Koks i Khimiya	Koks Khim.		
+KPRMAW	"Khimicheskaya Promyshlennost (St. Petersburg, Russian"	"Khim. Prom-st. (St. Petersburg, Russ. Fed.)"		
+KPSHBN	Khimicheskaya Promyshlennost Segodnya	Khim. Prom-st. Segodnya		
+KSYHA5	Guisuanyan Xuebao			
+KTHPDM	Gaodeng Xuexiao Huaxue Xuebao			
+KTVODL	Khimiya i Tekhnologiya Vody	Khim. Tekhnol. Vody		
+KTVTBY	"Khimiya Tverdogo Topliva (Moscow, Russian Federation)"	"Khim. Tverd. Topl. (Moscow, Russ. Fed.)"		
+LANGD5	Langmuir			
+LBANAX	Laboratory Animals	Lab. Anim.		
+LCAHAM	Lab on a Chip	Lab Chip		
+LDDDAW	Letters in Drug Design & Discovery	Lett. Drug Des. Discovery		
+LHYGD7	Linchan Huaxue Yu Gongye			
+LICRE6	Liquid Crystals	Liq. Cryst.		
+LIFSAK	Life Sciences	Life Sci.		
+LITHAN	Lithos			
+LKZUE8	Latvijas Kimijas Zurnals	Latv. Kim. Z.		
+LNACBH	LCGC North America	LCGC North Am.		
+LOCEC7	Letters in Organic Chemistry	Lett. Org. Chem.		
+LPBEDA	Laser and Particle Beams	Laser Part. Beams		
+LPDSAP	Lipids			
+LSCHDB	Laser Chemistry	Laser Chem.		
+LSTWB3	LWT--Food Science and Technology	LWT--Food Sci. Technol.		
+MABIFW	Marine Biotechnology	Mar. Biotechnol.		
+MACHEX	Materials Characterization	Mater. Charact.		
+MAGREF	Magnesium Research	Magnesium Res.		
+MAMOBX	"Macromolecules (Washington, DC, United States)"	"Macromolecules (Washington, DC, U. S.)"		
+MBAIBU	Macromolecular Bioscience	Macromol. Biosci.		
+MBCEEV	Molecular Biology of the Cell	Mol. Biol. Cell		
+MBEVEO	Molecular Biology and Evolution	Mol. Biol. Evol.		
+MBIPDP	Molecular & Biochemical Parasitology	Mol. Biochem. Parasitol.		
+MBOIBW	Molecular BioSystems	Mol. BioSyst.		
+MCBIB8	Molecular and Cellular Biochemistry	Mol. Cell. Biochem.		
+MCEBD4	Molecular and Cellular Biology	Mol. Cell. Biol.		
+MCEHAJ	Medicinal Chemistry	Med. Chem.		
+MCEND6	Molecular and Cellular Endocrinology	Mol. Cell. Endocrinol.		
+MCHPDR	Materials Chemistry and Physics	Mater. Chem. Phys.		
+MCHPES	Macromolecular Chemistry and Physics	Macromol. Chem. Phys.		
+MCLCD8	Molecular Crystals and Liquid Crystals	Mol. Cryst. Liq. Cryst.		
+MCPOBS	Molecular and Cellular Proteomics	Mol. Cell. Proteomics		
+MCPRE6	Molecular and Cellular Probes	Mol. Cell. Probes		
+MCREEB	Medicinal Chemistry Research	Med. Chem. Res.		
+MCROC5	Molecular Cancer Research	Mol. Cancer Res.		
+MCTOCF	Molecular Cancer Therapeutics	Mol. Cancer Ther.		
+MDINCW	Mitochondrial DNA			
+MEALET	Metally			
+MEDVE6	Mechanisms of Development	Mech. Dev.		
+MEENFM	Metabolic Engineering	Metab. Eng.		
+MENCEX	Mendeleev Communications	Mendeleev Commun.		
+MENGEB	Minerals Engineering	Miner. Eng.		
+MERSDW	Marine Environmental Research	Mar. Environ. Res.		
+METAAJ	"Metabolism, Clinical and Experimental"	"Metab., Clin. Exp."		
+METAHQ	Metabolomics			
+Metall. Mater. Trans. B	BM		Metallurgy and Materials Processing Science	
+MFOREM	Materials Forum	Mater. Forum		
+MGCHE7	Main Group Chemistry	Main Group Chem.		
+MGGOAA	Molecular Genetics and Genomics	Mol. Genet. Genomics		
+MGMCE8	Main Group Metal Chemistry	Main Group Met. Chem.		
+MGMEFF	Molecular Genetics and Metabolism	Mol. Genet. Metab.		
+MHTRAN	Metal Science and Heat Treatment	Met. Sci. Heat Treat.		
+MIACAQ	Microchimica Acta	Microchim. Acta		
+MIBLAO	"Microbiology (Moscow, Russian Federation)"	"Microbiology (Moscow, Russ. Fed.)"		
+MICJAN	Microchemical Journal	Microchem. J.		
+MIDEBE	Mineralium Deposita	Miner. Deposita		
+MIENEF	Microelectronic Engineering	Microelectron. Eng.		
+MIIMDV	Microbiology and Immunology	Microbiol. Immunol.		
+MILCAD	Milchwissenschaft			
+MIMIF7	Microscopy and Microanalysis	Microsc. Microanal.		
+MIMMFJ	Microporous and Mesoporous Materials	Microporous Mesoporous Mater.		
+MIPEE9	Mineralogy and Petrology	Mineral. Petrol.		
+MITOCN	Mitochondrion			
+MIUMAK	Mucosal Immunology	Mucosal Immunol.		
+MKFKAL	"Magyar Kemiai Folyoirat, Kemiai Kozlemenyek"	"Magy. Kem. Foly., Kem. Kozl."		
+MLBOEO	Molecular Biotechnology	Mol. Biotechnol.		
+MLBRBU	Molecular Biology Reports	Mol. Biol. Rep.		
+MLETDJ	Materials Letters	Mater. Lett.		
+MMAPET	Materials and Manufacturing Processes	Mater. Manuf. Processes		
+MMCIAE	Mini-Reviews in Medicinal Chemistry	Mini-Rev. Med. Chem.		
+MMEBE7	Molecular Membrane Biology	Mol. Membr. Biol.		
+MMENFA	Macromolecular Materials and Engineering	Macromol. Mater. Eng.		
+MMPRE8	Minerals & Metallurgical Processing	Miner. Metall. Process.		
+MMROA5	Molecular Medicine Reports	Mol. Med. Rep.		
+MMTAEB	Metallurgical and Materials Transactions A: Physical	Metall. Mater. Trans. A		
+MNFRCV	Molecular Nutrition & Food Research	Mol. Nutr. Food Res.		
+MNLMBB	Mineralogical Magazine	Mineral. Mag.		
+MNTEEU	Metallofizika i Noveishie Tekhnologii	Metallofiz. Noveishie Tekhnol.		
+MOCAE8	Molecular Carcinogenesis	Mol. Carcinog.		
+MOCEEK	Molecules and Cells	Mol. Cells		
+MOCEFL	Molecular Cell	Mol. Cell		
+MOCIBT	Mini-Reviews in Organic Chemistry	Mini-Rev. Org. Chem.		
+MOCMB7	Monatshefte fuer Chemie	Monatsh. Chem.		
+MOCNED	Molecular and Cellular Neuroscience	Mol. Cell. Neurosci.		
+MODIF4	Molecular Diversity	Mol. Diversity		
+MOENEN	Molecular Endocrinology	Mol. Endocrinol.		
+MOIMD5	Molecular Immunology	Mol. Immunol.		
+MOLBBJ	"Molecular Biology (Moscow, Russian Federation, English"	"Mol. Biol. (Moscow, Russ. Fed., Engl. Ed.)"		
+MOLEFW	Molecules			
+MOMEF3	"Molecular Medicine (Manhasset, NY, United States)"	"Mol. Med. (Manhasset, NY, U. S.)"		
+MOMIEE	Molecular Microbiology	Mol. Microbiol.		
+MONBEW	Molecular Neurobiology	Mol. Neurobiol.		
+MOPHAM	Molecular Physics	Mol. Phys.		
+MOPMA3	Molecular Pharmacology	Mol. Pharmacol.		
+MOSIEA	Molecular Simulation	Mol. Simul.		
+MPLBET	Modern Physics Letters B	Mod. Phys. Lett. B		
+MPMIEL	Molecular Plant-Microbe Interactions	Mol. Plant-Microbe Interact.		
+MPNBAZ	Marine Pollution Bulletin	Mar. Pollut. Bull.		
+MPOHBP	Molecular Pharmaceutics	Mol. Pharmaceutics		
+MPOLA2	Molecular Plant	Mol. Plant		
+MPSCFY	Meteoritics & Planetary Science	Meteorit. Planet. Sci.		
+MRAECT	Macromolecular Research	Macromol. Res.		
+MRBUAC	Materials Research Bulletin	Mater. Res. Bull.		
+MRCHBD	Marine Chemistry	Mar. Chem.		
+MRCHEG	Magnetic Resonance in Chemistry	Magn. Reson. Chem.		
+MRCOE3	Macromolecular Rapid Communications	Macromol. Rapid Commun.		
+MREAD4	Macromolecular Reaction Engineering	Macromol. React. Eng.		
+MREDEE	Molecular Reproduction & Development	Mol. Reprod. Dev.		
+MRGMFI	"Mutation Research, Genetic Toxicology and Environmental"	"Mutat. Res., Genet. Toxicol. Environ. Mutagen."		
+MRINFV	Materials Research Innovations	Mater. Res. Innovations		
+MROBEO	"Microbiology (Reading, United Kingdom)"	"Microbiology (Reading, U. K.)"		
+MRRRFK	"Mutation Research, Reviews in Mutation Research"	"Mutat. Res., Rev. Mutat. Res."		
+MRSPDH	Materials Research Society Symposium Proceedings	Mater. Res. Soc. Symp. Proc.		
+MSAPE3	"Materials Science & Engineering, A: Structural Materials:"	"Mater. Sci. Eng., A"		
+MSBTEK	"Materials Science & Engineering, B: Advanced Functional"	"Mater. Sci. Eng., B"		
+MSCEEE	"Materials Science & Engineering, C: Materials for"	"Mater. Sci. Eng., C"		
+MSCTEP	Materials Science and Technology	Mater. Sci. Technol.		
+MSSPFQ	Materials Science in Semiconductor Processing	Mater. Sci. Semicond. Process.		
+MSTCEP	Measurement Science and Technology	Meas. Sci. Technol.		
+MSYMEC	Macromolecular Symposia	Macromol. Symp.		
+MTARCE	Materials Transactions	Mater. Trans.		
+MTBOEC	Matrix Biology	Matrix Biol.		
+MTCREQ	Materials and Corrosion	Mater. Corros.		
+MTHDE9	"Methods (Amsterdam, Netherlands)"	"Methods (Amsterdam, Neth.)"		
+MTHSEK	Macromolecular Theory and Simulations	Macromol. Theory Simul.		
+MTOHCK	Molecular Therapy	Mol. Ther.		
+MUREAV	"Mutation Research, Fundamental and Molecular Mechanisms of"	"Mutat. Res., Fundam. Mol. Mech. Mutagen."		
+MUTAEX	Mutagenesis			
+NABIF9	Nature Biotechnology	Nat. Biotechnol.		
+NALEFD	Nano Letters	Nano Lett.		
+NAMEFI	"Nature Medicine (New York, NY, United States)"	"Nat. Med. (N. Y., NY, U. S.)"		
+NANEFN	Nature Neuroscience	Nat. Neurosci.		
+NANOBF	"Nanomedicine (New York, NY, United States)"	"Nanomedicine (N. Y., NY, U. S.)"		
+NANOCG	NanoBiotechnology			
+NANOFJ	NANO			
+NARHAD	Nucleic Acids Research	Nucleic Acids Res.		
+NASSCJ	Nucleic Acids Symposium Series	Nucleic Acids Symp. Ser.		
+NATUAS	"Nature (London, United Kingdom)"	"Nature (London, U. K.)"		
+NATWAY	Naturwissenschaften			
+NBEIBR	New Biotechnology	New Biotechnol.		
+NCAHBB	Nature Chemistry	Nat. Chem.		
+NCBABT	Nature Chemical Biology	Nat. Chem. Biol.		
+NCBIFN	Nature Cell Biology	Nat. Cell Biol.		
+NEDEAU	Nuclear Engineering and Design	Nucl. Eng. Des.		
+NEFTAH	Neftekhimiya			
+NEJMAG	New England Journal of Medicine	N. Engl. J. Med.		
+NELED5	Neuroscience Letters	Neurosci. Lett.		
+NEPHBW	Neuropharmacology			
+NEREDZ	Neurochemical Research	Neurochem. Res.		
+NERNET	Neuron			
+NETEEC	Neurotoxicology and Teratology	Neurotoxicol. Teratol.		
+NEUIDS	Neurochemistry International	Neurochem. Int.		
+NEURIQ	Neurosignals			
+NGAEBU	Nature Geoscience	Nat. Geosci.		
+NGENEC	Nature Genetics	Nat. Genet.		
+NIAMCZ	Nature Immunology	Nat. Immunol.		
+NIKGAV	Nippon Kinzoku Gakkaishi			
+NIMAER	"Nuclear Instruments & Methods in Physics Research, Section"	"Nucl. Instrum. Methods Phys. Res., Sect. A"	Associated Equipment	
+NIMBEU	"Nuclear Instruments & Methods in Physics Research, Section"	"Nucl. Instrum. Methods Phys. Res., Sect. B"		
+NIOXF5	Nitric Oxide			
+NJCHE5	New Journal of Chemistry	New J. Chem.		
+NJMIAK	"Neues Jahrbuch fuer Mineralogie, Abhandlungen"	"Neues Jahrb. Mineral., Abh."		
+NMAACR	Nature Materials	Nat. Mater.		
+NMAEA3	Nature Methods	Nat. Methods		
+NMBIEO	Nuclear Medicine and Biology	Nucl. Med. Biol.		
+NMEEAN	NeuroMolecular Medicine	NeuroMol. Med.		
+NMRPAJ	Annual Reports on NMR Spectroscopy	Annu. Rep. NMR Spectrosc.		
+NNAABX	Nature Nanotechnology	Nat. Nanotechnol.		
+NNNAFY	"Nucleosides, Nucleotides & Nucleic Acids"	"Nucleosides, Nucleotides Nucleic Acids"		
+NPAHAX	Nature Physics	Nat. Phys.		
+NPAHBY	Nature Photonics	Nat. Photonics		
+NPARDW	Nature Protocols	Nat. Protoc.		
+NPBSE7	"Nuclear Physics B, Proceedings Supplements"	"Nucl. Phys. B, Proc. Suppl."		
+NPCACO	Natural Product Communications	Nat. Prod. Commun.		
+NPPJEG	Nordic Pulp & Paper Research Journal	Nord. Pulp Pap. Res. J.		
+NPRPC8	"Natural Product Research, Part A: Structure and Synthesis"	"Nat. Prod. Res., Part A"		
+NPRPEA	"Natural Product Research, Part B: Bioactive Natural Products"	"Nat. Prod. Res., Part B"		
+NPRRDF	Natural Product Reports	Nat. Prod. Rep.		
+NPSCFB	Natural Product Sciences	Nat. Prod. Sci.		
+NRCAC4	Nature Reviews Cancer	Nat. Rev. Cancer		
+NRDDAG	Nature Reviews Drug Discovery	Nat. Rev. Drug Discovery		
+NRGAAM	Nature Reviews Genetics	Nat. Rev. Genet.		
+NRGIAC	Nihon Reoroji Gakkaishi			
+NRIABX	Nature Reviews Immunology	Nat. Rev. Immunol.		
+NRMACK	Nature Reviews Microbiology	Nat. Rev. Microbiol.		
+NRMCBP	Nature Reviews Molecular Cell Biology	Nat. Rev. Mol. Cell Biol.		
+NRNAAN	Nature Reviews Neuroscience	Nat. Rev. Neurosci.		
+NROIEM	NeuroImmunoModulation			
+NRPPDD	"Neuropeptides (Oxford, United Kingdom)"	"Neuropeptides (Oxford, U. K.)"		
+NRSCDN	"Neuroscience (Amsterdam, Netherlands)"	"Neuroscience (Amsterdam, Neth.)"		
+NSAPCC	Naunyn-Schmiedeberg's Archives of Pharmacology	Naunyn-Schmiedeberg's Arch. Pharmacol.		
+NSENAO	Nuclear Science and Engineering	Nucl. Sci. Eng.		
+NSMBCU	Nature Structural & Molecular Biology	Nat. Struct. Mol. Biol.		
+NSNTBK	Nano Science and Nano Technology	Nano Sci. Nano Technol.		
+NTRSDC	"Nutrition Research (New York, NY, United States)"	"Nutr. Res. (N. Y., NY, U. S.)"		
+NUFUAU	Nuclear Fusion	Nucl. Fusion		
+NUKLAS	Nukleonika			
+NUNDAJ	Neuroendocrinology			
+NUPABL	Nuclear Physics A	Nucl. Phys. A		
+NUPBBO	Nuclear Physics B	Nucl. Phys. B		
+NUTYBB	Nuclear Technology	Nucl. Technol.		
+OBCRAK	Organic & Biomolecular Chemistry	Org. Biomol. Chem.		
+OERLAU	Organic Electronics	Org. Electron.		
+OGEMDJ	"Oil, Gas (Hamburg, Germany)"	"Oil, Gas (Hamburg, Ger.)"		
+OJCHEG	Oriental Journal of Chemistry	Orient. J. Chem.		
+OKJZA6	O'zbekiston Kimyo Jurnali	O'zb. Kim. J.		
+OLIGAJ	Oligonucleotides			
+OMICAE	OMICS			
+ONCNES	Oncogene			
+OPCOB8	Optics Communications	Opt. Commun.		
+OPPIAK	Organic Preparations and Procedures International	Org. Prep. Proced. Int.		
+OPRDFK	Organic Process Research & Development	Org. Process Res. Dev.		
+OPSUA3	Optics and Spectroscopy	Opt. Spectrosc.		
+ORGEDE	Organic Geochemistry	Org. Geochem.		
+ORGND7	Organometallics			
+ORLEF7	Organic Letters	Org. Lett.		
+ORSYAT	Organic Syntheses	Org. Synth.		
+OXCODW	Oxidation Communications	Oxid. Commun.		
+OXMEAF	Oxidation of Metals	Oxid. Met.		
+OYYAA2	Oyo Yakuri			
+OZSEDS	Ozone: Science & Engineering	Ozone: Sci. Eng.		
+PACHAS	Pure and Applied Chemistry	Pure Appl. Chem.		
+PADTE5	Polymers for Advanced Technologies	Polym. Adv. Technol.		
+PANUEO	Physics of Atomic Nuclei	Phys. At. Nucl.		
+PARCEO	Polycyclic Aromatic Compounds	Polycyclic Aromat. Compd.		
+PBBHAU	"Pharmacology, Biochemistry and Behavior"	"Pharmacol., Biochem. Behav."		
+PBBIF4	Preparative Biochemistry & Biotechnology	Prep. Biochem. Biotechnol.		
+PBCHE5	"Process Biochemistry (Amsterdam, Netherlands)"	"Process Biochem. (Amsterdam, Neth.)"		
+PBLIBG	PLoS Biology	PLoS Biol.		
+PCARCU	Proteomics: Clinical Applications	Proteomics: Clin. Appl.		
+PCBLBG	PLoS Computational Biology	PLoS Comput. Biol.		
+PCBPBS	Pesticide Biochemistry and Physiology	Pestic. Biochem. Physiol.		
+PCBRBY	Precambrian Research	Precambrian Res.		
+PCGECL	Physics and Chemistry of Glasses: European Journal of Glass	"Phys. Chem. Glasses: Eur. J. Glass Sci. Technol., Part B"		
+PCGMED	Progress in Crystal Growth and Characterization of Materials	Prog. Cryst. Growth Charact. Mater.		
+PCJOAU	Pharmaceutical Chemistry Journal	Pharm. Chem. J.		
+PCLQAC	Physics and Chemistry of Liquids	Phys. Chem. Liq.		
+PCMIDU	Physics and Chemistry of Minerals	Phys. Chem. Miner.		
+PCOMDI	Polymer Composites	Polym. Compos.		
+PCPHA5	Plant and Cell Physiology	Plant Cell Physiol.		
+PCPPDW	Plasma Chemistry and Plasma Processing	Plasma Chem. Plasma Process.		
+PCPSD7	Progress in Colloid and Polymer Science	Prog. Colloid Polym. Sci.		
+PCRPD8	Plant Cell Reports	Plant Cell Rep.		
+PDSTDW	Polymer Degradation and Stability	Polym. Degrad. Stab.		
+PDTEFS	Pharmaceutical Development and Technology	Pharm. Dev. Technol.		
+PEASBC	Proceedings of the Estonian Academy of Sciences	Proc. Est. Acad. Sci.		
+PEDSBR	"Protein Engineering, Design & Selection"	"Protein Eng., Des. Sel."		
+PEPYD5	"Propellants, Explosives, Pyrotechnics"	"Propellants, Explos., Pyrotech."		
+PEXPEJ	Protein Expression & Purification	Protein Expression Purif.		
+PFKMDJ	Poverkhnost			
+PFLABK	Pfluegers Archiv	Pfluegers Arch.		
+PGHEAI	Pharmacogenetics and Genomics	Pharmacogenet. Genomics		
+PGLEB5	PLoS Genetics	PLoS Genet.		
+PGRED3	Plant Growth Regulation	Plant Growth Regul.		
+PHANEL	Phytochemical Analysis	Phytochem. Anal.		
+PHARAT	Pharmazie			
+PHBHA4	Physiology & Behavior	Physiol. Behav.		
+PHCBAP	Photochemistry and Photobiology	Photochem. Photobiol.		
+PHFLE6	Physics of Fluids	Phys. Fluids		
+PHMGBN	Pharmacology			
+PHPAEN	Physics of Plasmas	Phys. Plasmas		
+PHPLAI	Physiologia Plantarum	Physiol. Plant.		
+PHREEB	Pharmaceutical Research	Pharm. Res.		
+PHRSDI	Photosynthesis Research	Photosynth. Res.		
+PHSTBO	Physica Scripta	Phys. Scr.		
+PHSTER	"Physica Scripta, T"	"Phys. Scr., T"		
+PHTHDT	Pharmacology & Therapeutics	Pharmacol. Ther.		
+PHTRDP	Phase Transitions			
+PHYBE3	"Physica B: Condensed Matter (Amsterdam, Netherlands)"	"Phys. B (Amsterdam, Neth.)"		
+PHYCE6	Physica C: Superconductivity and Its Applications	"Phys. C (Amsterdam, Neth.)"		
+PIOCAR	Progress in Inorganic Chemistry	Prog. Inorg. Chem.		
+PJCHDQ	Polish Journal of Chemistry	Pol. J. Chem.		
+PJHOAZ	Pharmacogenomics Journal	Pharmacogenomics J.		
+PJROAH	Protein Journal	Protein J.		
+PLANAB	Planta			
+PLCEEW	Plant Cell			
+PLEAEU	"Prostaglandins, Leukotrienes and Essential Fatty Acids"	"Prostaglandins, Leukotrienes Essent. Fatty Acids"		
+PLJUED	Plant Journal	Plant J.		
+PLMEAA	Planta Medica	Planta Med.		
+PLMSAI	Plasticheskie Massy	Plast. Massy		
+PLPHAY	Plant Physiology	Plant Physiol.		
+PLRAAN	"Physical Review A: Atomic, Molecular, and Optical Physics"	"Phys. Rev. A: At., Mol., Opt. Phys."		
+PLSCE4	"Plant Science (Shannon, Ireland)"	"Plant Sci. (Shannon, Irel.)"		
+PLSMDX	Plasmid			
+PLSOA2	Plant and Soil	Plant Soil		
+PLTEEF	Platelets			
+PLYHDE	Polyhedron			
+PLYIEI	Polymer International	Polym. Int.		
+PMBIDB	Plant Molecular Biology	Plant Mol. Biol.		
+PMHABF	Philosophical Magazine	Philos. Mag.		
+PMLEEG	Philosophical Magazine Letters	Philos. Mag. Lett.		
+PMMCEF	Powder Metallurgy and Metal Ceramics	Powder Metall. Met. Ceram.		
+PMPCBR	Protection of Metals and Physical Chemistry of Surfaces	Prot. Met. Phys. Chem. Surf.		
+PMSCFC	Pest Management Science	Pest Manage. Sci.		
+PNASA6	Proceedings of the National Academy of Sciences of the	Proc. Natl. Acad. Sci. U. S. A.		
+PNASC8	Proceedings of the National Academy of Sciences of the	"Proc. Natl. Acad. Sci. U. S. A., Early Ed."		
+PNMRAT	Progress in Nuclear Magnetic Resonance Spectroscopy	Prog. Nucl. Magn. Reson. Spectrosc.		
+POBUDR	"Polymer Bulletin (Heidelberg, Germany)"	"Polym. Bull. (Heidelberg, Ger.)"		
+PODIE2	Powder Diffraction	Powder Diffr.		
+POGCAT	Progress in Organic Coatings	Prog. Org. Coat.		
+POLJB8	"Polymer Journal (Tokyo, Japan)"	"Polym. J. (Tokyo, Jpn.)"		
+POLLDG	Polymer (Korea)			
+POLMAG	Polymer			
+POLMFL	Prostaglandins & Other Lipid Mediators	Prostaglandins Other Lipid Mediators		
+POLNCL	PLoS One			
+POTEBX	Powder Technology	Powder Technol.		
+POTEDZ	Polymer Testing	Polym. Test.		
+PPBIEX	"Plant Physiology and Biochemistry (Issy-les-Moulineaux,"	"Plant Physiol. Biochem. (Issy-les-Moulineaux, Fr.)"		
+PPCPFQ	Physical Chemistry Chemical Physics	Phys. Chem. Chem. Phys.		
+PPELEN	Protein & Peptide Letters	Protein Pept. Lett.		
+PPLACN	PLoS Pathogens	PLoS Pathog.		
+PPMRA9	PMSE Preprints	PMSE Prepr.		
+PPOCEC	Polymers & Polymer Composites	Polym. Polym. Compos.		
+PPPLA6	Plasma Processes and Polymers	Plasma Processes Polym.		
+PPRRG6	Practical Proteomics	Pract. Proteomics		
+PPSHCB	Photochemical & Photobiological Sciences	Photochem. Photobiol. Sci.		
+PPTDD5	"Peptides (Amsterdam, Netherlands)"	"Peptides (Amsterdam, Neth.)"		
+PPTEC7	Polymer-Plastics Technology and Engineering	Polym.-Plast. Technol. Eng.		
+PPTHFJ	Pulmonary Pharmacology & Therapeutics	Pulm. Pharmacol. Ther.		
+PRBMDO	Physical Review B: Condensed Matter and Materials Physics	Phys. Rev. B: Condens. Matter Mater. Phys.		
+PRCHAB	Przemysl Chemiczny	Przem. Chem.		
+PRCIEI	Protein Science	Protein Sci.		
+PRDPC8	"Physical Review D: Particles, Fields, Gravitation, and"	"Phys. Rev. D: Part., Fields, Gravitation, Cosmol."		
+PRESCM	"Physical Review E: Statistical, Nonlinear, and Soft Matter"	"Phys. Rev. E: Stat., Nonlinear, Soft Matter Phys."		
+PRHEBS	Phytochemistry Reviews	Phytochem. Rev.		
+PRKMF3	Progress in Reaction Kinetics and Mechanism	Prog. React. Kinet. Mech.		
+PRLTAO	Physical Review Letters	Phys. Rev. Lett.		
+PROTC7	Proteomics			
+PRPPCY	"Polymer Reviews (Philadelphia, PA, United States)"	"Polym. Rev. (Philadelphia, PA, U. S.)"		
+PRPSB8	Progress in Polymer Science	Prog. Polym. Sci.		
+PRSUAS	Plastic and Reconstructive Surgery	Plast. Reconstr. Surg.		
+PRUCFN	"Plastics, Rubber and Composites"	"Plast., Rubber Compos."		
+PRVCAN	Physical Review C: Nuclear Physics	Phys. Rev. C: Nucl. Phys.		
+PSADFZ	"Preprints of Symposia - American Chemical Society, Division"	"Prepr. Symp. - Am. Chem. Soc., Div. Fuel Chem."		
+PSCHDL	"Psychopharmacology (Berlin, Germany)"	"Psychopharmacology (Berlin, Ger.)"		
+PSEPEM	Process Safety and Environmental Protection	Process Saf. Environ. Prot.		
+PSFBAF	"Proteins: Structure, Function, and Bioinformatics"	"Proteins: Struct., Funct., Bioinf."		
+PSOSED	Physics of the Solid State	Phys. Solid State		
+PSPED9	Practical Spectroscopy	Pract. Spectrosc.		
+PSSABA	Physica Status Solidi A: Applications and Materials Science	Phys. Status Solidi A		
+PSSBBD	Physica Status Solidi B: Basic Solid State Physics	Phys. Status Solidi B		
+PSSCGL	Physica Status Solidi C: Current Topics in Solid State	Phys. Status Solidi C		
+PSSFBP	Progress in Surface Science	Prog. Surf. Sci.		
+PSSLEC	"Phosphorus, Sulfur and Silicon and the Related Elements"	"Phosphorus, Sulfur Silicon Relat. Elem."		
+PSSRCS	Physica Status Solidi RRL: Rapid Research Letters	Phys. Status Solidi RRL		
+PSSTAW	Progress in Solid State Chemistry	Prog. Solid State Chem.		
+PSTEFV	Petroleum Science and Technology	Pet. Sci. Technol.		
+PSUIA9	Purinergic Signalling			
+PTCHDS	Particulate Science and Technology	Part. Sci. Technol.		
+PTRDEO	Pteridines			
+PWMTAU	Powder Metallurgy	Powder Metall.		
+PYESAZ	Polymer Engineering & Science	Polym. Eng. Sci.		
+PYLAAG	Physics Letters A	Phys. Lett. A		
+PYLBAJ	Physics Letters B	Phys. Lett. B		
+PYTCAS	Phytochemistry (Elsevier)			
+QCSSAU	QSAR & Combinatorial Science	QSAR Comb. Sci.		
+QUELEZ	Quantum Electronics	Quantum Electron.		
+QUNODK	Quimica Nova	Quim. Nova		
+RAACAP	Radiochimica Acta	Radiochim. Acta		
+RACYAX	Reviews in Analytical Chemistry	Rev. Anal. Chem.		
+RAPRBA	Radioprotection			
+RAREAE	Radiation Research	Radiat. Res.		
+RARME8	"Rare Metals (Beijing, China)"	"Rare Met. (Beijing, China)"		
+RASPEM	Rasplavy			
+RBNIBE	RNA Biology	RNA Biol.		
+RCBBFC	Research Communications in Biochemistry and Cell &	Res. Commun. Biochem. Cell Mol. Biol.		
+RCBUAU	"Revista de Chimie (Bucharest, Romania)"	"Rev. Chim. (Bucharest, Rom.)"		
+RCBUEY	Russian Chemical Bulletin	Russ. Chem. Bull.		
+RCINEE	Research on Chemical Intermediates	Res. Chem. Intermed.		
+RCMPE6	Research Communications in Molecular Pathology and	Res. Commun. Mol. Pathol. Pharmacol.		
+RCMSEF	Rapid Communications in Mass Spectrometry	Rapid Commun. Mass Spectrom.		
+RCRVAB	Russian Chemical Reviews	Russ. Chem. Rev.		
+RCTEA4	Rubber Chemistry and Technology	Rubber Chem. Technol.		
+RCUKBS	"Reproduction (Bristol, United Kingdom)"	"Reproduction (Bristol, U. K.)"		
+RDIOEO	"Radiochemistry (Moscow, Russian Federation)"	"Radiochemistry (Moscow, Russ. Fed.)"		
+REDSEI	Radiation Effects and Defects in Solids	Radiat. Eff. Defects Solids		
+REPPDY	Regulatory Peptides	Regul. Pept.		
+REPTED	Reproductive Toxicology	Reprod. Toxicol.		
+RFPOF6	Reactive & Functional Polymers	React. Funct. Polym.		
+RHEAAK	Rheologica Acta	Rheol. Acta		
+RHXUD8	Ranliao Huaxue Xuebao			
+RICHD7	Reviews in Inorganic Chemistry	Rev. Inorg. Chem.		
+RJACEO	Russian Journal of Applied Chemistry	Russ. J. Appl. Chem.		
+RJBCET	Russian Journal of Bioorganic Chemistry	Russ. J. Bioorg. Chem.		
+RJCCEY	Russian Journal of Coordination Chemistry	Russ. J. Coord. Chem.		
+RJELE3	Russian Journal of Electrochemistry	Russ. J. Electrochem.		
+RJGCEK	Russian Journal of General Chemistry	Russ. J. Gen. Chem.		
+RJGEEQ	Russian Journal of Genetics	Russ. J. Genet.		
+RJOCEQ	Russian Journal of Organic Chemistry	Russ. J. Org. Chem.		
+RJPCBS	Russian Journal of Physical Chemistry A	Russ. J. Phys. Chem. A		
+RJPHEC	Romanian Journal of Physics	Rom. J. Phys.		
+RJPPE2	Russian Journal of Plant Physiology	Russ. J. Plant Physiol.		
+RJXUEN	Rengong Jingti Xuebao			
+RKCLAU	Reaction Kinetics and Catalysis Letters	React. Kinet. Catal. Lett.		
+RKZHEZ	Rossiiskii Khimicheskii Zhurnal	Ross. Khim. Zh.		
+RLOCB3	Research Letters in Organic Chemistry	Res. Lett. Org. Chem.		
+RMEAEP	Radiation Measurements	Radiat. Meas.		
+RMIQBM	Revista Mexicana de Ingenieria Quimica	Rev. Mex. Ing. Quim.		
+RNARFU	RNA			
+RPADCX	Recent Patents on Anti-Infective Drug Discovery	Recent Pat. Anti-Infect. Drug Discovery		
+RPADDY	Recent Patents on Anti-Cancer Drug Discovery	Recent Pat. Anti-Cancer Drug Discovery		
+RPBEB6	Recent Patents on Biotechnology	Recent Pat. Biotechnol.		
+RPCDC9	Recent Patents on CNS Drug Discovery	Recent Pat. CNS Drug Discovery		
+RPCDFC	Recent Patents on Cardiovascular Drug Discovery	Recent Pat. Cardiovasc. Drug Discovery		
+RPCHDM	Radiation Physics and Chemistry	Radiat. Phys. Chem.		
+RPDGBM	Recent Patents on DNA & Gene Sequences	Recent Pat. DNA Gene Sequences		
+RPEMBB	"Recent Patents on Endocrine, Metabolic & Immune Drug"	"Recent Pat. Endocr., Metab. Immune Drug Discovery"		
+RPIABT	Recent Patents on Inflammation & Allergy Drug Discovery	Recent Pat. Inflammation Allergy Drug Discovery		
+RPNEBW	Recent Patents on Nanotechnology	Recent Pat. Nanotechnol.		
+RPODBY	Recent Patents on Drug Delivery & Formulation	Recent Pat. Drug Delivery Formulation		
+RRCHAX	Revue Roumaine de Chimie	Rev. Roum. Chim.		
+RRMEB7	Revista Romana de Materiale	Rev. Rom. Mater.		
+RSINAK	Review of Scientific Instruments	Rev. Sci. Instrum.		
+RSQPAW	Revista de la Sociedad Quimica del Peru	Rev. Soc. Quim. Peru		
+SAAPEB	"Sensors and Actuators, A: Physical"	"Sens. Actuators, A"		
+SAASBH	"Spectrochimica Acta, Part B: Atomic Spectroscopy"	"Spectrochim. Acta, Part B"		
+SABCEB	"Sensors and Actuators, B: Chemical"	"Sens. Actuators, B"		
+SAJCDG	South African Journal of Chemistry	S. Afr. J. Chem.		
+SAMCAS	"Spectrochimica Acta, Part A: Molecular and Biomolecular"	"Spectrochim. Acta, Part A"		
+SBIOAH	Soil Biology & Biochemistry	Soil Biol. Biochem.		
+SCBCFQ	"Science in China, Series B: Chemistry"	"Sci. China, Ser. B: Chem."		
+SCHEER	Supramolecular Chemistry	Supramol. Chem.		
+SCIEAS	"Science (Washington, DC, United States)"	"Science (Washington, DC, U. S.)"		
+SCIHB4	Silicon Chemistry	Silicon Chem.		
+SCMAF7	Scripta Materialia	Scr. Mater.		
+SCMSFR	Seminars in Cutaneous Medicine and Surgery	Semin. Cutaneous Med. Surg.		
+SCPHA4	Scientia Pharmaceutica	Sci. Pharm.		
+SCTEEJ	Surface and Coatings Technology	Surf. Coat. Technol.		
+SEIEDB	Solvent Extraction and Ion Exchange	Solvent Extr. Ion Exch.		
+SEKAEA	Seibutsu Kogaku Kaishi			
+SEMCEQ	Solar Energy Materials & Solar Cells	Sol. Energy Mater. Sol. Cells		
+SEPUER	Sepu			
+SERDEK	"Solvent Extraction Research and Development, Japan"	"Solvent Extr. Res. Dev., Jpn."		
+SHHUE8	Shiyou Huagong			
+SHJIEG	Shuichuli Jishu			
+SIANDQ	Surface and Interface Analysis	Surf. Interface Anal.		
+SJLSE2	Scandinavian Journal of Laboratory Animal Science	Scand. J. Lab. Anim. Sci.		
+SMALBC	Small			
+SMICES	Semiconductors			
+SMOABF	Soft Matter			
+SOSCAK	Soil Science	Soil Sci.		
+SPEPCW	SPE Production & Operations	SPE Prod. Oper.		
+SPIJDZ	"Spectroscopy (Amsterdam, Netherlands)"	"Spectroscopy (Amsterdam, Neth.)"		
+SPLEBX	Spectroscopy Letters	Spectrosc. Lett.		
+SPUTFP	Separation and Purification Technology	Sep. Purif. Technol.		
+SQERED	SAR and QSAR in Environmental Research	SAR QSAR Environ. Res.		
+SREEFG	SPE Reservoir Evaluation & Engineering	SPE Reservoir Eval. Eng.		
+SRIMDO	"Synthesis and Reactivity in Inorganic, Metal-Organic, and"	"Synth. React. Inorg., Met.-Org., Nano-Met. Chem."		
+SRITB9	Steel Research International	Steel Res. Int.		
+SRLEFH	Surface Review and Letters	Surf. Rev. Lett.		
+SSCOA4	Solid State Communications	Solid State Commun.		
+SSELA5	Solid-State Electronics	Solid-State Electron.		
+SSIOD3	Solid State Ionics			
+SSNRE4	Solid State Nuclear Magnetic Resonance	Solid State Nucl. Magn. Reson.		
+SSREDI	Surface Science Reports	Surf. Sci. Rep.		
+SSSCFJ	Solid State Sciences	Solid State Sci.		
+SSSJD4	Soil Science Society of America Journal	Soil Sci. Soc. Am. J.		
+SSTEDS	Separation Science and Technology	Sep. Sci. Technol.		
+SSTEET	Semiconductor Science and Technology	Semicond. Sci. Technol.		
+STALDT	"STAL, Sciences et Techniques de l'Animal de Laboratoire"	"STAL, Sci. Tech. Anim. Lab."		
+STARDD	Starch/Staerke			
+STCHES	Structural Chemistry	Struct. Chem.		
+STEDAM	Steroids			
+STENDL	Science of the Total Environment	Sci. Total Environ.		
+STRUE6	"Structure (Cambridge, MA, United States)"	"Structure (Cambridge, MA, U. S.)"		
+SUENET	Surface Engineering	Surf. Eng.		
+SUMIEK	Superlattices and Microstructures	Superlattices Microstruct.		
+SUSCAS	Surface Science	Surf. Sci.		
+SUSTEF	Superconductor Science and Technology	Supercond. Sci. Technol.		
+SXSHEY	"Shiyou Xuebao, Shiyou Jiagong"			
+SYMEDZ	Synthetic Metals	Synth. Met.		
+SYNAET	"Synapse (Hoboken, NJ, United States)"	"Synapse (Hoboken, NJ, U. S.)"		
+SYNCAV	Synthetic Communications	Synth. Commun.		
+SYNLES	Synlett			
+SYNTBF	Synthesis			
+TAJODT	Tappi Journal	Tappi J.		
+TASYE3	Tetrahedron: Asymmetry			
+TBSCDB	Trends in Biochemical Sciences	Trends Biochem. Sci.		
+TCACFW	Theoretical Chemistry Accounts	Theor. Chem. Acc.		
+TCHHCB	Diqiu Huaxue			
+TECSDY	Toxicological and Environmental Chemistry	Toxicol. Environ. Chem.		
+TEHAA2	Tetsu to Hagane			
+TELEAY	Tetrahedron Letters	Tetrahedron Lett.		
+TENME4	Trends in Endocrinology and Metabolism	Trends Endocrinol. Metab.		
+TEPHEX	Technical Physics	Tech. Phys.		
+TETRAB	Tetrahedron			
+TEXCAK	Theoretical and Experimental Chemistry	Theor. Exp. Chem.		
+TFCEAU	Theoretical Foundations of Chemical Engineering	Theor. Found. Chem. Eng.		
+TFTEEH	Trends in Food Science & Technology	Trends Food Sci. Technol.		
+THACAS	Thermochimica Acta	Thermochim. Acta		
+THBRAA	Thrombosis Research	Thromb. Res.		
+THEODJ	THEOCHEM			
+THHADQ	Thrombosis and Haemostasis	Thromb. Haemostasis		
+THHPD3	Cuihua Xuebao			
+THSFAP	Thin Solid Films			
+TICSAP	Transactions of the Indian Ceramic Society	Trans. Indian Ceram. Soc.		
+TIMFA2	Transactions of the Institute of Metal Finishing	Trans. Inst. Met. Finish.		
+TIRMAE	Trends in Immunology	Trends Immunol.		
+TIVIEQ	Toxicology in Vitro	Toxicol. in Vitro		
+TJCHE3	Turkish Journal of Chemistry	Turk. J. Chem.		
+TKHABB	"Taehan Kumsok, Chaeryo Hakhoechi"			
+TLNTA2	Talanta			
+TMCHDN	"Transition Metal Chemistry (Dordrecht, Netherlands)"	"Transition Met. Chem. (Dordrecht, Neth.)"		
+TMMOCP	Toxicology Mechanisms and Methods	Toxicol. Mech. Methods		
+TNSCDR	Trends in Neurosciences	Trends Neurosci.		
+TOCAFI	Topics in Catalysis	Top. Catal.		
+TOLED5	Toxicology Letters	Toxicol. Lett.		
+TOSCF2	Toxicological Sciences	Toxicol. Sci.		
+TOXIA6	Toxicon			
+TPHSDY	Trends in Pharmacological Sciences	Trends Pharmacol. Sci.		
+TPLEED	Technical Physics Letters	Tech. Phys. Lett.		
+TPSCF9	Trends in Plant Science	Trends Plant Sci.		
+TRAFFA	"Traffic (Oxford, United Kingdom)"	"Traffic (Oxford, U. K.)"		
+TRBIDM	Trends in Biotechnology	Trends Biotechnol.		
+TRGEE2	Trends in Genetics	Trends Genet.		
+TRJOA9	Textile Research Journal	Text. Res. J.		
+TRMIEA	Trends in Microbiology	Trends Microbiol.		
+TRSEES	Transgenic Research	Transgenic Res.		
+TRTRE4	Tribology Transactions	Tribol. Trans.		
+TSDEES	"Tenside, Surfactants, Detergents"	"Tenside, Surfactants, Deterg."		
+TTAEDJ	"TrAC, Trends in Analytical Chemistry"	"TrAC, Trends Anal. Chem."		
+TXAPA9	Toxicology and Applied Pharmacology	Toxicol. Appl. Pharmacol.		
+TXCYAC	Toxicology			
+UBAKAL	Ukrainica Bioorganica Acta	Ukr. Bioorg. Acta		
+UBZKAA	Ukrains'kii Biokhimichnii Zhurnal	Ukr. Biokhim. Zh.		
+UFZHFY	Ukrains'kii Fizichnii Zhurnal	Ukr. Fiz. Zh.		
+UKZHAU	Ukrainskii Khimicheskii Zhurnal (Russian Edition)	Ukr. Khim. Zh. (Russ. Ed.)		
+ULSOER	Ultrasonics Sonochemistry	Ultrason. Sonochem.		
+ULTRD6	Ultramicroscopy			
+VACUAV	Vacuum			
+VIGEET	Virus Genes			
+VIIMET	Viral Immunology	Viral Immunol.		
+VIREDF	Virus Research	Virus Res.		
+VIRLAX	Virology			
+VISPEK	Vibrational Spectroscopy	Vib. Spectrosc.		
+VMUKA5	"Vestnik Moskovskogo Universiteta, Seriya 2: Khimiya"	"Vestn. Mosk. Univ., Ser. 2: Khim."		
+VNBNFX	"Vestsi Natsyyanal'nai Akademii Navuk Belarusi, Seryya"	"Vestsi Nats. Akad. Navuk Belarusi, Ser. Khim. Navuk"		
+VPAHAJ	Vascular Pharmacology	Vasc. Pharmacol.		
+VSSBEE	"Vysokomolekulyarnye Soedineniya, Seriya A i Seriya B"	"Vysokomol. Soedin., Ser. A Ser. B"		
+VSUKEH	"Vestnik Sankt-Peterburgskogo Universiteta, Seriya 4:"	"Vestn. S.-Peterb. Univ., Ser. 4: Fiz., Khim."		
+WAERED	Water Environment Research	Water Environ. Res.		
+WAPLAC	"Water, Air, & Soil Pollution"	"Water, Air, Soil Pollut."		
+WARED4	Water Resources	Water Resour.		
+WATRAG	Water Research	Water Res.		
+WEARAH	Wear			
+WEESA6	Weed Science	Weed Sci.		
+WFSCD4	Wood and Fiber Science	Wood Fiber Sci.		
+WHUXEO	Wuji Huaxue Xuebao			
+WHXUEU	Wuli Huaxue Xuebao			
+WLHPAR	Wuli Xuebao			
+WOSTBE	Wood Science and Technology	Wood Sci. Technol.		
+WQRCFA	Water Quality Research Journal of Canada	Water Qual. Res. J. Can.		
+XENOBH	Xenobiotica			
+XRSPAX	X-Ray Spectrometry	X-Ray Spectrom.		
+XSAOAF	Analytical Sciences: X-Ray Structure Analysis Online	Anal. Sci.: X-Ray Struct. Anal. Online		
+YAHOA3	Yakhak Hoechi			
+YCHHDX	Youji Huaxue			
+YESTE3	Yeast			
+YGKKAE	Yuki Gosei Kagaku Kyokaishi			
+YGRODU	Yosetsu Gakkai Ronbunshu			
+YIHUED	Yingyong Huaxue			
+YKKZAJ	Yakugaku Zasshi			
+YKYGAW	Yingxiang Kexue Yu Guang Huaxue			
+ZAACAB	Zeitschrift fuer Anorganische und Allgemeine Chemie	Z. Anorg. Allg. Chem.		
+ZEKRDZ	Zeitschrift fuer Kristallographie	Z. Kristallogr.		
+ZKNSFT	Zeitschrift fuer Kristallographie - New Crystal Structures	Z. Kristallogr. - New Cryst. Struct.		
+ZNASEI	"Zeitschrift fuer Naturforschung, A: Physical Sciences"	"Z. Naturforsch., A: Phys. Sci."		
+ZNBSEN	"Zeitschrift fuer Naturforschung, B: A Journal of Chemical"	"Z. Naturforsch., B: J. Chem. Sci."		
+ZNCBDA	"Zeitschrift fuer Naturforschung, C: Journal of Biosciences"	"Z. Naturforsch., C: J. Biosci."		
+ZNOKAQ	Zhurnal Neorganicheskoi Khimii	Zh. Neorg. Khim.		
+ZOFKAM	Zhurnal Organichnoi ta Farmatsevtichnoi Khimii	Zh. Org. Farm. Khim.		
+ZPCFAX	"Zeitschrift fuer Physikalische Chemie (Muenchen, Germany)"	"Z. Phys. Chem. (Muenchen, Ger.)"		
+ZSHXF2	Zhongguo Shengwu Huaxue Yu Fenzi Shengwu Xuebao			
+ZXHUBO	Zhipu Xuebao			

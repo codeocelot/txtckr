@@ -1,0 +1,9 @@
+<?php
+class openurlController {
+	public function index(){
+		$txtckr = get::component('contextobject');
+		$stringtotest = 'ctx_ver=Z39.88-2004&rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Apatent&rfr_id=info%3Asid%2Focoins.info%3Agenerator&rft.title=rfttitle&rft.number=rftnumber&rft.invlast=rftinvlast&rft.invfirst=rftinvfirst&rft.assignee=rftassignee&rft.cc=rftcc&rft.date=2010-01-31&rft.applnumber=rftapplicationnumber&rft.appldate=2009-01-31&rft.applcc=rftapplicationcountry';
+		$txtckr->buildFromString($stringtotest);
+		var_dump($txtckr);
+	}
+}
