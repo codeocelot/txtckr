@@ -879,9 +879,15 @@ class get {
      * @param boolean $doubleEncode
      * @return string
      */
-    public static function htmlentities($string, $quoteStyle = ENT_COMPAT, $charset = 'UTF-8', $doubleEncode = false) {
+    # If you are using a PHP version prior to 5.2.3 the $doubleEncode parameter is not available so you will need
+    # to comment out the last parameter in the return clause (including the preceding comma)	 
+    # public static function htmlentities($string, $quoteStyle = ENT_COMPAT, $charset = 'UTF-8', $doubleEncode = false) {
+	public static function htmlentities($string, $quoteStyle = ENT_COMPAT, $charset = 'UTF-8') {
         return htmlentities($string, (!is_null($quoteStyle) ? $quoteStyle : ENT_COMPAT),
-                            (!is_null($charset) ? $charset : 'UTF-8'), $doubleEncode);
+				# If you are using a PHP version prior to 5.2.3 the $doubleEncode parameter is not available so you will need
+				# to comment out the last parameter in the return clause (including the preceding comma)			
+				#(!is_null($charset) ? $charset : 'UTF-8'), $doubleEncode);
+				(!is_null($charset) ? $charset : 'UTF-8'));
     }
 
     /**
